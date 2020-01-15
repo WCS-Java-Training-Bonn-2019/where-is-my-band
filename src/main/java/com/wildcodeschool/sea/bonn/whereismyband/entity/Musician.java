@@ -1,7 +1,7 @@
 package com.wildcodeschool.sea.bonn.whereismyband.entity;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
 
 public class Musician {
 	
@@ -17,6 +17,19 @@ public class Musician {
 	private ArrayList<Instrument> instrumentsPlayed;
 	// bandpositions held to be done
 
+	public Musician(Long id, String firstName, String lastName, Date birthdate, Gender gender,
+			ArrayList<Genre> favoriteGenres, ArrayList<Address> addresses, ArrayList<Instrument> instrumentsPlayed) {
+		super();
+		this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.birthdate = birthdate;
+		this.gender = gender;
+		this.favoriteGenres = favoriteGenres;
+		this.addresses = addresses;
+		this.instrumentsPlayed = instrumentsPlayed;
+	}
+	
 	public Long getId() {
 		return id;
 	}

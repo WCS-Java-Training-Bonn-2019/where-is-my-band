@@ -7,6 +7,13 @@ public class Address {
 	private int zipCode;
 	private String city;
 
+	public Address(Long id, int zipCode, String city) {
+		super();
+		this.id = id;
+		this.zipCode = zipCode;
+		this.city = city;
+	}
+	
 	public Long getId() {
 		return id;
 	}

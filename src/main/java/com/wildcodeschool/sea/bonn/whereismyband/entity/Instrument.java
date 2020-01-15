@@ -6,6 +6,12 @@ public class Instrument {
 	private Long id;
 	private String name;
 
+	public Instrument(Long id, String name) {
+		super();
+		this.id = id;
+		this.name = name;
+	}
+	
 	public Long getId() {
 		return id;
 	}

@@ -11,8 +11,18 @@ public class Band {
 	private Address address;
 	private String email;
 	private String phone;
-	private ArrayList<Genre> favoriteGenres;
-
+	private ArrayList<Genre> favoriteGenres;	
+	
+	public Band(Long id, String name, Address address, String email, String phone, ArrayList<Genre> favoriteGenres) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.address = address;
+		this.email = email;
+		this.phone = phone;
+		this.favoriteGenres = favoriteGenres;
+	}
+	
 	public Long getId() {
 		return id;
 	}
