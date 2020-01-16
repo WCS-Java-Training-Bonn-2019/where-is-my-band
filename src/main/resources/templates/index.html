@@ -1,70 +1,91 @@
 <!DOCTYPE html>
+
 <html>
 
-<head>
-	<meta charset="UTF-8">
-	<link rel="stylesheet" href="../static/css/style.css">
-	<title>SoundMachine</title>
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="../static/css/style2.css">
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        <title>SoundMachine</title>
+    </head>
 
-<body>
-	<header>
-		<h1>SoundMachine</h1>
-	</header>
-	<main>
-		<section class="top">
-			<form method="post" th:action="@{/search}" th:object="${search}">
-				<input name="id" th:field="*{id}" type="hidden">
-				<input id="genderMale" name="gender" th:field="*{gender}" type="radio"><label>Herr</label>
-				<input id="genderFemale" name="gender" th:field="*{gender}" type="radio"><label>Frau</label>
-				<input id="genderDivers" name="gender" th:field="*{gender}" type="radio"><label>Divers</label>
-				<br><br>
-				<input class="fieldSize" id="firstname" name="firstName" placeholder=" Firstname" required
-					th:field="*{firstName}" type="text">
-				<br><br>
-				<input class="fieldSize" id="lastname" name="lastName" placeholder=" Lastname" required
-					th:field="*{lastName}" type="text">
-				<br><br>
-				<input class="dateFieldSize" id="birthday" name="birthday" required th:field="*{birthday}" type="date">
-				<br><br>
-				<input class="fieldSize" id="postcode" name="postCode" placeholder=" PLZ" th:field="*{postCode}"
-					type="text">
-				<br><br>
-				<input class="fieldSize" id="city" name="city" placeholder=" Ort" th:field="*{city}"></input>
-				<br><br>
 
-		</section>
-		<section>
-			<a href="https://placeholder.com"><img class="placeImage" src="https://via.placeholder.com/400x200"></a>
-		</section>
-	</main>
-	<footer>
-		<section>
-			<table>
-				<tr>
-					<th colspan="2">Instrumente</th>
-				</tr>
-				<tr th:each="instrumentSkill : ${instrumentSkills}">
-					<td th:text="${instrumentSkill.instrument}">
-						<input id="bass" name="bass" th:field="*{bass}" type="checkbox">Bass
-					</td>
-					<td>
-						<select th:each="skill : ${skillOptions}">
-							<option th:value="${skill.name}">Anfänger</option>
-						</select>
-					</td>
-				</tr>
-			</table>
-		</section>
-		<section>
-			<h4>Genres</h4>
-			<input id="rock" name="rock" type="checkbox"><label>Rock</label>
-		</section>
-	</footer>
-	<div>
-		<input type="submit" value="Search">
-		</form>
-	</div>
-</body>
+    <body>
+
+        <header class="container">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <a class="navbar-brand" href="#">SoundMachine</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    <div class="navbar-nav">
+                        <a class="nav-item nav-link active" href="#">Search</a>
+                        <a class="nav-item nav-link" href="#">Bands</a>
+                        <a class="nav-item nav-link" href="#">Musician</a>
+                        <a class="nav-item nav-link" href="#">Contact Us</a>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <main>
+            <section class="reverse">
+            <section>
+                <form method="post" th:action="@{/search}" th:object="${search}">
+                    <input name="id" th:field="*{id}" type="hidden">
+                    <input class="top" id="genderMale" name="gender" th:field="*{gender}" type="radio"><label>Herr</label>
+                    <input class="top" id="genderFemale" name="gender" th:field="*{gender}" type="radio"><label>Frau</label>
+                    <input class="top" id="genderDivers" name="gender" th:field="*{gender}" type="radio"><label>Divers</label>
+                    <br><br>
+                    <input class="fieldSize" id="firstname" name="firstName" placeholder=" Firstname" required
+                        th:field="*{firstName}" type="text">
+                    <br><br>
+                    <input class="fieldSize" id="lastname" name="lastName" placeholder=" Lastname" required
+                        th:field="*{lastName}" type="text">
+                    <br><br>
+                    <input class="dateFieldSize" id="birthday" name="birthday" required th:field="*{birthday}" type="date">
+                    <br><br>
+                    <input class="fieldSize" id="postcode" name="postCode" placeholder=" PLZ" th:field="*{postCode}"
+                        type="text">
+                    <br><br>
+                    <input class="fieldSize" id="city" name="city" placeholder=" Ort" th:field="*{city}"></input>
+                    <br><br>
+            </section>
+            <section>
+                <a href="https://placeholder.com"><img class="placeImage" src="https://via.placeholder.com/400x200"></a>
+            </section>
+            </section>
+            <section>
+                <table>
+                    <tr>
+                        <th colspan="2">Instrumente</th>
+                    </tr>
+                    <tr th:each="instrumentSkill : ${instrumentSkills}">
+                        <td th:text="${instrumentSkill.instrument}">
+                            <input id="bass" name="bass" th:field="*{bass}" type="checkbox">Bass
+                        </td>
+                        <td>
+                            <select th:each="skill : ${skillOptions}">
+                                <option th:value="${skill.name}">Anfänger</option>
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+            </section>
+                <p>Genres</p>
+            <section class="genreCenter">    
+                <input id="rock" name="rock" th:field="*{rock}" type="checkbox"><label class="middle">Rock
+            </section>
+            <div class="button">
+                <input type="submit" value="Search">
+                </form>
+            </div>
+        </main>
+
+    </body>
 
 </html>
