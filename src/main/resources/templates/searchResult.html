@@ -13,17 +13,27 @@
 	<main>
 		<h2>Deine Daten:</h2>
 		<ul>
-			<li th:text="${search.genderSelected.name}">Geschlecht</li>
-			<br>
-			<li th:text="${search.firstName}">Vorname</li>
-			<br>
-			<li th:text="${search.lastName}">Nachname</li>
-			<br>
-			<li th:text="${search.birthday}">Geburtstag</li>
-			<br>
-			<li th:text="${search.postCode}">PLZ</li>
-			<br>
-			<li th:text="${search.city}">Stadt</li>
+			<li>Stammdaten:</li>
+			<ul>
+				<li th:text="${search.genderSelected.name}">Geschlecht</li>
+				<br>
+				<li th:text="${search.firstName}">Vorname</li>
+				<br>
+				<li th:text="${search.lastName}">Nachname</li>
+				<br>
+				<li th:text="${#calendars.format(search.birthday,'dd. MMMM yyyy')}">Geburtstag</li>
+				<br>
+				<li th:text="${search.postCode}">PLZ</li>
+				<br>
+				<li th:text="${search.city}">Stadt</li>
+				<br>
+			</ul>
+			<li>Genres:</li>
+			<ul>
+				<li th:each="genre : ${search.genresSelected}">
+					<p th:text="${genre.name}" />
+				</li>
+			</ul>
 		</ul>
 	</main>
 </body>

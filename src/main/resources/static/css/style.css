@@ -29,10 +29,6 @@ footer{
 	font-size: 20px;
 }
 
-h3{
-	text-decoration: underline;
-}
-
 .dateFieldSize {
 	width: 249px;
 	height: 32px;
@@ -42,13 +38,61 @@ h3{
 	width: 250px;
 	height: 30px;
 }
-/* 
-@media screen and (max-width: 600px){
-	{
-		.image {
+
+table {
+	display: flex;
+	justify-content: center;
+	flex-wrap: nowrap;
+	margin: .5em 1em;
+}
+
+td, th {
+	padding: .5em 1em;
+}
+
+h4 {
+	margin-top: 1.1em;
+}
+
+div {
+	display: flex;
+	justify-content: center;
+}
+
+div > input {
+	width: 10em;
+	height: 4em;
+	border: solid 1px;
+	border-radius: 20px;
+	font-size: 16px;
+	font-weight: bold;
+}
+
+
+/* Tablets und größer */
+
+@media screen and (min-width: 42em){
+	main{
+		display: flex;
+		justify-content: space-around;
+		align-items: center;
+		flex-wrap: wrap;
+		margin: 2em 0em;
+	}
+
+	.placeImage {
 		margin-top: 2em;
 	}
-} */
+
+	footer{
+		display: flex;
+		justify-content: space-around;
+		margin: 3em 1em;
+	}
+}
+
+
+
 
 
 

@@ -37,5 +37,10 @@ public class InstrumentSkill {
 	public void setLevel(SkillLevel level) {
 		this.level = level;
 	}
+
+	@Override
+	public String toString() {
+		return "InstrumentSkill [id=" + id + ", instrument=" + instrument + ", level=" + level + "]";
+	}
 	
 }

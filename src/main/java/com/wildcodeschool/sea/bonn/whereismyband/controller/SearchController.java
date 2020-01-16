@@ -51,9 +51,10 @@ public class SearchController {
 
 		// Liste verfügbarer Geschlechter, normalerweise aus DB gelesen
 		skillLevelOptions = Arrays.asList(
-				new SkillLevel(1L, "Anfänger"),
-				new SkillLevel(2L, "Forgeschrittener"),
-				new SkillLevel(3L, "Profi"));
+				new SkillLevel(1L, "Keine"),
+				new SkillLevel(2L, "Anfänger"),
+				new SkillLevel(3L, "Forgeschrittener"),
+				new SkillLevel(4L, "Profi"));
 
 		search = new BandSearch();
 
@@ -64,6 +65,7 @@ public class SearchController {
 		theModel.addAttribute("genderOptions", genderOptions);
 		theModel.addAttribute("skillLevelOptions", skillLevelOptions);
 		theModel.addAttribute("instrumentOptions", instrumentOptions);
+		theModel.addAttribute("genreOptions", genreOptions);
 		return ("index");
 	}
 	
