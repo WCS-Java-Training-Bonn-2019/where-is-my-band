@@ -1,15 +1,12 @@
 package com.wildcodeschool.sea.bonn.whereismyband.entity;
 
-public class Gender {
+public class SkillLevel {
 
 	// database id
 	private Long id;
 	private String name;
 
-	public Gender() {
-	}
-
-	public Gender(Long id, String name) {
+	public SkillLevel(Long id, String name) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -18,14 +15,17 @@ public class Gender {
 	public Long getId() {
 		return id;
 	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
+
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
-
+	
 }

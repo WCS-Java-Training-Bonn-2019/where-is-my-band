@@ -9,7 +9,7 @@ public class Musician {
 	private Long id;
 	private String firstName;
 	private String lastName;
-	private Date birthdate;
+	private Date birthday;
 	private Gender gender;
 	// attribute for picture to be done
 	private ArrayList<Genre> favoriteGenres;
@@ -23,7 +23,7 @@ public class Musician {
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.birthdate = birthdate;
+		this.birthday = birthdate;
 		this.gender = gender;
 		this.favoriteGenres = favoriteGenres;
 		this.addresses = addresses;
@@ -66,11 +66,11 @@ public class Musician {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	public Date getBirthdate() {
-		return birthdate;
+	public Date getBirthday() {
+		return birthday;
 	}
 	public void setBirthdate(Date birthdate) {
-		this.birthdate = birthdate;
+		this.birthday = birthdate;
 	}
 	public Gender getGender() {
 		return gender;

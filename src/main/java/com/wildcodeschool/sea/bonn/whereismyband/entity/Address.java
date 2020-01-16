@@ -4,13 +4,13 @@ public class Address {
 	
 	// database id
 	private Long id;
-	private int zipCode;
+	private int postCode;
 	private String city;
 
 	public Address(Long id, int zipCode, String city) {
 		super();
 		this.id = id;
-		this.zipCode = zipCode;
+		this.postCode = zipCode;
 		this.city = city;
 	}
 	
@@ -20,11 +20,11 @@ public class Address {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public int getZipCode() {
-		return zipCode;
+	public int getPostCode() {
+		return postCode;
 	}
 	public void setZipCode(int zipCode) {
-		this.zipCode = zipCode;
+		this.postCode = zipCode;
 	}
 	public String getCity() {
 		return city;

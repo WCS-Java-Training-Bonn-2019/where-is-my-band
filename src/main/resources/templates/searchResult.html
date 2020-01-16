@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../static/css/style.css"
+	th:href="@{/css/style.css}">
+<title>SoundMachine Suchergebnis</title>
+</head>
+<body>
+	<header>
+		<h1>SoundMachine-Suchergebnis</h1>
+	</header>
+	<main>
+		<h2>Deine Daten:</h2>
+		<ul>
+			<li th:text="${search.genderSelected.name}">Geschlecht</li>
+			<br>
+			<li th:text="${search.firstName}">Vorname</li>
+			<br>
+			<li th:text="${search.lastName}">Nachname</li>
+			<br>
+			<li th:text="${search.birthday}">Geburtstag</li>
+			<br>
+			<li th:text="${search.postCode}">PLZ</li>
+			<br>
+			<li th:text="${search.city}">Stadt</li>
+		</ul>
+	</main>
+</body>
+</html>
+
