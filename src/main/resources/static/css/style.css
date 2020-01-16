@@ -1,0 +1,56 @@
+/* Mobile first */
+body{
+	background-color: rgb(98, 248, 61);
+}
+
+header{
+	display: flex;
+	justify-content: center;
+	text-decoration: underline;
+}
+
+main{
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap-reverse;
+	margin: 2em 0em;
+}
+
+.top{
+	margin-top: 3em;
+}
+
+footer{
+	display: flex;
+	justify-content: space-around;
+	flex-wrap: wrap;
+	margin: 3em 2em;
+	padding: 0em 2em;
+	font-size: 20px;
+}
+
+h3{
+	text-decoration: underline;
+}
+
+.dateFieldSize {
+	width: 249px;
+	height: 32px;
+}
+
+.fieldSize {
+	width: 250px;
+	height: 30px;
+}
+/* 
+@media screen and (max-width: 600px){
+	{
+		.image {
+		margin-top: 2em;
+	}
+} */
+
+
+
+
+
