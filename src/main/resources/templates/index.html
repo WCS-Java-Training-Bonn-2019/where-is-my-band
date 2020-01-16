@@ -1,74 +1,70 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="UTF-8">
-		<link rel="stylesheet" href="../static/css/style.css">
-		<title>SoundMachine</title>
-	</head>
-	<body>
-		<header>
-			<h1>SoundMachine</h1>
-		</header>
-		<main>
-			<section class="top">
-				<form method="post" th:action="@{/search}" th:object="${search}">
+
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="../static/css/style.css">
+	<title>SoundMachine</title>
+</head>
+
+<body>
+	<header>
+		<h1>SoundMachine</h1>
+	</header>
+	<main>
+		<section class="top">
+			<form method="post" th:action="@{/search}" th:object="${search}">
 				<input name="id" th:field="*{id}" type="hidden">
-				<input class="center" id="genderMale" name="gender" th:field="*{gender}" type="radio"><label>Herr</label>
-				<input class="center" id="genderFemale" name="gender" th:field="*{gender}" type="radio"><label>Frau</label>
-				<input class="center" id="genderDivers" name="gender" th:field="*{gender}" type="radio"><label>Divers</label>
+				<input id="genderMale" name="gender" th:field="*{gender}" type="radio"><label>Herr</label>
+				<input id="genderFemale" name="gender" th:field="*{gender}" type="radio"><label>Frau</label>
+				<input id="genderDivers" name="gender" th:field="*{gender}" type="radio"><label>Divers</label>
 				<br><br>
-				<input class="fieldSize" id="firstname" name="firstName" placeholder=" Firstname" required th:field="*{firstName}" type="text">
+				<input class="fieldSize" id="firstname" name="firstName" placeholder=" Firstname" required
+					th:field="*{firstName}" type="text">
 				<br><br>
-				<input class="fieldSize" id="lastname" name="lastName" placeholder=" Lastname" required th:field="*{lastName}" type="text">
+				<input class="fieldSize" id="lastname" name="lastName" placeholder=" Lastname" required
+					th:field="*{lastName}" type="text">
 				<br><br>
 				<input class="dateFieldSize" id="birthday" name="birthday" required th:field="*{birthday}" type="date">
 				<br><br>
-				<input class="fieldSize" id="postcode" name="postCode" placeholder=" 53227" th:field="*{postCode}" type="text">
+				<input class="fieldSize" id="postcode" name="postCode" placeholder=" PLZ" th:field="*{postCode}"
+					type="text">
 				<br><br>
-				<input class="fieldSize" id="city" name="city" placeholder=" Bonn" th:field="*{city}"></input>
+				<input class="fieldSize" id="city" name="city" placeholder=" Ort" th:field="*{city}"></input>
 				<br><br>
-				<input class="center" type="submit" value="Search">
-				</form>
-			</section>
-			<section>
-				<a href="https://placeholder.com"><img src="https://via.placeholder.com/400x250"></a>
-			</section>
-		</main>
-		<footer>
-			<section>
-				<h3>Instrumente</h3>
-				<input id="bass" name="bass" type="checkbox"><label>Bass</label>
-				<br><br>
-				<input id="gesang" name="gesang" type="checkbox"><label>Gesang</label>
-				<br><br>
-				<input id="drums" name="drums" type="checkbox"><label>Schlagzeug</label>
-			</section>
-			<section>
-				<h3>Skill-Level</h3>
-				<select>
-					<option value="anfaenger">Anfänger</option>
-					<option value="fortgeschritten">Fortgeschritten</option>
-					<option value="profi">Profi</option>
-				</select><br><br>
-				<select>
-					<option value="anfaenger">Anfänger</option>
-					<option value="fortgeschritten">Fortgeschritten</option>
-					<option value="profi">Profi</option>
-				</select><br><br>
-				<select>
-					<option value="anfaenger">Anfänger</option>
-					<option value="fortgeschritten">Fortgeschritten</option>
-					<option value="profi">Profi</option>
-				</select><br><br>
-			</section>
-			<section>
-				<h3>Genres</h3>
-				<input id="rock" name="rock" type="checkbox"><label>Rock</label>
-				<br><br>
-				<input id="metal" name="metal" type="checkbox"><label>Metal</label>
-				<br><br>
-				<input id="schlager" name="schlager" type="checkbox"><label>Schlager</label>
-			</section>
-		</footer>
-	</body>
+
+		</section>
+		<section>
+			<a href="https://placeholder.com"><img class="placeImage" src="https://via.placeholder.com/400x200"></a>
+		</section>
+	</main>
+	<footer>
+		<section>
+			<table>
+				<tr>
+					<th colspan="2">Instrumente</th>
+				</tr>
+				<tr th:each="instrumentSkill : ${instrumentSkills}">
+					<td th:text="${instrumentSkill.instrument}">
+						<input id="bass" name="bass" th:field="*{bass}" type="checkbox">Bass
+					</td>
+					<td>
+						<select th:each="skill : ${skillOptions}">
+							<option th:value="${skill.name}">Anfänger</option>
+						</select>
+					</td>
+				</tr>
+			</table>
+		</section>
+		<section>
+			<h4>Genres</h4>
+			<input id="rock" name="rock" type="checkbox"><label>Rock</label>
+		</section>
+	</footer>
+	<div>
+		<input type="submit" value="Search">
+		</form>
+	</div>
+</body>
+
 </html>
