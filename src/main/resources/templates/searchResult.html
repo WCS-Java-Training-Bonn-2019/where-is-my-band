@@ -28,10 +28,17 @@
 				<li th:text="${search.city}">Stadt</li>
 				<br>
 			</ul>
-			<li>Genres:</li>
+			<li>Gewählte Instrument-Skills:</li>
+			<ul>
+				<li th:each="instrSkill : ${search.instrumentSkills}">
+					<span th:text="${instrSkill.instrument.name}" />
+					(<span th:text="${instrSkill.skillLevel.name}" />)
+				</li>
+			</ul>
+			<li>Gewählte Genres:</li>
 			<ul>
 				<li th:each="genre : ${search.genresSelected}">
-					<p th:text="${genre.name}" />
+					<span th:text="${genre.name}" />
 				</li>
 			</ul>
 		</ul>

@@ -12,7 +12,8 @@ public class BandSearch {
 	private int postCode;
 	private String city;
 	private ArrayList<Instrument> instrumentsSelected;
-	private ArrayList<SkillLevel> instrumentSkills;
+	private ArrayList<SkillLevel> skills;
+	private ArrayList<InstrumentSkill> instrumentSkills;
 	private ArrayList<Genre> genresSelected;
 
 	public BandSearch(Gender genderSelected, String firstName, String lastName, Date birthday, int postCode, String city) {
@@ -27,8 +28,9 @@ public class BandSearch {
 
 	public BandSearch() {
 		 this.genderSelected = new Gender();
-		 this.instrumentsSelected = new ArrayList<Instrument>();
-		 this.genresSelected = new ArrayList<Genre>();
+		 this.instrumentsSelected = new ArrayList<>();
+		 this.genresSelected = new ArrayList<>();
+		 this.instrumentSkills = new ArrayList<>();
 	}
 
 	public Gender getGenderSelected() {
@@ -84,20 +86,27 @@ public class BandSearch {
 		this.genresSelected = genresSelected;
 	}
 
-	public ArrayList<SkillLevel> getInstrumentSkills() {
-		return instrumentSkills;
+	public ArrayList<SkillLevel> getSkills() {
+		return skills;
 	}
 
-	public void setInstrumentSkills(ArrayList<SkillLevel> instrumentSkills) {
+	public void setSkills(ArrayList<SkillLevel> skills) {
+		this.skills = skills;
+	}
+
+	public void setInstrumentSkills(ArrayList<InstrumentSkill> instrumentSkills) {
 		this.instrumentSkills = instrumentSkills;
+	}
+
+	public ArrayList<InstrumentSkill> getInstrumentSkills() {
+		return instrumentSkills;
 	}
 
 	@Override
 	public String toString() {
 		return "BandSearch [genderSelected=" + genderSelected + ", firstName=" + firstName + ", lastName=" + lastName
 				+ ", birthday=" + birthday + ", postCode=" + postCode + ", city=" + city + ", instrumentsSelected="
-				+ instrumentsSelected + ", instrumentSkills=" + instrumentSkills + ", genresSelected=" + genresSelected
-				+ "]";
+				+ instrumentsSelected + ", skills=" + skills + ", instrumentSkills=" + instrumentSkills
+				+ ", genresSelected=" + genresSelected + "]";
 	}
-
 }

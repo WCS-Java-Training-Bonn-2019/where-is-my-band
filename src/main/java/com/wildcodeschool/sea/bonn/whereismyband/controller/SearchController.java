@@ -14,6 +14,7 @@ import com.wildcodeschool.sea.bonn.whereismyband.entity.BandSearch;
 import com.wildcodeschool.sea.bonn.whereismyband.entity.Gender;
 import com.wildcodeschool.sea.bonn.whereismyband.entity.Genre;
 import com.wildcodeschool.sea.bonn.whereismyband.entity.Instrument;
+import com.wildcodeschool.sea.bonn.whereismyband.entity.InstrumentSkill;
 import com.wildcodeschool.sea.bonn.whereismyband.entity.SkillLevel;
 
 @Controller
@@ -70,8 +71,25 @@ public class SearchController {
 	
 	@RequestMapping("/search")
 	public String searchResult (@ModelAttribute("search") BandSearch search) {
-		System.out.println(search);
-		return "searchResult";
-	}	
+		System.out.println("Search-Objekt ohne InstrumentSkill-Liste: " + search);
+		
+		// Initialisiere einen counter, um die gewählten Instrumente zu zaehlen
+		long counter = 0L;
+		// Loope über die gesetzten Instrumente aus dem search-Objekt
+		for (Instrument instrument: search.getInstrumentsSelected()) {
+			counter++;
 
+			// ermittle den gesetzten SkillLevel für das aktuell betrachtete Instrument
+			SkillLevel skillLevelForInstrument = search.getSkills().get(instrument.getId().intValue() - 1);
+			System.out.println(skillLevelForInstrument);
+
+			// Erzeuge ein Instrument-Skill-Objekt bestehend aus Instrument und SkillLevel
+			InstrumentSkill instrSkill = new InstrumentSkill(counter, instrument,skillLevelForInstrument);
+
+			// Hänge das erzeugte Objekt in die instrument-Skill-Liste
+			search.getInstrumentSkills().add(instrSkill);
+		}
+		System.out.println("Search-Objekt mit InstrumentSkill-Liste: " + search);
+		return "searchResult";
+	}
 }
