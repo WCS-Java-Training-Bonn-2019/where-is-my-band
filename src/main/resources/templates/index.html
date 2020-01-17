@@ -40,12 +40,15 @@
     </header>
 
     <main>
-        <form method="get" th:action="@{/search}" th:object="${search}">
+        <form method="POST" th:action="@{/search}" th:object="${search}">
             <section class="reverse">
                 <section class="top">
-                    <li th:each="gen : ${genderOptions}"><input type="radio" th:value="${gen.id}"
+                    <br>
+                    <li class="gender" th:each="gen : ${genderOptions}"><input type="radio" th:value="${gen.id}"
                             th:field="*{genderSelected}" /> <label th:for="${#ids.prev('genderSelected')}" th:text="${gen.name}">Heating
-				</label></li> <input class="fieldSize" id="firstname" name="firstName"
+                </label></li> 
+                <br><br>
+                <input class="fieldSize" id="firstname" name="firstName"
 					placeholder=" Firstname" required th:field="*{firstName}"
 					type="text"> <br> <br> <input class="fieldSize"
 					id="lastname" name="lastName" placeholder=" Lastname" required
