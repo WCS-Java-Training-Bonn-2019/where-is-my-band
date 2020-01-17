@@ -51,10 +51,9 @@ public class SearchController {
 
 		// Liste verfügbarer Geschlechter, normalerweise aus DB gelesen
 		skillLevelOptions = Arrays.asList(
-				new SkillLevel(1L, "Keine"),
-				new SkillLevel(2L, "Anfänger"),
-				new SkillLevel(3L, "Forgeschrittener"),
-				new SkillLevel(4L, "Profi"));
+				new SkillLevel(1L, "Anfänger"),
+				new SkillLevel(2L, "Fortgeschrittener"),
+				new SkillLevel(3L, "Profi"));
 
 		search = new BandSearch();
 

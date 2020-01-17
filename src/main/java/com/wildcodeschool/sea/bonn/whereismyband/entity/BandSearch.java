@@ -11,7 +11,8 @@ public class BandSearch {
 	private Date birthday;
 	private int postCode;
 	private String city;
-	private ArrayList<InstrumentSkill> instrumentSkillsSelected;
+	private ArrayList<Instrument> instrumentsSelected;
+	private ArrayList<SkillLevel> instrumentSkills;
 	private ArrayList<Genre> genresSelected;
 
 	public BandSearch(Gender genderSelected, String firstName, String lastName, Date birthday, int postCode, String city) {
@@ -26,7 +27,7 @@ public class BandSearch {
 
 	public BandSearch() {
 		 this.genderSelected = new Gender();
-		 this.instrumentSkillsSelected = new ArrayList<InstrumentSkill>();
+		 this.instrumentsSelected = new ArrayList<Instrument>();
 		 this.genresSelected = new ArrayList<Genre>();
 	}
 
@@ -67,12 +68,12 @@ public class BandSearch {
 		this.city = city;
 	}
 
-	public ArrayList<InstrumentSkill> getInstrumentSkillsSelected() {
-		return instrumentSkillsSelected;
+	public ArrayList<Instrument> getInstrumentsSelected() {
+		return instrumentsSelected;
 	}
 
-	public void setInstrumentSkillsSelected(ArrayList<InstrumentSkill> instrumentSkillsSelected) {
-		this.instrumentSkillsSelected = instrumentSkillsSelected;
+	public void setInstrumentsSelected(ArrayList<Instrument> instrumentsSelected) {
+		this.instrumentsSelected = instrumentsSelected;
 	}
 
 	public ArrayList<Genre> getGenresSelected() {
@@ -83,12 +84,20 @@ public class BandSearch {
 		this.genresSelected = genresSelected;
 	}
 
-	@Override
-	public String toString() {
-		return "BandSearch [genderSelected=" + genderSelected.getName() + ", firstName=" + firstName + ", lastName=" + lastName
-				+ ", birthday=" + birthday + ", postCode=" + postCode + ", city=" + city + ", instrumentSkillsSelected="
-				+ instrumentSkillsSelected + ", genresSelected=" + genresSelected + "]";
+	public ArrayList<SkillLevel> getInstrumentSkills() {
+		return instrumentSkills;
 	}
 
+	public void setInstrumentSkills(ArrayList<SkillLevel> instrumentSkills) {
+		this.instrumentSkills = instrumentSkills;
+	}
+
+	@Override
+	public String toString() {
+		return "BandSearch [genderSelected=" + genderSelected + ", firstName=" + firstName + ", lastName=" + lastName
+				+ ", birthday=" + birthday + ", postCode=" + postCode + ", city=" + city + ", instrumentsSelected="
+				+ instrumentsSelected + ", instrumentSkills=" + instrumentSkills + ", genresSelected=" + genresSelected
+				+ "]";
+	}
 
 }

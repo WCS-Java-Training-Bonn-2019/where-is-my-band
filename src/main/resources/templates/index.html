@@ -42,9 +42,9 @@
 						<th colspan="2">Instrumente</th>
 					</tr>
 					<tr th:each="instrument : ${instrumentOptions}">
-						<td><input type="checkbox" th:value="${instrument.id}" />
-						<label th:text="${instrument.name}">Heating </label></td>
-						<td><select>
+						<td><input type="checkbox" th:value="${instrument.id}" th:field="*{instrumentsSelected}"/>
+						<label th:for="${#ids.prev('instrumentsSelected')}" th:text="${instrument.name}">Heating </label></td>
+						<td><select th:field="*{instrumentSkills}">
 								<option th:each="skillLevel : ${skillLevelOptions}"
 									th:value="${skillLevel.id}" th:text="${skillLevel.name}">Skill-Level</option>
 						</select></td>
