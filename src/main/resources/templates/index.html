@@ -1,85 +1,92 @@
 <!DOCTYPE html>
-
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../static/css/style.css" th:href="@{/css/style.css}">
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-        crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-        crossorigin="anonymous"></script>
-    <title>SoundMachine</title>
+<meta charset="UTF-8">
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="../static/css/style.css"
+	th:href="@{/css/style.css}">
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+	integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+	crossorigin="anonymous"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+	integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+	crossorigin="anonymous"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+	crossorigin="anonymous"></script>
+<title>SoundMachine</title>
 </head>
 
 
 <body>
+	<header class="container">
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+			<a class="navbar-brand" href="#">SoundMachine</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse"
+				data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup"
+				aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+				<div class="navbar-nav">
+					<a class="nav-item nav-link active" href="#">Search</a> <a
+						class="nav-item nav-link" href="#">Bands</a> <a
+						class="nav-item nav-link" href="#">Musician</a> <a
+						class="nav-item nav-link" href="#">Contact Us</a>
+				</div>
+			</div>
+		</nav>
+	</header>
 
-    <header class="container">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="#">SoundMachine</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
-                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav">
-                    <a class="nav-item nav-link active" href="#">Search</a>
-                    <a class="nav-item nav-link" href="#">Bands</a>
-                    <a class="nav-item nav-link" href="#">Musician</a>
-                    <a class="nav-item nav-link" href="#">Contact Us</a>
-                </div>
-            </div>
-        </nav>
-    </header>
-
-    <main>
-        <form method="POST" th:action="@{/search}" th:object="${search}">
-            <section class="reverse">
-                <section class="top">
-                    <br>
-                    <li class="gender" th:each="gen : ${genderOptions}"><input type="radio" th:value="${gen.id}"
-                            th:field="*{genderSelected}" /> <label th:for="${#ids.prev('genderSelected')}" th:text="${gen.name}">Heating
-                </label></li> 
-                <br><br>
-                <input class="fieldSize" id="firstname" name="firstName"
-					placeholder=" Firstname" required th:field="*{firstName}"
-					type="text"> <br> <br> <input class="fieldSize"
-					id="lastname" name="lastName" placeholder=" Lastname" required
-					th:field="*{lastName}" type="text"> <br> <br> <input
-					class="dateFieldSize" id="birthday" name="birthday" required
-					th:field="*{birthday}" type="date"> <br> <br> <input
-					class="fieldSize" id="postcode" name="postCode"
-					placeholder=" 53227" th:field="*{postCode}" type="text"> <br>
-				<br> <input class="fieldSize" id="city" name="city"
-                    placeholder=" Bonn" th:field="*{city}"></input> <br> <br>
-                </section>
-				<section>
-					<a href="https://placeholder.com"><img class="placeImage"
-						src="https://via.placeholder.com/400x200"></a>
+	<main>
+		<form method="POST" th:action="@{/search}" th:object="${search}">
+			<section class="reverse">
+				<section class="top">
+					<ul>
+						<li class="gender" th:each="gen : ${genderOptions}"><input
+							type="radio" th:value="${gen.id}" th:field="*{genderSelected}" />
+							<label th:for="${#ids.prev('genderSelected')}"
+							th:text="${gen.name}">Heating</label></li>
+					</ul>
 				</section>
-            </section>
-            <section>
-                <table>
-                    <tr>
-                        <th colspan="2">Instrumente</th>
-                    </tr>
-                    <tr th:each="instrument : ${instrumentOptions}">
-                        <td><input type="checkbox" th:value="${instrument.id}" />
-                            <label th:text="${instrument.name}">Heating </label></td>
-                            <td><select>
-                                    <option th:each="skillLevel : ${skillLevelOptions}"
-                                        th:value="${skillLevel.id}" th:text="${skillLevel.name}">Skill-Level</option>
-                            </select></td>
-                        </tr>
-                    </table>
-            </section>
+				<br> <br> <input class="fieldSize" id="firstname"
+					name="firstName" placeholder=" Firstname" required
+					th:field="*{firstName}" type="text"> <br> <br> <input
+					class="fieldSize" id="lastname" name="lastName"
+					placeholder=" Lastname" required th:field="*{lastName}" type="text">
+				<br> <br> <input class="dateFieldSize" id="birthday"
+					name="birthday" required th:field="*{birthday}" type="date">
+				<br> <br> <input class="fieldSize" id="postcode"
+					name="postCode" placeholder=" 53227" th:field="*{postCode}"
+					type="text"> <br> <br> <input class="fieldSize"
+					id="city" name="city" placeholder=" Bonn" th:field="*{city}"></input>
+				<br> <br>
+			</section>
+			<section>
+				<a href="https://placeholder.com"><img class="placeImage"
+					src="https://via.placeholder.com/400x200"></a>
+			</section>
+			<section>
+				<table>
+					<tr>
+						<th colspan="2">Instrumente</th>
+					</tr>
+					<tr th:each="instrument : ${instrumentOptions}">
+						<td><input type="checkbox" th:value="${instrument.id}"
+							th:field="*{instrumentsSelected}" /> <label
+							th:for="${#ids.prev('instrumentsSelected')}"
+							th:text="${instrument.name}">Instrument</label></td>
+						<td><select th:field="*{skills}">
+								<option th:each="skillLevel : ${skillLevelOptions}"
+									th:value="${skillLevel.id}" th:text="${skillLevel.name}">Skill-Level</option>
+						</select></td>
+					</tr>
+				</table>
+			</section>
 			<section class="genreCenter">
 				<p>Genres</p>
 				<ul>
@@ -89,13 +96,12 @@
 					</label></li>
 				</ul>
 			</section>
-            <div class="button">
-                <input type="submit" value="Search">
-                </form>
-            </div>
-        </section>
-        </main>
+			<div class="button">
+				<input type="submit" value="Search">
+			</div>
+		</form>
+	</main>
 
-    </body>
+</body>
 
 </html>

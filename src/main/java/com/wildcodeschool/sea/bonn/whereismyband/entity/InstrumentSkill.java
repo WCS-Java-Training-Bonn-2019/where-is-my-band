@@ -5,13 +5,13 @@ public class InstrumentSkill {
 	// database id
 	private Long id;
 	private Instrument instrument;
-	private SkillLevel level;
+	private SkillLevel skillLevel;
 
 	public InstrumentSkill(Long id, Instrument instrument, SkillLevel level) {
 		super();
 		this.id = id;
 		this.instrument = instrument;
-		this.level = level;
+		this.skillLevel = level;
 	}
 
 	public Long getId() {
@@ -30,17 +30,17 @@ public class InstrumentSkill {
 		this.instrument = instrument;
 	}
 
-	public SkillLevel getLevel() {
-		return level;
+	public SkillLevel getSkillLevel() {
+		return skillLevel;
 	}
 
-	public void setLevel(SkillLevel level) {
-		this.level = level;
+	public void setSkillLevel(SkillLevel skillLevel) {
+		this.skillLevel = skillLevel;
 	}
 
 	@Override
 	public String toString() {
-		return "InstrumentSkill [id=" + id + ", instrument=" + instrument + ", level=" + level + "]";
+		return "InstrumentSkill [id=" + id + ", instrument=" + instrument + ", level=" + skillLevel + "]";
 	}
 	
 }
