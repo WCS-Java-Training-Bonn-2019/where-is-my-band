@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html>
-
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="../static/css/style.css"
@@ -14,12 +13,14 @@
 	<form method="get" th:action="@{/search}" th:object="${search}">
 		<main>
 			<section class="top">
-
-				<!-- MKr: New Code to read gender Options from Java  -->
-				<li th:each="gen : ${genderOptions}"><input type="radio"
-					th:value="${gen.id}" th:field="*{genderSelected}" /> <label
-					th:for="${#ids.prev('genderSelected')}" th:text="${gen.name}">Heating
-				</label></li> <input class="fieldSize" id="firstname" name="firstName"
+				<ul>
+					<!-- MKr: New Code to read gender Options from Java  -->
+					<li th:each="gen : ${genderOptions}"><input type="radio"
+						th:value="${gen.id}" th:field="*{genderSelected}" /> <label
+						th:for="${#ids.prev('genderSelected')}" th:text="${gen.name}">Heating
+					</label></li>
+				</ul>
+				<input class="fieldSize" id="firstname" name="firstName"
 					placeholder=" Firstname" required th:field="*{firstName}"
 					type="text"> <br> <br> <input class="fieldSize"
 					id="lastname" name="lastName" placeholder=" Lastname" required
@@ -34,6 +35,7 @@
 					<a href="https://placeholder.com"><img class="placeImage"
 						src="https://via.placeholder.com/400x200"></a>
 				</section>
+			</section>
 		</main>
 		<footer>
 			<section>
@@ -42,8 +44,10 @@
 						<th colspan="2">Instrumente</th>
 					</tr>
 					<tr th:each="instrument : ${instrumentOptions}">
-						<td><input type="checkbox" th:value="${instrument.id}" th:field="*{instrumentsSelected}"/>
-						<label th:for="${#ids.prev('instrumentsSelected')}" th:text="${instrument.name}">Instrument</label></td>
+						<td><input type="checkbox" th:value="${instrument.id}"
+							th:field="*{instrumentsSelected}" /> <label
+							th:for="${#ids.prev('instrumentsSelected')}"
+							th:text="${instrument.name}">Instrument</label></td>
 						<td><select th:field="*{skills}">
 								<option th:each="skillLevel : ${skillLevelOptions}"
 									th:value="${skillLevel.id}" th:text="${skillLevel.name}">Skill-Level</option>
