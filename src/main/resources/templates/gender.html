@@ -9,8 +9,7 @@
 	<form method="post" th:action="@{/gender/edit}" th:object="${gender}">
 		<input name="id" th:field="*{id}" type="hidden" /> 
 		<label for="name">Gender:</label>
-		<input type="text" id="name" name="name"
-			placeholder="Please specify the gender here" required
+		<input type="text" placeholder="Please specify the gender here" required
 			th:field="*{name}" /> 
 		<br /> <br /> 
 		<input type="submit" value="Save" />

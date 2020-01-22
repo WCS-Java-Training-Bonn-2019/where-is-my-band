@@ -1,18 +1,18 @@
 package com.wildcodeschool.sea.bonn.whereismyband.entity;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class Address {
 	
-	// database id
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private int postCode;
+	private Integer postCode;
 	private String city;
-
-	public Address(Long id, int zipCode, String city) {
-		super();
-		this.id = id;
-		this.postCode = zipCode;
-		this.city = city;
-	}
 	
 	public Long getId() {
 		return id;
@@ -20,11 +20,11 @@ public class Address {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public int getPostCode() {
+	public Integer getPostCode() {
 		return postCode;
 	}
-	public void setZipCode(int zipCode) {
-		this.postCode = zipCode;
+	public void setPostCode(Integer postCode) {
+		this.postCode = postCode;
 	}
 	public String getCity() {
 		return city;
