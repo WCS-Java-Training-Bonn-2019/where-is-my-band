@@ -1,3 +1,5 @@
+/*
+
 package com.wildcodeschool.sea.bonn.whereismyband.entity;
 
 public class Address {
@@ -35,3 +37,5 @@ public class Address {
 
 	
 }
+
+*/
