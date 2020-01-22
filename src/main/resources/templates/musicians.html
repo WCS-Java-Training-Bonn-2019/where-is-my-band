@@ -1,0 +1,39 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf" lang="en">
+<head>
+<title>Genders</title>
+</head>
+<body>
+	<h1>List of Musicians</h1>
+	<table>
+		<tr>
+			<th>ID</th>
+			<th>Vorname</th>
+			<th>Nachname</th>
+			<th>Geschlecht</th>			
+			<th>Edit-Link</th>
+			<th>Delete-Link</th>
+		</tr>
+		<tr th:remove="all">
+			<td>007</td>
+			<td>James</td>
+			<td>Bond</td>
+			<td>Herr</td>
+			<td>edit</td>
+			<td>delete</td>
+		</tr>
+		<tr th:each="musician : ${musicians}">
+			<td th:text="${musician.id}">
+			<td th:text="${musician.firstName}">
+			<td th:text="${musician.lastName}">
+			<td th:text="${musician.gender.name}">			
+			<td><a th:href="@{/musician/edit(id=${musician.id})}">Edit</a></td>
+        	<td><a th:href="@{/musician/delete(id=${musician.id})}">Delete</a></td>
+		</tr>
+	</table>
+	<a th:href="@{/musician/edit}">Insert new musician</a>
+	<br>
+	<a th:href="@{/gender/list}">To gender list</a>
+	
+</body>
+</html>

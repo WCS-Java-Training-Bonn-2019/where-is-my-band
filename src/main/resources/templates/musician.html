@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Musician Editor</title>
+</head>
+<body>
+	<!-- If musician.id is set, write edit, otherwise create -->
+	<h3 th:text="${musician.id} ? 'Edit Musician' : 'Create Musician'">Musician</h3>
+	<form method="post" th:action="@{/musician/edit}" th:object="${musician}">
+		<input name="id" th:field="*{id}" type="hidden" /> 
+
+		<div th:each="gender : ${allGenders}">
+    		<input type="radio" th:field="*{gender}" th:value="${gender.id}" />
+    		<label th:for="${#ids.prev('gender')}" th:text="${gender.name}">Gender</label>
+		</div>
+				
+		<label for="firstName">Firstname:</label>
+		<input type="text" id="firstName" name="firstName"
+			placeholder="Firstname" required
+			th:field="*{firstName}" /> 
+		<br /> <br /> 
+
+		<label for="lastName">Lastname:</label>
+		<input type="text" id="lastName" name="lastName"
+			placeholder="Lastname" required
+			th:field="*{lastName}" /> 
+		<br /> <br /> 
+		
+		<input type="submit" value="Save" />
+	</form>
+
+	<form th:remove="all">
+		<label for="firstName">Gender name: </label> 
+		<input type="text"
+			name="firstName" id="firstName"> 
+			<input type="submit"
+			value="Save">
+	</form>
+	<br>
+	<a href="/musician/list">Return to the list</a>
+</body>
+</html>
