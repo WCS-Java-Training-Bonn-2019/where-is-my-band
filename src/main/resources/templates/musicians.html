@@ -10,7 +10,8 @@
 			<th>ID</th>
 			<th>Vorname</th>
 			<th>Nachname</th>
-			<th>Geschlecht</th>			
+			<th>Geschlecht</th>	
+			<th>Geburtstag</th>		
 			<th>Edit-Link</th>
 			<th>Delete-Link</th>
 		</tr>
@@ -19,6 +20,7 @@
 			<td>James</td>
 			<td>Bond</td>
 			<td>Herr</td>
+			<td>01.01.1960</td>
 			<td>edit</td>
 			<td>delete</td>
 		</tr>
@@ -27,6 +29,7 @@
 			<td th:text="${musician.firstName}">
 			<td th:text="${musician.lastName}">
 			<td th:text="${musician.gender.name}">			
+			<td th:text="${#dates.format(musician.birthday, 'dd. MMMM yyyy')}">			
 			<td><a th:href="@{/musician/edit(id=${musician.id})}">Edit</a></td>
         	<td><a th:href="@{/musician/delete(id=${musician.id})}">Delete</a></td>
 		</tr>

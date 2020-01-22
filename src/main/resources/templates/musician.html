@@ -25,17 +25,16 @@
 			placeholder="Lastname" required
 			th:field="*{lastName}" /> 
 		<br /> <br /> 
+
+		<label for="birthday">Birthday:</label>
+		<input type="date" id="birthday" name="birthday"
+			placeholder="Birthday" required
+			th:field="*{birthday}" /> 
+		<br /> <br /> 
 		
 		<input type="submit" value="Save" />
 	</form>
 
-	<form th:remove="all">
-		<label for="firstName">Gender name: </label> 
-		<input type="text"
-			name="firstName" id="firstName"> 
-			<input type="submit"
-			value="Save">
-	</form>
 	<br>
 	<a href="/musician/list">Return to the list</a>
 </body>

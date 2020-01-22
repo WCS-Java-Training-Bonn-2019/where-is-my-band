@@ -1,5 +1,7 @@
 package com.wildcodeschool.sea.bonn.whereismyband.entity;
 
+import java.sql.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,6 +17,7 @@ public class Musician {
 	private Long id;
 	private String firstName;
 	private String lastName;
+	private Date birthday;
 	
 	@ManyToOne
 	@JoinColumn(name = "gender_id")
@@ -43,6 +46,12 @@ public class Musician {
 	}
 	public void setGender(Gender gender) {
 		this.gender = gender;
+	}
+	public Date getBirthday() {
+		return birthday;
+	}
+	public void setBirthday(Date birthday) {
+		this.birthday = birthday;
 	}
 
 }
