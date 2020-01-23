@@ -33,7 +33,7 @@ public class BandController {
 	}
 	
 	 @GetMapping("create")
-	    public String getMusician(Model model,
+	    public String getBand(Model model,
 	                            @RequestParam(required = false) Long id) {
 
 	        model.addAttribute("allBands", bandRepository.findAll());
