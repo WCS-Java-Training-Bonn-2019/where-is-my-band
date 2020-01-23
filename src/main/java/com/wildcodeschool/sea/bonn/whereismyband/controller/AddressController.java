@@ -11,40 +11,40 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.wildcodeschool.sea.bonn.whereismyband.entity.Addresses;
-import com.wildcodeschool.sea.bonn.whereismyband.repository.AddressesRepository;
+import com.wildcodeschool.sea.bonn.whereismyband.entity.Address;
+import com.wildcodeschool.sea.bonn.whereismyband.repository.AddressRepository;
 
 @Controller
 @RequestMapping("/address")
-public class AddressesController {
+public class AddressController {
 
-	private AddressesRepository addressesRepository;
+	private AddressRepository addressRepository;
 
 	@Autowired
-	public AddressesController(AddressesRepository addressesRepository) {
+	public AddressController(AddressRepository addressesRepository) {
 		super();
-		this.addressesRepository = addressesRepository;
+		this.addressRepository = addressesRepository;
 	}
 
 	@GetMapping("list")
 	public String getAll(Model model) {
 
-		model.addAttribute("addresses", addressesRepository.findAll());
+		model.addAttribute("address", addressRepository.findAll());
 
 		return "addresses";
 	}
 
 	@GetMapping("edit")
-	public String getAddresses(Model model,
+	public String getAddress(Model model,
 			@RequestParam(required = false) Long id) {
 
 		// Create an empty Address object
-		Addresses address = new Addresses();
+		Address address = new Address();
 
 		// if an id was sent as a parameter
 		if (id != null) {
 			//retrieve object from database
-			Optional<Addresses> optionalAddress = addressesRepository.findById(id);
+			Optional<Address> optionalAddress = addressRepository.findById(id);
 			// if database object could be retrieved
 			if (optionalAddress.isPresent()) {
 				// set address to the object retrieved
@@ -59,9 +59,9 @@ public class AddressesController {
 	}
 
 	@PostMapping("edit")
-	public String postAddress(@ModelAttribute Addresses addresses) {
+	public String postAddress(@ModelAttribute Address addresses) {
 
-		addressesRepository.save(addresses);
+		addressRepository.save(addresses);
 
 		return "redirect:list";
 	}
@@ -69,7 +69,7 @@ public class AddressesController {
 	@GetMapping("delete")
 	public String deleteAddress(@RequestParam Long id) {
 
-		addressesRepository.deleteById(id);
+		addressRepository.deleteById(id);
 
 		return "redirect:list";
 	}
