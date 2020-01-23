@@ -1,5 +1,3 @@
-/*
-
 package com.wildcodeschool.sea.bonn.whereismyband.entity;
 
 import javax.persistence.Entity;
@@ -38,4 +36,3 @@ public class Address {
 	
 }
 
-*/

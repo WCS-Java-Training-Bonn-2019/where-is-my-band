@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+
 @Entity
 public class Band {
 	
@@ -16,10 +17,10 @@ public class Band {
 	private Long id;
 	private String name;
 	// picture to be done
-	private String address;
+	private Address address;
 	private String email;
 	private String phone;
-	// private ArrayList<Genre> favoriteGenres;	
+	private ArrayList<Genre> favoriteGenres;	
 	
 	public Band() {
 	}
@@ -36,10 +37,10 @@ public class Band {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getAddress() {
+	public Address getAddress() {
 		return address;
 	}
-	public void setAddress(String address) {
+	public void setAddress(Address address) {
 		this.address = address;
 	}
 	public String getEmail() {
