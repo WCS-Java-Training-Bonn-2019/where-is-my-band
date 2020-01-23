@@ -9,7 +9,7 @@
 	<table>
 		<tr>
 			<th>Name</th>
-			<th>Adresse</th>
+<!-- 			<th>Adresse</th> 		-->
 			<th>E-Mail</th>	
 			<th>Phone No.</th>		
 			<th>Edit-Link</th>
@@ -26,7 +26,7 @@
 		</tr>
 		<tr th:each="band : ${bands}">
 			<td th:text="${band.name}">
-			<td th:text="${band.address}">
+	<!--		<td th:text="${band.address}">		-->
 			<td th:text="${band.email}">
 			<td th:text="${band.phone}">		
 			<td><a th:href="@{/band/create(id=${band.id})}">Edit</a></td>

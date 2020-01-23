@@ -17,7 +17,7 @@ public class Band {
 	private Long id;
 	private String name;
 	// picture to be done
-	private Address address;
+	// private Addresses addresses;
 	private String email;
 	private String phone;
 	private ArrayList<Genre> favoriteGenres;	
@@ -37,12 +37,12 @@ public class Band {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Address getAddress() {
-		return address;
-	}
-	public void setAddress(Address address) {
-		this.address = address;
-	}
+//	public Addresses getAddresses() {
+//		return addresses;
+//	}
+//	public void setAddresses(Addresses addresses) {
+//		this.addresses = addresses;
+//	}
 	public String getEmail() {
 		return email;
 	}
