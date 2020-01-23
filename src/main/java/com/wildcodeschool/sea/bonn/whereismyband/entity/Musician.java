@@ -1,6 +1,6 @@
 package com.wildcodeschool.sea.bonn.whereismyband.entity;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,6 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 public class Musician {
@@ -17,7 +19,8 @@ public class Musician {
 	private Long id;
 	private String firstName;
 	private String lastName;
-	private Date birthday;
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+	private LocalDate birthday;
 	
 	@ManyToOne
 	@JoinColumn(name = "gender_id")
@@ -47,10 +50,10 @@ public class Musician {
 	public void setGender(Gender gender) {
 		this.gender = gender;
 	}
-	public Date getBirthday() {
+	public LocalDate getBirthday() {
 		return birthday;
 	}
-	public void setBirthday(Date birthday) {
+	public void setBirthday(LocalDate birthday) {
 		this.birthday = birthday;
 	}
 
