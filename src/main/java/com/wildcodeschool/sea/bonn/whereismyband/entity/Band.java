@@ -19,7 +19,7 @@ public class Band {
 	private String address;
 	private String email;
 	private String phone;
-	private ArrayList<Genre> favoriteGenres;	
+	// private ArrayList<Genre> favoriteGenres;	
 	
 	public Band() {
 	}
