@@ -21,15 +21,15 @@ public class AddressController {
 	private AddressRepository addressRepository;
 
 	@Autowired
-	public AddressController(AddressRepository addressRepository) {
+	public AddressController(AddressRepository addressesRepository) {
 		super();
-		this.addressRepository = addressRepository;
+		this.addressRepository = addressesRepository;
 	}
 
 	@GetMapping("list")
 	public String getAll(Model model) {
 
-		model.addAttribute("addresses", addressRepository.findAll());
+		model.addAttribute("address", addressRepository.findAll());
 
 		return "addresses";
 	}
@@ -59,9 +59,9 @@ public class AddressController {
 	}
 
 	@PostMapping("edit")
-	public String postAddress(@ModelAttribute Address address) {
+	public String postAddress(@ModelAttribute Address addresses) {
 
-		addressRepository.save(address);
+		addressRepository.save(addresses);
 
 		return "redirect:list";
 	}

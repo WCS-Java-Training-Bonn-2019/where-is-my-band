@@ -2,25 +2,27 @@ package com.wildcodeschool.sea.bonn.whereismyband.entity;
 
 import java.util.ArrayList;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+
+@Entity
 public class Band {
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	// database id
 	private Long id;
 	private String name;
 	// picture to be done
-	private Address address;
+	// private Address address;
 	private String email;
 	private String phone;
 	private ArrayList<Genre> favoriteGenres;	
 	
-	public Band(Long id, String name, Address address, String email, String phone, ArrayList<Genre> favoriteGenres) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.address = address;
-		this.email = email;
-		this.phone = phone;
-		this.favoriteGenres = favoriteGenres;
+	public Band() {
 	}
 	
 	public Long getId() {
@@ -35,12 +37,12 @@ public class Band {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Address getAddress() {
-		return address;
-	}
-	public void setAddress(Address address) {
-		this.address = address;
-	}
+//	public Address getAddress() {
+//		return address;
+//	}
+//	public void setAddress(Address address) {
+//		this.address = address;
+//	}
 	public String getEmail() {
 		return email;
 	}
