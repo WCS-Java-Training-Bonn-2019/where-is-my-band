@@ -1,7 +1,7 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf" lang="en">
 <head>
-<title>Genders</title>
+<title>List fo Musicians</title>
 </head>
 <body>
 	<h1>List of Musicians</h1>
@@ -29,7 +29,7 @@
 			<td th:text="${musician.firstName}">
 			<td th:text="${musician.lastName}">
 			<td th:text="${musician.gender.name}">			
-			<td th:text="${#dates.format(musician.birthday, 'dd. MMMM yyyy')}">			
+			<td th:text="${#temporals.format(musician.birthday, 'dd. MMMM yyyy')}">			
 			<td><a th:href="@{/musician/edit(id=${musician.id})}">Edit</a></td>
         	<td><a th:href="@{/musician/delete(id=${musician.id})}">Delete</a></td>
 		</tr>
