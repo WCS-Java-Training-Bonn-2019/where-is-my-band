@@ -1,4 +1,5 @@
 // Diese Klasse wird im MVP wahrscheinlich nicht verwendet (MIK 22.01.2020)
+/*
 
 package com.wildcodeschool.sea.bonn.whereismyband.entity;
 
@@ -46,3 +47,6 @@ public class InstrumentSkill {
 	}
 	
 }
+
+*/
+
