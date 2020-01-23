@@ -1,0 +1,41 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf" lang="en">
+<head>
+<title>Genres</title>
+</head>
+<body>
+	<h1>List of genres</h1>
+	<table>
+		<tr>
+			<th>ID</th>
+			<th>Name</th>
+			<th>Edit-Link</th>
+			<th>Delete-Link</th>
+		</tr>
+		<!-- example data in case of no Thymeleaf  -->
+		<tr th:remove="all">
+			<td>4711</td>
+			<td>Karnevalsmusik</td>
+			<td>edit</td>
+			<td>delete</td>
+		</tr>
+		<tr th:each="genre : ${genres}">
+			<td th:text="${genre.id}">
+			<td th:text="${genre.name}">
+			<td><a th:href="@{/genre/edit(id=${genre.id})}">Edit</a></td>
+        	<td><a th:href="@{/genre/delete(id=${genre.id})}">Delete</a></td>
+		</tr>
+	</table>
+	<a th:href="@{/genre/edit}">Insert new genre</a>
+	<br>
+	
+	<!-- Links to the other base functionalities -->
+	<br>
+	<a th:href="@{/musician/list}">To Musicians list</a>
+	<br>
+	<a th:href="@{/gender/list}">To Gender list</a>
+	<br>
+	<a th:href="@{/address/list}">To Addresses list</a>
+	
+</body>
+</html>
