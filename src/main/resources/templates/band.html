@@ -6,7 +6,7 @@
 </head>
 <body>
 	<h3 th:text="${band.id} ? 'Edit Band' : 'Create Band'">Band</h3>
-	<form method="post" th:action="@{/band/create}" th:object="${band}">
+	<form method="post" th:action="@{/band/edit}" th:object="${band}">
 		<input name="id" th:field="*{id}" type="hidden" /> 
 				
 		<label for="name">Name:</label>
@@ -37,6 +37,6 @@
 	</form>
 
 	<br>
-	<a href="/band/show">Return to the list</a>
+	<a href="/band/list">Return to the list</a>
 </body>
 </html>
