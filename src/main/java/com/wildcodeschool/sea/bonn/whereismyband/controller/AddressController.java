@@ -29,7 +29,7 @@ public class AddressController {
 	@GetMapping("list")
 	public String getAll(Model model) {
 
-		model.addAttribute("address", addressRepository.findAll());
+		model.addAttribute("addresses", addressRepository.findAll());
 
 		return "addresses";
 	}
