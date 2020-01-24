@@ -48,4 +48,6 @@ public class InstrumentSkill {
 	
 }
 
+<<<<<<< HEAD
 */
+
