@@ -1,0 +1,32 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf" lang="en">
+<head>
+<title>List fo Bandpositions</title>
+</head>
+<body>
+	<h1>List of Bandpositions</h1>
+	<table>
+		<tr>
+			<th>Geburtstag von</th>	
+			<th>Geburtstag bis</th>		
+			<th>Edit-Link</th>
+			<th>Delete-Link</th>
+		</tr>
+		<tr th:remove="all">
+			<td>01.12.1960</td>
+			<td>01.01.1960</td>
+			<td>edit</td>
+			<td>delete</td>
+		</tr>
+		<tr th:each="bandposition : ${bandpositions}">		
+			<td th:text="${#temporals.format(bandposition.birthFrom, 'dd. MMMM yyyy')}"></td>
+			<td th:text="${#temporals.format(bandposition.birthTo, 'dd. MMMM yyyy')}"></td>			
+			<td><a th:href="@{/bandposition/edit(id=${bandposition.id})}">Edit</a></td>
+        	<td><a th:href="@{/bandposition/delete(id=${bandposition.id})}">Delete</a></td>
+		</tr>
+	</table>
+	<a th:href="@{/bandposition/edit}">Insert new bandposition</a>
+
+	
+</body>
+</html>
