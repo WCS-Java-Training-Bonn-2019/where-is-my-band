@@ -26,13 +26,13 @@ public class BandController {
 		this.bandRepository = bandRepository;
 	}
 
-	@GetMapping("show")
+	@GetMapping("list")
 	public String getAll(Model model) {
 		model.addAttribute("bands", bandRepository.findAll());
 		return "bands";
 	}
 	
-	 @GetMapping("create")
+	 @GetMapping("edit")
 	    public String getBand(Model model,
 	                            @RequestParam(required = false) Long id) {
 
@@ -57,16 +57,16 @@ public class BandController {
 	        return "band";
 	    }
 	
-	@PostMapping("create")
+	@PostMapping("edit")
 	public String postBand(@ModelAttribute Band band) {
 		bandRepository.save(band);
-		return "redirect:show";
+		return "redirect:list";
 	}
 
 	@GetMapping("delete")
 	public String deleteBand(@RequestParam Long id) {
 		bandRepository.deleteById(id);
-		return "redirect:show";
+		return "redirect:list";
 	}
 	
 

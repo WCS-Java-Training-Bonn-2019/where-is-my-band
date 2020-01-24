@@ -29,11 +29,11 @@
 	<!--		<td th:text="${band.address}">		-->
 			<td th:text="${band.email}">
 			<td th:text="${band.phone}">		
-			<td><a th:href="@{/band/create(id=${band.id})}">Edit</a></td>
+			<td><a th:href="@{/band/edit(id=${band.id})}">Edit</a></td>
         	<td><a th:href="@{/band/delete(id=${band.id})}">Delete</a></td>
 		</tr>
 	</table>
-	<a th:href="@{/band/create}">Insert new band</a>
+	<a th:href="@{/band/edit}">Insert new band</a>
 	<br>
 	
 </body>
