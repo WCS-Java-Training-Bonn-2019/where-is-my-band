@@ -29,7 +29,7 @@ public class Band {
 	private Long id;
 	private String name;
 	// picture to be done
-	// private Address address;
+	private String description;
 	private String email;
 	private String phone;
 	
