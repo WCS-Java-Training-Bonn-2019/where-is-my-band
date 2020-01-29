@@ -1,0 +1,28 @@
+.form-control, label {
+    width: 30%;
+}
+
+body > section > main {
+    margin-left: 2em;
+}
+
+body {
+    background-image: url("../images/bass2.jpeg")!important;
+    background-repeat: no-repeat;
+    background-size: 100%;
+}
+
+.btn {
+    width: 15%;
+    margin-left: 7%;
+    margin-top: 1em;
+}
+
+main {
+    margin-top: 3em;
+}
+
+h1 {
+    margin-bottom: 1em;
+}
+
