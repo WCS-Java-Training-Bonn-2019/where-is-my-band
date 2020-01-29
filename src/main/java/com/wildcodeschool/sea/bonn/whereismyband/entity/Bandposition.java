@@ -1,13 +1,11 @@
 package com.wildcodeschool.sea.bonn.whereismyband.entity;
 
-import java.time.LocalDate;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
-import org.springframework.format.annotation.DateTimeFormat;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -18,14 +16,21 @@ import lombok.ToString;
 @Setter
 @ToString
 public class Bandposition {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	// import instrument and other details
-	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-	private LocalDate birthFrom;
-	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-	private LocalDate birthTo;
-		
+	private Integer ageFrom;
+	private Integer ageTo;
+
+	@ManyToOne
+	@JoinColumn(name = "band_id")
+	private Band band;
+
+	@ManyToOne
+	@JoinColumn (name = "instrument_id")
+	private Instrument instrument;
+
+	private boolean isVacant;
+
 }
