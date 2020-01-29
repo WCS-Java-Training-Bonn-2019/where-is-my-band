@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SoundMachine</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="../static/css/style_bandsuche-template.css">
+</head>
+<body>
+    <section>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#">SoundMachine</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-item nav-link active" href="#">Home</a>
+                    <a class="nav-item nav-link" href="#">Bands</a>
+                    <a class="nav-item nav-link" href="#">Profile</a>
+                    <a class="nav-item nav-link" href="#" tabindex="-1">Register/Login</a>
+                </div>
+            </div>
+        </nav>
+    </section>
+
+    <section>
+        <main>
+            <h1>Search your band</h1>
+            <form name="userInput">
+                <div class="form-group">
+                    <label>Show all bands or only bands with open positions</label>
+                    <select class="form-control" name="showBand">
+                        <option value="Only open positions">Only open positions</option>
+                        <option value="All">All</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Zip-Code</label>
+                    <input type="text" class="form-control" name="zipcode" value="53227" >
+                </div>
+                <div class="form-group">
+                    <label for="city">City</label>
+                    <input type="text" class="form-control" name="city" value="Bonn">
+                </div>
+                <div class="form-group">
+                    <label for="instrument">Instruments</label>
+                    <select class="form-control" name="instrument">
+                        <option value="Schlagzeug">Schlagzeug</option>
+                        <option value="Gesang">Gesang</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="genre">Genres</label>
+                    <select class="form-control" name="genre">
+                        <option value="Metal">Rock</option>
+                        <option value="Jazz">Pop</option>
+                    </select>
+                </div>
+                <label for="toggle" class="btn btn-outline-success">Search</label>
+            </form>
+
+            <input type="radio" id="toggle" class="visually-hidden">
+            <div class="control">
+                <table>
+                    <tr>
+                        <th colspan="2" class="center">ACDC</th>
+                    </tr>
+                    <tr>
+                        <td>Adresse:</td><td>53227 Bonn</td>
+                    </tr>
+                    <tr>
+                        <td>Offene Instrumente:</td><td>Schlagzeug, Trompete</td>
+                    </tr>
+                    <tr>
+                        <td>Genre:</td><td>Pop</td>
+                    </tr>
+                </table>
+                <table>
+                    <tr>
+                        <th colspan="2" class="center">Dire Straits</th>
+                    </tr>
+                    <tr>
+                        <td>Adresse:</td><td>53119 Bonn</td>
+                    </tr>
+                    <tr>
+                        <td>Offene Instrumente:</td><td>Gesang, Kontrabass</td>
+                    </tr>
+                    <tr>
+                        <td>Genre:</td><td>Rock</td>
+                    </tr>
+                </table>
+            </div>
+        </main>
+    </section>
+</body>
+</html>
