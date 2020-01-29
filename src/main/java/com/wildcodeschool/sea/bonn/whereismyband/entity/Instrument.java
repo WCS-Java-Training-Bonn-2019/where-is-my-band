@@ -27,7 +27,7 @@ public class Instrument {
 	@OneToMany (mappedBy = "instrument")
 	private List<Bandposition> bandpositions = new ArrayList<>();
 	
-	@OneToMany(mappedBy = "instrument")
+	@OneToMany(mappedBy = "instruments")
 	private List<Musician> musicians = new ArrayList<>();
 		
 }
