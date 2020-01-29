@@ -9,7 +9,14 @@ import javax.persistence.Id;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 @Entity
+@Getter
+@Setter
+@ToString
 public class Bandposition {
 	
 	@Id
@@ -20,27 +27,5 @@ public class Bandposition {
 	private LocalDate birthFrom;
 	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
 	private LocalDate birthTo;
-	
-	
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-	public LocalDate getBirthFrom() {
-		return birthFrom;
-	}
-	public void setBirthFrom(LocalDate birthFrom) {
-		this.birthFrom = birthFrom;
-	}
-	public LocalDate getBirthTo() {
-		return birthTo;
-	}
-	public void setBirthTo(LocalDate birthTo) {
-		this.birthTo = birthTo;
-	}
-	
-	
-	
+		
 }
