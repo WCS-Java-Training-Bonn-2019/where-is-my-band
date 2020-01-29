@@ -150,7 +150,7 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 
 		stefan.setDescription("Hallo, ich bin Stefan, spiele Schlagzeug seit 6 Jahren und spiele unregelmäßig in einem Musikverein!");
 		
-		// Create favorite Genre HashSet
+		// Prepare Genre HashSet for Stefan
 		HashSet<Genre> stefansGenres = new HashSet<>();
 		stefansGenres.add(rock);
 		rock.getMusicians().add(stefan);
@@ -161,14 +161,17 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 		stefansGenres.add(schlager);
 		schlager.getMusicians().add(stefan);
 		
+		// Update favoriteGenres of Stefan
 		stefan.setFavoriteGenres(stefansGenres);
 		
-		// Create Instruments HashSet
+		// Prepare Instruments HashSet
 		HashSet<Instrument> stefansInstruments = new HashSet<>();
 		stefansInstruments.add(schlagzeug);
+		
+		// Update Instruments of Stefan
 		stefan.setInstruments(stefansInstruments);
 
-		// Update Repositories after creation of Stefan
+		// Save changes in repositories after creation of Stefan
 		instrumentRepository.save(schlagzeug);
 		genreRepository.save(rock);
 		genreRepository.save(schlager);
