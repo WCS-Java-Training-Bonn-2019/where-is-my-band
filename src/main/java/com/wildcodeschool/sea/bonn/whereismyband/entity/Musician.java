@@ -30,6 +30,7 @@ public class Musician {
 	private Long id;
 	private String firstName;
 	private String lastName;
+	private String description;
 
 	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
 	private LocalDate birthday;
