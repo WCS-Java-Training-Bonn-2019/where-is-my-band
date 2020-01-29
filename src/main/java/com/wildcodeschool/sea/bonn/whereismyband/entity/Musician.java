@@ -1,13 +1,17 @@
 package com.wildcodeschool.sea.bonn.whereismyband.entity;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -26,11 +30,29 @@ public class Musician {
 	private Long id;
 	private String firstName;
 	private String lastName;
+
 	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
 	private LocalDate birthday;
 	
 	@ManyToOne
 	@JoinColumn(name = "gender_id")
 	private Gender gender;
+	
+	@OneToOne
+	@JoinColumn(name = "address_id")
+	private Address address;
+	
+	@ManyToMany
+	@JoinTable(name = "musician_likes_genre", 
+			  joinColumns = @JoinColumn(name = "musician_id"), 
+			  inverseJoinColumns = @JoinColumn(name = "genre_id"))
+	private Set<Genre> favoriteGenres;
+	
+	@ManyToMany
+	@JoinTable(name = "musician_plays_instrument", 
+			  joinColumns = @JoinColumn(name = "musician_id"), 
+			  inverseJoinColumns = @JoinColumn(name = "instrument_id"))
+	private Set<Instrument> instruments;
+	
 
 }
