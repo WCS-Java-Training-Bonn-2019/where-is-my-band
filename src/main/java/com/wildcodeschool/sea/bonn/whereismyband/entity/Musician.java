@@ -11,7 +11,14 @@ import javax.persistence.ManyToOne;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 @Entity
+@Getter
+@Setter
+@ToString
 public class Musician {
 	
 	@Id
@@ -25,36 +32,5 @@ public class Musician {
 	@ManyToOne
 	@JoinColumn(name = "gender_id")
 	private Gender gender;
-
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-	public String getFirstName() {
-		return firstName;
-	}
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-	public String getLastName() {
-		return lastName;
-	}
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-	public Gender getGender() {
-		return gender;
-	}
-	public void setGender(Gender gender) {
-		this.gender = gender;
-	}
-	public LocalDate getBirthday() {
-		return birthday;
-	}
-	public void setBirthday(LocalDate birthday) {
-		this.birthday = birthday;
-	}
 
 }
