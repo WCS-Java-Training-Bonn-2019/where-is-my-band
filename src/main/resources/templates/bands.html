@@ -1,10 +1,29 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf" lang="en">
 <head>
-<title>Bands</title>
-<link rel="stylesheet" type="text/css" href="../css/style.css">
+<title>Bandliste</title>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+<link
+	href="https://fonts.googleapis.com/css?family=Allerta+Stencil%7CJosefin+Sans%7CReem+Kufi&display=swap"
+	rel="stylesheet">
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+	integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+	crossorigin="anonymous"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+	integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+	crossorigin="anonymous"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+	crossorigin="anonymous"></script>
+<link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
+	<header th:replace="homepage_logged_in :: navigation_bar">Navigation</header>
 	<h1>List of Bands</h1>
 	<table>
 		<tr>
@@ -12,7 +31,7 @@
 <!-- 			<th>Adresse</th> 		-->
 			<th>E-Mail</th>	
 			<th>Phone No.</th>		
-			<th>Edit-Link</th>
+			<th>View-Link</th>
 			<th>Delete-Link</th>
 		</tr>
 		<tr th:remove="all">
@@ -29,7 +48,7 @@
 	<!--		<td th:text="${band.address}">		-->
 			<td th:text="${band.email}">
 			<td th:text="${band.phone}">		
-			<td><a th:href="@{/band/edit(id=${band.id})}">Edit</a></td>
+			<td><a th:href="@{/band/view(id=${band.id})}">View</a></td>
         	<td><a th:href="@{/band/delete(id=${band.id})}">Delete</a></td>
 		</tr>
 	</table>

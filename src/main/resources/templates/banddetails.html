@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Band Information</title>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+<link
+	href="https://fonts.googleapis.com/css?family=Allerta+Stencil%7CJosefin+Sans%7CReem+Kufi&display=swap"
+	rel="stylesheet">
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+	integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+	crossorigin="anonymous"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+	integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+	crossorigin="anonymous"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+	crossorigin="anonymous"></script>
+<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+	<header th:replace="homepage_logged_in :: navigation_bar">Navigation</header>
+	<h3>
+		<span th:text="${band.name}">Informationen zur Band</span>
+	</h3>
+	<p th:text="${band.description}">Lorem ipsum dolor sit amet,
+		consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut
+		labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos
+		et accusam et justo duo dolores et ea rebum. Stet clita kasd
+		gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+		Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+		nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
+		sed diam voluptua. At vero eos et accusam et justo duo dolores et ea
+		rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
+		ipsum dolor sit amet.</p>
+	<h4>Kontaktdaten</h4>
+	<table>
+		<tr>
+			<td>Ansprechpartner:</td>
+			<td th:text="${band.owner.firstName} + ' ' + ${band.owner.lastName}">Elke
+				E-Gitarre</td>
+		</tr>
+		<tr>
+			<td>Email:</td>
+			<td th:text="${band.email}">statisch@acdc.de</td>
+		</tr>
+		<tr>
+			<td>Telefon:</td>
+			<td th:text="${band.phone}">0228/181-0</td>
+		</tr>
+		<tr>
+			<td>Standort:</td>
+			<td th:text="${band.address.postCode} + ' ' + ${band.address.city}">12345
+				Entenhausen</td>
+		</tr>
+	</table>
+	<h4>Gespielte Musikrichtungen</h4>
+	<ul>
+		<li th:each="genre : ${band.favoriteGenres}"><span
+			th:text="${genre.name}">Pop</span></li>
+	</ul>
+	<h4>Positionen der Band</h4>
+	<ul>
+		<li th:each="position : ${band.bandPositions}"><span
+			th:text="${position.instrument.name}+' ('+${position.state}+')'">Posaune
+				(offen)</span></li>
+	</ul>
+	<form method="get" th:action="@{/band/edit}" th:object="${band}">
+		<input name="bandid" th:field="*{id}" type="hidden"> <input
+			name="ownerid" th:field="*{owner.id}" type="hidden"> <input
+			type="submit" value="Edit">
+	</form>
+</body>
+</html>
