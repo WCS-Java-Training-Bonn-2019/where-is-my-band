@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>SoundMachine</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="../css/style_bandsuche-template.css">
+</head>
+<body>
+
+    <!-- -------------------------- NAVBAR --------------------------- -->
+
+    <section>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#">SoundMachine</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-item nav-link active" href="#">Home</a>
+                    <a class="nav-item nav-link" href="#">Bands</a>
+                    <a class="nav-item nav-link" href="#">Profile</a>
+                    <a class="nav-item nav-link" href="#" tabindex="-1">Register/Login</a>
+                </div>
+            </div>
+        </nav>
+    </section>
+
+ 	<table th:each="band : ${bands}">
+		<tr>
+			<th colspan=5 class="center" th:text="${band.name}"></th>
+		</tr>
+		<tr th:each="band : ${bands}">
+			<td colspan=2 th:text="${band.description}">
+			<td th:text="${band.email}">
+			<td colspan=2 th:text="${band.phone}">
+		</tr>
+		
+		<tr th:each="address : ${addresses}">
+			<td>Zipcode:</td>
+			<td th:text="${address.postCode}">
+			<td>City:</td>
+			<td colspan=2 th:text="${address.city}">
+		</tr>
+		<tr>
+			<td>Offene Instrumente: </td>
+			<td th:each="instrument : ${instruments}" th:text="${instrument.name}">		
+		</tr>
+		 <tr>
+		 	<td colspan=2 class="center">Genres: </td>
+			<td th:each="genre : ${genres}" th:text="${genre.name}">
+				
+        </tr>
+		
+
+	</table>
+ 
+</body>
+</html>

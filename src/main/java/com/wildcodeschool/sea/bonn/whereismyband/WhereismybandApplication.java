@@ -9,5 +9,5 @@ public class WhereismybandApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(WhereismybandApplication.class, args);
 	}
-
+	
 }
