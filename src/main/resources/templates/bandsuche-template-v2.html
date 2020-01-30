@@ -18,13 +18,17 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="css/style.css">
+
+    <!-- zum lokalen Testen -->
+    <!--  <link rel="stylesheet" href="../static/css/style.css"> -->
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
 </head>
 
 
 <body>
     <!-- Navigationsleiste-->
-    <header th:replace="header.html :: navigation_bar"></header>
+    <header th:replace="homepage_logged_in.html :: navigation_bar"></header>
 
 
     <!-- Hauptbereich -->
@@ -70,8 +74,8 @@
     </main>
 
 
-    <!-- Footer -->
-    <footer th:replace="footer.html :: footer"></footer>
+    <!-- Navigationsleiste-->
+    <header th:replace="homepage_logged_in.html :: footer"></header>
 
 </body>
 
