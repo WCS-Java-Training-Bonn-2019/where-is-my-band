@@ -18,7 +18,11 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="css/style.css">
+
+    <!-- zum lokalen Testen -->
+    <!--  <link rel="stylesheet" href="../static/css/style.css"> -->
+    <link rel="stylesheet" href="css/style.css"> 
+
 </head>
 
 
@@ -29,9 +33,9 @@
         <!-- hier muss noch eine Loesung für das active-Attribut her-->
         <!-- <a class="nav-item nav-link active" href="#">Home<span class="sr-only">(current)</span></a> -->
 
-        <!-- User is logged in -->
+        <!-- User is logged in, TRUE has to be replaced by login-information from code  -->
         <!-- disabled for static page test
-        <div th:if="${musician.isLoogedIn}">
+        <div th:if="${TRUE}">
             <nav class="navbar navbar-expand-md navbar-dark bg-transparent">
                 <a class="navbar-brand" href="#">SoundMachine</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
@@ -45,15 +49,15 @@
                         <a class="nav-item nav-link" href="#">Home</a>
                         <a class="nav-item nav-link" href="#">Bands</a>
                         <a class="nav-item nav-link" href="#">Profile</a>
-                        <a class="nav-item nav-link" href="#">Logout</a>
+                        <a class="nav-item nav-link" href=""homepage_logged_out.html"">Logout</a>
                     </div>
                 </div>
             </nav>
         </div>
         -->
 
-        <!-- User is not logged in or has to register-->
-        <div th:unless="${musician.isLoogedIn}">
+        <!-- User is not logged in or has to register , FALSE has to be replaced by login-information from code-->
+        <div th:unless="${FALSE}">
             <nav class="navbar navbar-expand-md navbar-dark bg-transparent">
                 <a class="navbar-brand" href="#">SoundMachine</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
