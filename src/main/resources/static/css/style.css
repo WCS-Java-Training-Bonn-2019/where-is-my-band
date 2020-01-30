@@ -1,3 +1,50 @@
-table, th, td{
-	border: solid 1px;
+body {
+   
+    background: 
+    url(1078886V2.jpg) no-repeat,
+    url(1078886bg.jpg) repeat
+    ;
+    background-size: 100%;
+    
+    color: #ffffff;
+
+    font-family: 'Reem Kufi', sans-serif;
+}
+
+a {
+    color: #ffffff; 
+    text-decoration: none;
+}
+  
+a:hover {
+    color: #ffffff; 
+    text-decoration: underline;
+}
+
+.container-fluid {
+    margin-top: 2em;
+    margin-bottom: 2em;
+}
+
+p {
+    width: 60%;
+}
+
+.main-area {
+    margin-top: 5em;
+    margin-bottom: 5em;
+}
+
+.form-control, label {
+    width: 40%;
+}
+
+.form-control {
+    /* height: 2em; */
+    min-width: 20em;
+}
+
+.btn {
+    width: 5em;
+    margin-top: 1em;
 }
