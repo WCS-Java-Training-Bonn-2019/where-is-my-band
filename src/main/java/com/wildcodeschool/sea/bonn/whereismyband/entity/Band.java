@@ -18,13 +18,11 @@ import javax.persistence.OneToOne;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 
 @Entity
 @Getter
 @Setter
-@ToString
 public class Band {
 	
 	@Id
@@ -50,10 +48,9 @@ public class Band {
 	
 	@OneToMany (mappedBy = "band")
 	private List<Bandposition> bandPositions=new ArrayList<>();
-	
+
 	@ManyToOne
 	@JoinColumn(name = "owner_id")
 	private Musician owner;
-
 		
 }
