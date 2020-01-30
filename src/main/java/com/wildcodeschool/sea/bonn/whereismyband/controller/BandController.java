@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.wildcodeschool.sea.bonn.whereismyband.entity.Band;
 import com.wildcodeschool.sea.bonn.whereismyband.entity.Genre;
 import com.wildcodeschool.sea.bonn.whereismyband.entity.Musician;
+import com.wildcodeschool.sea.bonn.whereismyband.entity.PositionState;
 import com.wildcodeschool.sea.bonn.whereismyband.repository.AddressRepository;
 import com.wildcodeschool.sea.bonn.whereismyband.repository.BandRepository;
 import com.wildcodeschool.sea.bonn.whereismyband.repository.GenreRepository;
@@ -78,6 +79,7 @@ public class BandController {
 		// add band to the view model (either empty or prefilled with DB data)
 		model.addAttribute("band", band);
 		model.addAttribute("allGenres", new HashSet<Genre>(genreRepository.findAll()));
+		model.addAttribute("positionStates", PositionState.values());
 
 		return "bandupsert";
 	}

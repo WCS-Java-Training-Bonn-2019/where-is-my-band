@@ -29,10 +29,6 @@ public class Bandposition {
 	@JoinColumn (name = "instrument_id")
 	private Instrument instrument;
 
-	private boolean isVacant;
+	private PositionState state;
 	
-	public String getState() {
-		return (this.isVacant ? "offen" : "besetzt");
-	}
-
 }

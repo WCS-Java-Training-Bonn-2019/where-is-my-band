@@ -17,6 +17,7 @@ import com.wildcodeschool.sea.bonn.whereismyband.entity.Gender;
 import com.wildcodeschool.sea.bonn.whereismyband.entity.Genre;
 import com.wildcodeschool.sea.bonn.whereismyband.entity.Instrument;
 import com.wildcodeschool.sea.bonn.whereismyband.entity.Musician;
+import com.wildcodeschool.sea.bonn.whereismyband.entity.PositionState;
 import com.wildcodeschool.sea.bonn.whereismyband.repository.AddressRepository;
 import com.wildcodeschool.sea.bonn.whereismyband.repository.BandRepository;
 import com.wildcodeschool.sea.bonn.whereismyband.repository.BandpositionRepository;
@@ -214,7 +215,7 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 			bandpos1.setBand(acdc);
 			bandpos1.setAgeFrom(20);
 			bandpos1.setAgeTo(30);
-			bandpos1.setVacant(false);
+			bandpos1.setState(PositionState.besetzt);
 			bandpositionRepository.save(bandpos1);
 
 			// Create Position 2
@@ -223,7 +224,7 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 			bandpos2.setBand(acdc);
 			bandpos2.setAgeFrom(25);
 			bandpos2.setAgeTo(45);
-			bandpos2.setVacant(true);
+			bandpos2.setState(PositionState.offen);
 			bandpositionRepository.save(bandpos2);		
 
 			// Create Position 3
@@ -232,7 +233,7 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 			bandpos3.setBand(acdc);
 			bandpos3.setAgeFrom(30);
 			bandpos3.setAgeTo(50);
-			bandpos3.setVacant(true);
+			bandpos3.setState(PositionState.offen);
 			bandpositionRepository.save(bandpos3);
 
 			// Create  Position 4
@@ -241,7 +242,7 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 			bandpos4.setBand(acdc);
 			bandpos4.setAgeFrom(30);
 			bandpos4.setAgeTo(50);
-			bandpos4.setVacant(true);
+			bandpos4.setState(PositionState.offen);
 			bandpositionRepository.save(bandpos4);
 
 

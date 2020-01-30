@@ -2,12 +2,18 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 <title>Band Editor</title>
+<!-- 
 <link rel="stylesheet" href="../css/style.css">
+-->
 </head>
 <body>
+	<header th:replace="homepage_logged_in :: navigation_bar">Navigation</header>
+
 	<h3 th:text="${band.id} ? 'Edit Band' : 'Create Band'">Band</h3>
 	<form method="post" th:action="@{/band/edit}" th:object="${band}">
 		<input name="id" th:field="*{id}" type="hidden" />
+		<input name="owner" th:field="*{owner}" type="hidden" />
+		
 
 		<table>
 			<tr>
@@ -49,21 +55,17 @@
 			</li>
 		</ul>
 
-		<h4>Bandpositionen</h4>
+		<h4>Bandpositionen (Pflege geht noch nicht)</h4>
 		<table>
 			<tr th:each="position : *{bandPositions}">
 				<td><span th:text="${position.instrument.name} + ':'">Posaune:</span></td>
-				<td>
-<!--				<select th:field="*{bandPositions}.isVacant}">
-						<option th:value="true" th:text="offen">Offen</option>
-						<option th:value="false" th:text="besetzt">Besetzt</option>
-
-				</select>
+<!-- 				<td><select th:field="${position.state}">
+						<option th:each="state : ${positionStates}" th:value="${state}"
+							th:text="${state}">Besetzungstatus</option>
+				</select></td>
 				-->
-				</td>
 			</tr>
 		</table>
-
 		<input type="submit" value="Speichern" />
 	</form>
 

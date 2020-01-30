@@ -2,7 +2,6 @@
 <html xmlns:th="http://www.thymeleaf" lang="en">
 <head>
 <title>Bands</title>
-<link rel="stylesheet" type="text/css" href="../css/style.css">
 </head>
 <body>
 	<h1>List of Bands</h1>
@@ -29,7 +28,7 @@
 	<!--		<td th:text="${band.address}">		-->
 			<td th:text="${band.email}">
 			<td th:text="${band.phone}">		
-			<td><a th:href="@{/band/edit(id=${band.id})}">Edit</a></td>
+			<td><a th:href="@{/band/view(id=${band.id})}">View</a></td>
         	<td><a th:href="@{/band/delete(id=${band.id})}">Delete</a></td>
 		</tr>
 	</table>

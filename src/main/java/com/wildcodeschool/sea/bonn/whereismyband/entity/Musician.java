@@ -1,7 +1,6 @@
 package com.wildcodeschool.sea.bonn.whereismyband.entity;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
