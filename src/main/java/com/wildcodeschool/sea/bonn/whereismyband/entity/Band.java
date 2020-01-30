@@ -52,6 +52,5 @@ public class Band {
 	
 	@OneToMany (mappedBy = "band")
 	private List<Bandposition> bandPositions=new ArrayList<>();
-
 		
 }

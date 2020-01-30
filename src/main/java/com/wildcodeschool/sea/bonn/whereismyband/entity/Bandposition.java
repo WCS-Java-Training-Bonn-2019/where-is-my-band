@@ -32,5 +32,9 @@ public class Bandposition {
 	private Instrument instrument;
 
 	private boolean isVacant;
+	
+	public String getState() {
+		return (this.isVacant ? "offen" : "besetzt");
+	}
 
 }
