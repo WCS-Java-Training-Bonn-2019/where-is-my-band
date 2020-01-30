@@ -1,5 +1,6 @@
 package com.wildcodeschool.sea.bonn.whereismyband.controller;
 
+import java.util.HashSet;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,18 +13,31 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.wildcodeschool.sea.bonn.whereismyband.entity.Band;
+import com.wildcodeschool.sea.bonn.whereismyband.entity.Genre;
+import com.wildcodeschool.sea.bonn.whereismyband.entity.Musician;
+import com.wildcodeschool.sea.bonn.whereismyband.repository.AddressRepository;
 import com.wildcodeschool.sea.bonn.whereismyband.repository.BandRepository;
+import com.wildcodeschool.sea.bonn.whereismyband.repository.GenreRepository;
+import com.wildcodeschool.sea.bonn.whereismyband.repository.MusicianRepository;
 
 @Controller
 @RequestMapping("/band")
 public class BandController {
 
 	private BandRepository bandRepository;
+	private MusicianRepository musicianRepository;
+	private GenreRepository genreRepository;
+	private AddressRepository addressRepository;
+	
 
 	@Autowired
-	public BandController(BandRepository bandRepository) {
+	public BandController(BandRepository bandRepository, MusicianRepository musicianRepository,
+			GenreRepository genreRepository, AddressRepository addressRepository) {
 		super();
 		this.bandRepository = bandRepository;
+		this.musicianRepository = musicianRepository;
+		this.genreRepository = genreRepository;
+		this.addressRepository = addressRepository;
 	}
 
 	@GetMapping("list")
@@ -34,32 +48,45 @@ public class BandController {
 
 	@GetMapping("edit")
 	public String getBand(Model model,
-			@RequestParam(required = false) Long id) {
+			@RequestParam(required = false, name = "id") Long bandid,
+			@RequestParam(required = false, name = "owner.id") Long ownerid) {
 
-		model.addAttribute("allBands", bandRepository.findAll());
-		// Create an empty Musician object
+		// Create an empty Band object
 		Band band = new Band();
 
-		// if an id was sent as a parameter
-		if (id != null) {
+		// if a bandid was sent as a parameter
+		if (bandid != null) {
 			//retrieve object from database
-			Optional<Band> optionalBand = bandRepository.findById(id);
+			Optional<Band> optionalBand = bandRepository.findById(bandid);
 			// if database object could be retrieved
 			if (optionalBand.isPresent()) {
 				// set gender to the object retrieved
 				band = optionalBand.get();
 			}
+		} else {
+			// No band was sent => new band to be created
+			// Retrieve owner from DB (important for new bands)
+			Musician owner = musicianRepository.findById(ownerid).get();
+			
+			// if musician with ownerid given was found in DB
+			if (owner != null) {
+				// initialize band.owner
+				band.setOwner(owner);
+			}
 		}
 
-		// add musician to the view model (either empty or prefilled with DB data)
+		// add band to the view model (either empty or prefilled with DB data)
 		model.addAttribute("band", band);
+		model.addAttribute("allGenres", new HashSet<Genre>(genreRepository.findAll()));
 
-		return "band";
+		return "bandupsert";
 	}
 
 	@PostMapping("edit")
-	public String postBand(@ModelAttribute Band band) {
+	public String postBand(Model model, @ModelAttribute Band band) {
+		addressRepository.save(band.getAddress());
 		bandRepository.save(band);
+		model.addAttribute(band);
 		return "redirect:list";
 	}
 
@@ -85,7 +112,7 @@ public class BandController {
 		// add band to the view model
 		model.addAttribute("band", band);
 
-		return "banddetails-ansehen";
+		return "banddetails";
 	}
 
 

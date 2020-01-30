@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Band Editor</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+	<h3 th:text="${band.id} ? 'Edit Band' : 'Create Band'">Band</h3>
+	<form method="post" th:action="@{/band/edit}" th:object="${band}">
+		<input name="id" th:field="*{id}" type="hidden" />
+
+		<table>
+			<tr>
+				<td>Name:</td>
+				<td><input type="text" placeholder="Bandname" required
+					th:field="*{name}" /></td>
+			</tr>
+			<tr>
+				<td>Beschreibung:</td>
+				<td><input type="text" placeholder="Beschreibung" required
+					th:field="*{description}" /></td>
+			</tr>
+			<tr>
+				<td>Email:</td>
+				<td><input type="email" placeholder="Email" required
+					th:field="*{email}" /></td>
+			</tr>
+			<tr>
+				<td>Phone:</td>
+				<td><input type="text" placeholder="Phone" required
+					th:field="*{phone}" /></td>
+			</tr>
+			<tr>
+				<td>PLZ:</td>
+				<td><input type="text" placeholder="Postleitzahl" required
+					th:field="*{address.postCode}" /></td>
+			</tr>
+			<tr>
+				<td>Stadt:</td>
+				<td><input type="text" placeholder="Stadt" required
+					th:field="*{address.city}" /></td>
+			</tr>
+		</table>
+		<h4>Genres</h4>
+		<ul>
+			<li th:each="genre : ${allGenres}"><input type="checkbox"
+				th:value="${genre.id}" th:field="*{favoriteGenres}" /> <label
+				th:for="${#ids.prev('favoriteGenres')}" th:text="${genre.name}">Kuschelrock</label>
+			</li>
+		</ul>
+
+		<h4>Bandpositionen</h4>
+		<table>
+			<tr th:each="position : *{bandPositions}">
+				<td><span th:text="${position.instrument.name} + ':'">Posaune:</span></td>
+				<td>
+<!--				<select th:field="*{bandPositions}.isVacant}">
+						<option th:value="true" th:text="offen">Offen</option>
+						<option th:value="false" th:text="besetzt">Besetzt</option>
+
+				</select>
+				-->
+				</td>
+			</tr>
+		</table>
+
+		<input type="submit" value="Speichern" />
+	</form>
+
+</body>
+</html>
