@@ -1,13 +1,9 @@
 package com.wildcodeschool.sea.bonn.whereismyband.bootstrap;
 
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
-
-import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
@@ -30,7 +26,6 @@ import com.wildcodeschool.sea.bonn.whereismyband.repository.InstrumentRepository
 import com.wildcodeschool.sea.bonn.whereismyband.repository.MusicianRepository;
 
 @Component
-@Transactional
 public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> {
 
 	private AddressRepository addressRepository;
@@ -62,7 +57,7 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 	}
 
 	private void initData() {
-		
+
 		// Delete data from database
 		bandpositionRepository.deleteAll();
 		bandRepository.deleteAll();
@@ -76,7 +71,7 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 		Gender male = createGenderIfNotExisting("Mann");
 		Gender female = createGenderIfNotExisting("Frau");
 		Gender diverse = createGenderIfNotExisting("Divers");
-		
+
 		// Create Genres
 		Genre rock = createGenreIfNotExisting("Rock");
 		Genre pop = createGenreIfNotExisting("Pop");
@@ -89,96 +84,170 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 		Instrument egitarre = createInstrumentIfNotExisting("E-Gitarre");
 		Instrument gesang = createInstrumentIfNotExisting("Gesang");
 
-		// Create ACDC
-		Band acdc = createBandIfNotExisting("ACDC");
+		boolean elkeExistedBefore = (! musicianRepository.findByFirstNameAndLastNameAndBirthday("Elke", "E-Gitarre", LocalDate.of(1994, 10, 03)).isEmpty());
+		Musician elke;
 
-		Address acdcAddress = createAdressIfNotExisting("Bonn", 53227);
-		acdc.setAddress(acdcAddress);
+		// if Elke does not exist
+		if (! elkeExistedBefore) {
 
-		// Add favorite genres
-		acdc.getFavoriteGenres().add(rock);
-		rock.getBands().add(acdc);
-		acdc.getFavoriteGenres().add(pop);
-		pop.getBands().add(acdc);
+			// Create musician elke
+			// **********************
+			elke = createMusicianIfNotExisting(
+					"Elke", "E-Gitarre", 
+					LocalDate.of(1994, 10, 03), 
+					female);
 
-		bandRepository.save(acdc);
-		
-		// Erzeuge Position 1
-		Bandposition bandpos1 = new Bandposition();
-		bandpos1.setInstrument(schlagzeug);
-		bandpos1.setBand(acdc);
-		bandpos1.setAgeFrom(20);
-		bandpos1.setAgeTo(30);
-		bandpos1.setVacant(false);
-		bandpositionRepository.save(bandpos1);
+			Address elkesAddress = createAdressIfNotExisting("Bonn", 53227);
+			elke.setAddress(elkesAddress);
 
-		// Erzeuge Position 2
-		Bandposition bandpos2 = new Bandposition();
-		bandpos2.setInstrument(keyboard);
-		bandpos2.setBand(acdc);
-		bandpos2.setAgeFrom(25);
-		bandpos2.setAgeTo(45);
-		bandpos2.setVacant(true);
-		bandpositionRepository.save(bandpos2);		
+			elke.setDescription("Hallo, ich bin Elke und spiele E-Gitarre. Musik ist meine große Leidenschaft!");
 
-		// Erzeuge Position 3
-		Bandposition bandpos3 = new Bandposition();
-		bandpos3.setInstrument(egitarre);
-		bandpos3.setBand(acdc);
-		bandpos3.setAgeFrom(30);
-		bandpos3.setAgeTo(50);
-		bandpos3.setVacant(true);
-		bandpositionRepository.save(bandpos3);
+			// Prepare HashSet favoriteGenres
+			HashSet<Genre> elkesGenres = new HashSet<>();
+			elkesGenres.add(oldies);
+			oldies.getMusicians().add(elke);
 
-		// Erzeuge Position 4
-		Bandposition bandpos4 = new Bandposition();
-		bandpos4.setInstrument(gesang);
-		bandpos4.setBand(acdc);
-		bandpos4.setAgeFrom(30);
-		bandpos4.setAgeTo(50);
-		bandpos4.setVacant(true);
-		bandpositionRepository.save(bandpos4);
-		
-		// Create Musician Stefan
-		Musician stefan = createMusicianIfNotExisting(
-				"Stefan", "Schlagzeuger", 
-				LocalDate.of(1992, 01, 01), 
-				male);
+			elkesGenres.add(pop);
+			pop.getMusicians().add(elke);
 
-		Address stefansAddress = createAdressIfNotExisting("Sankt Augustin", 53757);
-		stefan.setAddress(stefansAddress);
+			elkesGenres.add(schlager);
+			schlager.getMusicians().add(elke);
 
-		stefan.setDescription("Hallo, ich bin Stefan, spiele Schlagzeug seit 6 Jahren und spiele unregelmäßig in einem Musikverein!");
-		
-		// Prepare Genre HashSet for Stefan
-		HashSet<Genre> stefansGenres = new HashSet<>();
-		stefansGenres.add(rock);
-		rock.getMusicians().add(stefan);
-		
-		stefansGenres.add(pop);
-		pop.getMusicians().add(stefan);
-		
-		stefansGenres.add(schlager);
-		schlager.getMusicians().add(stefan);
-		
-		// Update favoriteGenres of Stefan
-		stefan.setFavoriteGenres(stefansGenres);
-		
-		// Prepare Instruments HashSet
-		HashSet<Instrument> stefansInstruments = new HashSet<>();
-		stefansInstruments.add(schlagzeug);
-		
-		// Update Instruments of Stefan
-		stefan.setInstruments(stefansInstruments);
+			// Update favoriteGenres
+			elke.setFavoriteGenres(elkesGenres);
 
-		// Save changes in repositories after creation of Stefan
-		instrumentRepository.save(schlagzeug);
-		genreRepository.save(rock);
-		genreRepository.save(schlager);
-		genreRepository.save(pop);
-		genreRepository.save(oldies);
-		musicianRepository.save(stefan);
-		
+			// Prepare Instruments HashSet
+			HashSet<Instrument> elkesInstruments = new HashSet<>();
+			elkesInstruments.add(egitarre);
+
+			// Update Instruments
+			elke.setInstruments(elkesInstruments);
+
+			// Save changes in repositories
+			instrumentRepository.save(egitarre);
+			genreRepository.save(oldies);
+			genreRepository.save(schlager);
+			genreRepository.save(pop);
+			musicianRepository.save(elke);
+
+			// Creation of musician Elke finished
+			// **********************************
+		} else {
+			elke = musicianRepository.findByFirstNameAndLastNameAndBirthday("Elke", "E-Gitarre", LocalDate.of(1994, 10, 03)).get(0);
+		}
+
+		// if Stefan does not exist
+		if (musicianRepository.findByFirstNameAndLastNameAndBirthday("Stefan", "Schlagzeuger", LocalDate.of(1992, 01, 01)).isEmpty()) {
+
+			// Create musician Stefan
+			// **********************
+
+			Musician stefan = createMusicianIfNotExisting(
+					"Stefan", "Schlagzeuger", 
+					LocalDate.of(1992, 01, 01), 
+					male);
+
+			Address stefansAddress = createAdressIfNotExisting("Sankt Augustin", 53757);
+			stefan.setAddress(stefansAddress);
+
+			stefan.setDescription("Hallo, ich bin Stefan, spiele Schlagzeug seit 6 Jahren und spiele unregelmäßig in einem Musikverein!");
+
+			// Prepare HashSet favoriteGenres
+			HashSet<Genre> stefansGenres = new HashSet<>();
+			stefansGenres.add(rock);
+			rock.getMusicians().add(stefan);
+
+			stefansGenres.add(pop);
+			pop.getMusicians().add(stefan);
+
+			stefansGenres.add(schlager);
+			schlager.getMusicians().add(stefan);
+
+			// Update favoriteGenres
+			stefan.setFavoriteGenres(stefansGenres);
+
+			// Prepare Instruments HashSet
+			HashSet<Instrument> stefansInstruments = new HashSet<>();
+			stefansInstruments.add(schlagzeug);
+
+			// Update Instruments
+			stefan.setInstruments(stefansInstruments);
+
+			// Save changes in repositories
+			instrumentRepository.save(schlagzeug);
+			genreRepository.save(rock);
+			genreRepository.save(schlager);
+			genreRepository.save(pop);
+			musicianRepository.save(stefan);
+
+			// Creation of musician Stefan finished
+			// ************************************
+		};
+
+
+		// if ACDC does not exist
+		if (! bandRepository.findByName("ACDC").isPresent()) {
+
+			// Start creation of band ACDC
+			// ***************************
+			Band acdc = createBandIfNotExisting("ACDC");
+
+			Address acdcAddress = createAdressIfNotExisting("Bonn", 53227);
+			acdc.setAddress(acdcAddress);
+
+			// set band owner elke
+			acdc.setOwner(elke);
+			elke.getBands().add(acdc);
+			musicianRepository.save(elke);
+
+			// Add favorite genres
+			acdc.getFavoriteGenres().add(rock);
+			rock.getBands().add(acdc);
+			acdc.getFavoriteGenres().add(pop);
+			pop.getBands().add(acdc);
+
+			bandRepository.save(acdc);
+
+			// Create Position 1
+			Bandposition bandpos1 = new Bandposition();
+			bandpos1.setInstrument(schlagzeug);
+			bandpos1.setBand(acdc);
+			bandpos1.setAgeFrom(20);
+			bandpos1.setAgeTo(30);
+			bandpos1.setVacant(false);
+			bandpositionRepository.save(bandpos1);
+
+			// Create Position 2
+			Bandposition bandpos2 = new Bandposition();
+			bandpos2.setInstrument(keyboard);
+			bandpos2.setBand(acdc);
+			bandpos2.setAgeFrom(25);
+			bandpos2.setAgeTo(45);
+			bandpos2.setVacant(true);
+			bandpositionRepository.save(bandpos2);		
+
+			// Create Position 3
+			Bandposition bandpos3 = new Bandposition();
+			bandpos3.setInstrument(egitarre);
+			bandpos3.setBand(acdc);
+			bandpos3.setAgeFrom(30);
+			bandpos3.setAgeTo(50);
+			bandpos3.setVacant(true);
+			bandpositionRepository.save(bandpos3);
+
+			// Create  Position 4
+			Bandposition bandpos4 = new Bandposition();
+			bandpos4.setInstrument(gesang);
+			bandpos4.setBand(acdc);
+			bandpos4.setAgeFrom(30);
+			bandpos4.setAgeTo(50);
+			bandpos4.setVacant(true);
+			bandpositionRepository.save(bandpos4);
+
+
+			// Creation of band ACDC finished
+			// ******************************
+		};
 	}
 
 
@@ -197,14 +266,14 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 		}
 
 	}
-	
+
 	private Musician createMusicianIfNotExisting(String firstName, String lastName, LocalDate birthday, Gender gender) {
-		
-		
+
+
 		// Search for Musician based on parameters
 		List<Musician> searchList = musicianRepository.findByFirstNameAndLastNameAndBirthday(
 				firstName, lastName, birthday);
-		
+
 		// if no such musician exists
 		if (searchList.size() == 0) {
 			// create one
@@ -217,10 +286,10 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 			return musician;
 		} else {
 			// return the 1st one found
-			return searchList.get(1);
+			return searchList.get(0);
 		}
 	}
-	
+
 	private Genre createGenreIfNotExisting(String genreName) {
 
 		// Create rockGenre if existing
