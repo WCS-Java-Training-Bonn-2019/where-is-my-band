@@ -30,33 +30,31 @@
         </nav>
     </section>
 
- 	<table th:each="band : ${bands}">
+ 	<table>
 		<tr>
-			<th colspan=5 class="center" th:text="${band.name}"></th>
+			<th class="center">Trefferliste</th>
 		</tr>
-		<tr th:each="band : ${bands}">
-			<td colspan=2 th:text="${band.description}">
-			<td th:text="${band.email}">
-			<td colspan=2 th:text="${band.phone}">
+		<tr  th:each="band : ${bands}">
+			<td> 
+				<p th:text="${band.name}">ACDC</p>
+				<ul>
+					<li th:text="${band.address.postCode} + ' ' + ${band.address.city}" ></li>
+					<li>
+						<span>Bandpositionen: </span>
+						<span th:each="position : ${band.bandPositions}">
+							<span th:text="${position.instrument.name} + ', '"></span>
+						</span>
+					</li>
+					<li>
+						<span>Genre: </span>
+						<span th:each="genre : ${band.favoriteGenres}">
+							<span th:text="${genre.name} + ', '"></span>
+						</span>
+					</li>
+					
+				</ul>
+			</td>
 		</tr>
-		
-		<tr th:each="address : ${addresses}">
-			<td>Zipcode:</td>
-			<td th:text="${address.postCode}">
-			<td>City:</td>
-			<td colspan=2 th:text="${address.city}">
-		</tr>
-		<tr>
-			<td>Offene Instrumente: </td>
-			<td th:each="instrument : ${instruments}" th:text="${instrument.name}">		
-		</tr>
-		 <tr>
-		 	<td colspan=2 class="center">Genres: </td>
-			<td th:each="genre : ${genres}" th:text="${genre.name}">
-				
-        </tr>
-		
-
 	</table>
  
 </body>

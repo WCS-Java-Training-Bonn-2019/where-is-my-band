@@ -18,13 +18,13 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 
 
 <body>
     <!-- Navigationsleiste-->
-    <header th:replace="header.html :: navigation_bar"></header>
+    <header th:replace="homepage_logged_in :: navigation_bar"></header>
 
 
     <!-- Hauptbereich -->
@@ -68,10 +68,38 @@
             </form>
         </div>
     </main>
-
+	
+	<table>
+		<tr>
+			<th class="center">Trefferliste</th>
+		</tr>
+		<tr  th:each="band : ${bands}">
+			<td> 
+				<a th:href="@{/band/view(id=${band.id})}" th:text="${band.name}">ACDC</a>
+				<ul>
+					<li th:text="${band.address.postCode} + ' ' + ${band.address.city}" ></li>
+					<li>
+						<span>Bandpositionen: </span>
+						<span th:each="position : ${band.bandPositions}">
+							<span th:text="${position.instrument.name} + ', '">Flöte</span>
+						</span>
+					</li>
+					<li>
+						<span>Genre: </span>
+						<span th:each="genre : ${band.favoriteGenres}">
+							<span th:text="${genre.name} + ', '">Folklore</span>
+						</span>
+					</li>
+					
+				</ul>
+			</td>
+		</tr>
+	</table>
+	
+	<a th:href="@{/band/edit}">Insert new band</a>
 
     <!-- Footer -->
-    <footer th:replace="footer.html :: footer"></footer>
+    <footer th:replace="homepage_logged_in :: footer"></footer>
 
 </body>
 
