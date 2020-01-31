@@ -23,7 +23,7 @@
 <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-	<header th:replace="homepage_logged_in :: navigation_bar">Navigation</header>
+	<header th:replace="index :: navigation_bar">Navigation</header>
 
 	<h3 th:text="${band.id} ? 'Edit Band' : 'Create Band'">Band</h3>
 	<form method="post" th:action="@{/band/edit}" th:object="${band}">
@@ -85,5 +85,7 @@
 		<input type="submit" value="Speichern" />
 	</form>
 
+    <footer th:replace="index :: footer"></footer>
+    
 </body>
 </html>

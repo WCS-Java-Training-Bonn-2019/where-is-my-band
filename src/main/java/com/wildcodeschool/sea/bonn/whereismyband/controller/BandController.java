@@ -67,7 +67,7 @@ public class BandController {
 		} else {
 			// No band was sent => new band to be created
 			// Retrieve owner from DB (important for new bands)
-			Musician owner = musicianRepository.findById(ownerid).get();
+			Musician owner = musicianRepository.findByFirstNameAndLastName("Elke", "E-Gitarre").get(0);
 			
 			// if musician with ownerid given was found in DB
 			if (owner != null) {
@@ -89,7 +89,7 @@ public class BandController {
 		addressRepository.save(band.getAddress());
 		bandRepository.save(band);
 		model.addAttribute(band);
-		return "redirect:list";
+		return "redirect:/search/list/all";
 	}
 
 	@GetMapping("delete")

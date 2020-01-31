@@ -19,29 +19,121 @@
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
 
-
+    <!-- zum lokalen Testen -->
+    <!--  <link rel="stylesheet" href="../static/css/style.css"> -->
     <link rel="stylesheet" th:href="@{/css/style.css}">
 
 </head>
 
+
 <body>
     <!-- Navigationsleiste-->
-    <header th:replace="homepage_logged_out.html :: navigation_bar"></header>
+    <header th:fragment="navigation_bar">
 
-    <h1>Übersichtsseiten</h1>
-    <a href="/musician/list">Show all Musicians</a>
-    <br>
-    <a href="/band/list">Show all Bands</a>
-    <br>
-    <a href="/instrument/list">Show all Instruments</a>
-    <br>
-    <a href="/genre/list">Show all Genres</a>
-    <br>
-    <a href="/bandposition/list">Show all Bandpositions</a>
-    <br>
-    <a href="/address/list">Show all Addresses</a>
-    <br>
-    <a href="/gender/list">Show all Gender</a>
+        <!-- hier muss noch eine Loesung für das active-Attribut her-->
+        <!-- <a class="nav-item nav-link active" href="#">Home<span class="sr-only">(current)</span></a> -->
+
+        <!-- User is logged in, TRUE has to be replaced by login-information from code  -->
+        <div th:if="${TRUE}">
+            <nav class="navbar navbar-expand-md navbar-dark bg-transparent">
+                <a class="navbar-brand" href="#">SoundMachine</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <div class="navbar-nav float-right text-right pr-3">
+
+                        <a class="nav-item nav-link" th:href="@{/}">Home</a>
+                        <a class="nav-item nav-link" th:href="@{/search/list/all}">Bands (all)</a>
+                        <a class="nav-item nav-link" th:href="@{/search/list/open}">Bands (open)</a>
+                        <a class="nav-item nav-link" href="#">Profile</a>
+                        <a class="nav-item nav-link" th:href="@{/index.html}">Logout</a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+        <!-- User is not logged in or has to register , FALSE has to be replaced by login-information from code-->
+        <!-- disabled for static page test
+        <div th:unless="${FALSE}">
+            <nav class="navbar navbar-expand-md navbar-dark bg-transparent">
+                <a class="navbar-brand" href="#">SoundMachine</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <div class="navbar-nav float-right text-right pr-3">
+                        <a class="nav-item nav-link" href="#">Home</a>
+                        <a class="nav-item nav-link" href="#">Bands</a>
+                        <a class="nav-item nav-link" href="homepage_logged_in.html">Register/Login</a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        -->
+    </header>
+
+
+    <!-- Hauptbereich -->
+    <main>
+        <div class="main-area">
+            <div class="container-fluid">
+                <h3>Willkommen Stefan!</h3>
+
+                <p>
+                    Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut
+                    labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
+                    et
+                    ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+                </p>
+
+     
+
+
+            </div>
+        </div>
+    </main>
+
+
+    <!-- Footer-->
+    <footer th:fragment="footer" class="page-footer font-small pt-4 bg-transparent">
+        <div class="container-fluid text-md-left">
+            <!-- nicht zentrieren bei kleinen Screens <div class="container-fluid text-center text-md-left"> -->
+            <div class="row">
+                <!-- Auswahlliste links -->
+                <div class="col align-self-start">
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="#">Home</a>
+                        </li>
+                        <li>
+                            <a href="#">FAQ</a>
+                        </li>
+                        <li>
+                            <a href="#">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+                <hr class="clearfix w-100 d-md-none pb-3">
+                <!-- Texte rechts -->
+                <div class="col align-self-start">
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="#">Über uns</a>
+                        </li>
+                        <li>
+                            Projekt von Teilnehmern der <a href="https://wildcodeschool.com/" target="_blank"> Wild Code
+                                School</a><i class="far fa-copyright"></i> 2020</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
 </body>
 
 </html>
