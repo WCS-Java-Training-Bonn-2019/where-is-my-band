@@ -18,6 +18,7 @@ import com.wildcodeschool.sea.bonn.whereismyband.entity.Musician;
 import com.wildcodeschool.sea.bonn.whereismyband.entity.PositionState;
 import com.wildcodeschool.sea.bonn.whereismyband.repository.AddressRepository;
 import com.wildcodeschool.sea.bonn.whereismyband.repository.BandRepository;
+import com.wildcodeschool.sea.bonn.whereismyband.repository.BandpositionRepository;
 import com.wildcodeschool.sea.bonn.whereismyband.repository.GenreRepository;
 import com.wildcodeschool.sea.bonn.whereismyband.repository.MusicianRepository;
 
@@ -29,16 +30,18 @@ public class BandController {
 	private MusicianRepository musicianRepository;
 	private GenreRepository genreRepository;
 	private AddressRepository addressRepository;
+	private BandpositionRepository bandPositionsRepository;
 	
-
 	@Autowired
 	public BandController(BandRepository bandRepository, MusicianRepository musicianRepository,
-			GenreRepository genreRepository, AddressRepository addressRepository) {
+			GenreRepository genreRepository, AddressRepository addressRepository,
+			BandpositionRepository bandPositionsRepository) {
 		super();
 		this.bandRepository = bandRepository;
 		this.musicianRepository = musicianRepository;
 		this.genreRepository = genreRepository;
 		this.addressRepository = addressRepository;
+		this.bandPositionsRepository = bandPositionsRepository;
 	}
 
 	@GetMapping("list")
@@ -88,6 +91,7 @@ public class BandController {
 	public String postBand(Model model, @ModelAttribute Band band) {
 		addressRepository.save(band.getAddress());
 		bandRepository.save(band);
+		bandPositionsRepository.saveAll(band.getBandPositions());
 		model.addAttribute(band);
 		return "redirect:/search/list/all";
 	}
