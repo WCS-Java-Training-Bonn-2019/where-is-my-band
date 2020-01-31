@@ -4,8 +4,16 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 @Entity
+@Getter
+@Setter
+@ToString
 public class Address {
 	
 	@Id
@@ -14,25 +22,8 @@ public class Address {
 	private Integer postCode;
 	private String city;
 	
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-	public Integer getPostCode() {
-		return postCode;
-	}
-	public void setPostCode(Integer postCode) {
-		this.postCode = postCode;
-	}
-	public String getCity() {
-		return city;
-	}
-	public void setCity(String city) {
-		this.city = city;
-	}
-
-	
+	@OneToOne(mappedBy = "address")
+	private Band band;
+			
 }
 

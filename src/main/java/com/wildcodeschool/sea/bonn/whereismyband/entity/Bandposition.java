@@ -1,46 +1,34 @@
 package com.wildcodeschool.sea.bonn.whereismyband.entity;
 
-import java.time.LocalDate;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
-import org.springframework.format.annotation.DateTimeFormat;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
 public class Bandposition {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	// import instrument and other details
-	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-	private LocalDate birthFrom;
-	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-	private LocalDate birthTo;
-	
-	
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-	public LocalDate getBirthFrom() {
-		return birthFrom;
-	}
-	public void setBirthFrom(LocalDate birthFrom) {
-		this.birthFrom = birthFrom;
-	}
-	public LocalDate getBirthTo() {
-		return birthTo;
-	}
-	public void setBirthTo(LocalDate birthTo) {
-		this.birthTo = birthTo;
-	}
-	
-	
+	private Integer ageFrom;
+	private Integer ageTo;
+
+	@ManyToOne
+	@JoinColumn(name = "band_id")
+	private Band band;
+
+	@ManyToOne
+	@JoinColumn (name = "instrument_id")
+	private Instrument instrument;
+
+	private PositionState state;
 	
 }

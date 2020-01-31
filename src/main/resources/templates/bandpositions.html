@@ -7,20 +7,20 @@
 	<h1>List of Bandpositions</h1>
 	<table>
 		<tr>
-			<th>Geburtstag von</th>	
-			<th>Geburtstag bis</th>		
+			<th>Alter von</th>	
+			<th>Alter bis</th>		
 			<th>Edit-Link</th>
 			<th>Delete-Link</th>
 		</tr>
 		<tr th:remove="all">
-			<td>01.12.1960</td>
-			<td>01.01.1960</td>
+			<td>20</td>
+			<td>25</td>
 			<td>edit</td>
 			<td>delete</td>
 		</tr>
 		<tr th:each="bandposition : ${bandpositions}">		
-			<td th:text="${#temporals.format(bandposition.birthFrom, 'dd. MMMM yyyy')}"></td>
-			<td th:text="${#temporals.format(bandposition.birthTo, 'dd. MMMM yyyy')}"></td>			
+			<td th:text="${bandposition.ageFrom}"></td>
+			<td th:text="${bandposition.ageTo}"></td>			
 			<td><a th:href="@{/bandposition/edit(id=${bandposition.id})}">Edit</a></td>
         	<td><a th:href="@{/bandposition/delete(id=${bandposition.id})}">Delete</a></td>
 		</tr>

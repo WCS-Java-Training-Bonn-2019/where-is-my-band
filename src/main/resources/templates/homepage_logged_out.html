@@ -34,6 +34,7 @@
         <!-- <a class="nav-item nav-link active" href="#">Home<span class="sr-only">(current)</span></a> -->
 
         <!-- User is logged in, TRUE has to be replaced by login-information from code  -->
+        <!-- disabled for static page test
         <div th:if="${TRUE}">
             <nav class="navbar navbar-expand-md navbar-dark bg-transparent">
                 <a class="navbar-brand" href="#">SoundMachine</a>
@@ -45,23 +46,23 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <div class="navbar-nav float-right text-right pr-3">
 
-                        <a class="nav-item nav-link" th:href="@{/}">Home</a>
-                        <a class="nav-item nav-link" th:href="@{/search/list/all}">Bands (all)</a>
-                        <a class="nav-item nav-link" th:href="@{/search/list/open}">Bands (open)</a>
+                        <a class="nav-item nav-link" href="#">Home</a>
+                        <a class="nav-item nav-link" href="#">Bands</a>
                         <a class="nav-item nav-link" href="#">Profile</a>
-                        <a class="nav-item nav-link" th:href="@{/index.html}">Logout</a>
+                        <a class="nav-item nav-link" href=""homepage_logged_out.html"">Logout</a>
                     </div>
                 </div>
             </nav>
         </div>
+        -->
 
         <!-- User is not logged in or has to register , FALSE has to be replaced by login-information from code-->
-        <!-- disabled for static page test
         <div th:unless="${FALSE}">
             <nav class="navbar navbar-expand-md navbar-dark bg-transparent">
                 <a class="navbar-brand" href="#">SoundMachine</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -73,7 +74,7 @@
                 </div>
             </nav>
         </div>
-        -->
+
     </header>
 
 
@@ -81,18 +82,41 @@
     <main>
         <div class="main-area">
             <div class="container-fluid">
-                <h3>Willkommen Stefan!</h3>
-
+                <h3>Willkommen bei Soundmachine!</h3>
+                <p></p>
+                <p>Hier findest Du Deine neue Band.</p>
+                <p>Die neusten offenen Positionen:</p>
+                <p></p>
+                <ul>
+                    <li>
+                        AC/DC (Bonn)
+                        <ul>
+                            <li>
+                                Keyboard
+                            </li>
+                            <li>
+                                Gesang
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        Dire Straits (Hamburg)
+                        <ul>
+                            <li>
+                                E-Gitarre
+                            </li>
+                            <li>
+                                Schlagzeug
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
                 <p>
                     Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut
                     labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
                     et
                     ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
                 </p>
-
-     
-
-
             </div>
         </div>
     </main>

@@ -1,14 +1,28 @@
 package com.wildcodeschool.sea.bonn.whereismyband.entity;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+
+import lombok.Getter;
+import lombok.Setter;
 
 
 @Entity
+@Getter
+@Setter
 public class Band {
 	
 	@Id
@@ -16,50 +30,27 @@ public class Band {
 	// database id
 	private Long id;
 	private String name;
-	// picture to be done
-	// private Address address;
+
+	private String description;
 	private String email;
 	private String phone;
-	private ArrayList<Genre> favoriteGenres;	
 	
-	public Band() {
-	}
+	@ManyToMany
+	@JoinTable(name = "band_plays_genre", 
+			  joinColumns = @JoinColumn(name = "band_id"), 
+			  inverseJoinColumns = @JoinColumn(name = "genre_id"))
+	private Set<Genre> favoriteGenres = new HashSet<>();
 	
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-//	public Address getAddress() {
-//		return address;
-//	}
-//	public void setAddress(Address address) {
-//		this.address = address;
-//	}
-	public String getEmail() {
-		return email;
-	}
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	public String getPhone() {
-		return phone;
-	}
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-	public ArrayList<Genre> getFavoriteGenres() {
-		return favoriteGenres;
-	}
-	public void setFavoriteGenres(ArrayList<Genre> favoriteGenres) {
-		this.favoriteGenres = favoriteGenres;
-	}
+	@OneToOne
+	@JoinColumn(name = "address_id")
+	private Address address;
 
+	
+	@OneToMany (mappedBy = "band")
+	private List<Bandposition> bandPositions=new ArrayList<>();
+
+	@ManyToOne
+	@JoinColumn(name = "owner_id")
+	private Musician owner;
+		
 }

@@ -9,14 +9,14 @@
 	<form method="post" th:action="@{/bandposition/edit}" th:object="${bandposition}">
 		<input name="id" th:field="*{id}" type="hidden" /> 
 
-		<label for="birthday">Birthday from:</label>
-		<input type="date" placeholder="Birthday" required
-			th:field="*{birthFrom}" /> 
+		<label for="ageFrom">Age  from:</label>
+		<input type="number" placeholder="Age from" required
+			th:field="*{ageFrom}" /> 
 		<br /> <br /> 
 		
-		<label for="birthday">Birthday to:</label>
-		<input type="date" placeholder="Birthday" required
-			th:field="*{birthTo}" /> 
+		<label for="ageTo">Age to:</label>
+		<input type="number" placeholder="Age to" required
+			th:field="*{ageTo}" /> 
 		<br /> <br /> 
 		
 		<input type="submit" value="Save" />

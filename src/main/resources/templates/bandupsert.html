@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Band Editor</title>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+<link
+	href="https://fonts.googleapis.com/css?family=Allerta+Stencil%7CJosefin+Sans%7CReem+Kufi&display=swap"
+	rel="stylesheet">
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+	integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+	crossorigin="anonymous"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+	integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+	crossorigin="anonymous"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+	crossorigin="anonymous"></script>
+<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+	<header th:replace="index :: navigation_bar">Navigation</header>
+
+	<h3 th:text="${band.id} ? 'Edit Band' : 'Create Band'">Band</h3>
+	<form method="post" th:action="@{/band/edit}" th:object="${band}">
+		<input name="id" th:field="*{id}" type="hidden" />
+		<input name="owner" th:field="*{owner}" type="hidden" />
+		
+
+		<table>
+			<tr>
+				<td>Name:</td>
+				<td><input type="text" placeholder="Bandname" required
+					th:field="*{name}" /></td>
+			</tr>
+			<tr>
+				<td>Beschreibung:</td>
+				<td><input type="text" placeholder="Beschreibung" required
+					th:field="*{description}" /></td>
+			</tr>
+			<tr>
+				<td>Email:</td>
+				<td><input type="email" placeholder="Email" required
+					th:field="*{email}" /></td>
+			</tr>
+			<tr>
+				<td>Phone:</td>
+				<td><input type="text" placeholder="Phone" required
+					th:field="*{phone}" /></td>
+			</tr>
+			<tr>
+				<td>PLZ:</td>
+				<td><input type="text" placeholder="Postleitzahl" required
+					th:field="*{address.postCode}" /></td>
+			</tr>
+			<tr>
+				<td>Stadt:</td>
+				<td><input type="text" placeholder="Stadt" required
+					th:field="*{address.city}" /></td>
+			</tr>
+		</table>
+		<h4>Genres</h4>
+		<ul>
+			<li th:each="genre : ${allGenres}"><input type="checkbox"
+				th:value="${genre.id}" th:field="*{favoriteGenres}" /> <label
+				th:for="${#ids.prev('favoriteGenres')}" th:text="${genre.name}">Kuschelrock</label>
+			</li>
+		</ul>
+
+		<h4>Bandpositionen (Pflege geht noch nicht)</h4>
+		<table>
+			<tr th:each="position : *{bandPositions}">
+				<td><span th:text="${position.instrument.name} + ':'">Posaune:</span></td>
+<!-- 				<td><select th:field="${position.state}">
+						<option th:each="state : ${positionStates}" th:value="${state}"
+							th:text="${state}">Besetzungstatus</option>
+				</select></td>
+				-->
+			</tr>
+		</table>
+		<input type="submit" value="Speichern" />
+	</form>
+
+    <footer th:replace="index :: footer"></footer>
+    
+</body>
+</html>
