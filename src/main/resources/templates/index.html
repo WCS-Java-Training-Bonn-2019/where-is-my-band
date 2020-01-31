@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>SoundMachine</title>
@@ -18,28 +19,29 @@
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
 
-  <!--   <link rel="stylesheet" href="../static/css/style.css">  
-    <link rel="stylesheet" href="@{css/style.css}"> -->
-    <link rel="stylesheet" href="css/style.css">
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 
 </head>
-	
-	<body>
-	    <!-- Navigationsleiste-->
+
+<body>
+    <!-- Navigationsleiste-->
     <header th:replace="homepage_logged_out.html :: navigation_bar"></header>
-		<h1>Übersichtsseiten</h1>
-		<a href ="/musician/list">Show all Musicians</a>
-		<br>
-		<a href ="/band/list">Show all Bands</a>
-		<br>
-		<a href ="/instrument/list">Show all Instruments</a>
-		<br>
-		<a href ="/genre/list">Show all Genres</a>
-		<br>
-		<a href ="/bandposition/list">Show all Bandpositions</a>
-		<br>
-		<a href ="/address/list">Show all Addresses</a>
-		<br>
-		<a href ="/gender/list">Show all Gender</a>
-	</body>
+
+    <h1>Übersichtsseiten</h1>
+    <a href="/musician/list">Show all Musicians</a>
+    <br>
+    <a href="/band/list">Show all Bands</a>
+    <br>
+    <a href="/instrument/list">Show all Instruments</a>
+    <br>
+    <a href="/genre/list">Show all Genres</a>
+    <br>
+    <a href="/bandposition/list">Show all Bandpositions</a>
+    <br>
+    <a href="/address/list">Show all Addresses</a>
+    <br>
+    <a href="/gender/list">Show all Gender</a>
+</body>
+
 </html>
