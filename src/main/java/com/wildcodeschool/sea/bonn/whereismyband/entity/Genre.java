@@ -11,7 +11,6 @@ import javax.persistence.ManyToMany;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 /**
  * Entity class for 'Genre'
@@ -20,7 +19,6 @@ import lombok.ToString;
 @Entity
 @Getter
 @Setter
-@ToString
 public class Genre {
 	
 	@Id
@@ -30,5 +28,8 @@ public class Genre {
 	
 	@ManyToMany(mappedBy = "favoriteGenres")
 	private List<Band> bands = new ArrayList<>();
+	
+	@ManyToMany(mappedBy = "favoriteGenres")
+	private List<Musician> musicians = new ArrayList<>();
 		
 }

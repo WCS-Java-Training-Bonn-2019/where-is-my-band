@@ -9,12 +9,10 @@ import javax.persistence.ManyToOne;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 @Entity
 @Getter
 @Setter
-@ToString
 public class Bandposition {
 
 	@Id
@@ -31,6 +29,6 @@ public class Bandposition {
 	@JoinColumn (name = "instrument_id")
 	private Instrument instrument;
 
-	private boolean isVacant;
-
+	private PositionState state;
+	
 }

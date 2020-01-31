@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>SoundMachine</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+    <link href="https://fonts.googleapis.com/css?family=Allerta+Stencil%7CJosefin+Sans%7CReem+Kufi&display=swap"
+        rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+   
+    <!-- zum lokalen Testen -->
+    <!--  <link rel="stylesheet" href="../static/css/style.css"> -->
+    <link rel="stylesheet" href="css/style.css"> 
+    
+</head>
+
+
+<body>
+    <!-- Navigationsleiste-->
+    <header th:fragment="navigation_bar">
+
+        <!-- hier muss noch eine Loesung für das active-Attribut her-->
+        <!-- <a class="nav-item nav-link active" href="#">Home<span class="sr-only">(current)</span></a> -->
+
+        <!-- User is logged in, TRUE has to be replaced by login-information from code  -->
+        <div th:if="${TRUE}">
+            <nav class="navbar navbar-expand-md navbar-dark bg-transparent">
+                <a class="navbar-brand" href="#">SoundMachine</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <div class="navbar-nav float-right text-right pr-3">
+
+                        <a class="nav-item nav-link" href="#">Home</a>
+                        <a class="nav-item nav-link" href="#">Bands</a>
+                        <a class="nav-item nav-link" href="#">Profile</a>
+                        <a class="nav-item nav-link" href="homepage_logged_out.html">Logout</a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+        <!-- User is not logged in or has to register , FALSE has to be replaced by login-information from code-->
+        <!-- disabled for static page test
+        <div th:unless="${FALSE}">
+            <nav class="navbar navbar-expand-md navbar-dark bg-transparent">
+                <a class="navbar-brand" href="#">SoundMachine</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <div class="navbar-nav float-right text-right pr-3">
+                        <a class="nav-item nav-link" href="#">Home</a>
+                        <a class="nav-item nav-link" href="#">Bands</a>
+                        <a class="nav-item nav-link" href="homepage_logged_in.html">Register/Login</a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        -->
+    </header>
+
+
+    <!-- Hauptbereich -->
+    <main>
+        <div class="main-area">
+            <div class="container-fluid">
+                <h3>Willkommen Stefan!</h3>
+
+                <p>
+                    Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut
+                    labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
+                    et
+                    ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+                </p>
+
+                <table>
+                    <tr>
+                        <td>Nachname:</td>
+                        <td>Mustermann</td>
+                    </tr>
+                    <tr>
+                        <td>Geschlecht:</td>
+                        <td>männlich</td>
+                    </tr>
+                    <tr>
+                        <td>Geburtsdatum:</td>
+                        <td>01.01.2000</td>
+                    </tr>
+                    <tr>
+                        <td>Standort:</td>
+                        <td>53227 Bonn</td>
+                    </tr>
+                    <tr>
+                        <td>E-Mail:</td>
+                        <td>email@acdc.com</td>
+                    </tr>
+                    <tr>
+                        <td>Telefon:</td>
+                        <td>+49 171 1234567</td>
+                    </tr>
+                    <tr>
+                        <td>Lieblings-Genre:</td>
+                        <td>Schlager, Pop</td>
+                    </tr>
+                    <tr>
+                        <td>Benutzername:</td>
+                        <td>stefanm</td>
+                    </tr>
+                </table>
+                <p></p>
+                <p>
+                    Meine Bands:
+                </p>
+                <ul>
+                    <li>AC/DC</li>
+                </ul>
+
+
+            </div>
+        </div>
+    </main>
+
+
+    <!-- Footer-->
+    <footer th:fragment="footer" class="page-footer font-small pt-4 bg-transparent">
+        <div class="container-fluid text-md-left">
+            <!-- nicht zentrieren bei kleinen Screens <div class="container-fluid text-center text-md-left"> -->
+            <div class="row">
+                <!-- Auswahlliste links -->
+                <div class="col align-self-start">
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="#">Home</a>
+                        </li>
+                        <li>
+                            <a href="#">FAQ</a>
+                        </li>
+                        <li>
+                            <a href="#">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+                <hr class="clearfix w-100 d-md-none pb-3">
+                <!-- Texte rechts -->
+                <div class="col align-self-start">
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="#">Über uns</a>
+                        </li>
+                        <li>
+                            Projekt von Teilnehmern der <a href="https://wildcodeschool.com/" target="_blank"> Wild Code
+                                School</a><i class="far fa-copyright"></i> 2020</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+</html>
