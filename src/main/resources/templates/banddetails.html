@@ -23,7 +23,7 @@
 <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-	<header th:replace="homepage_logged_in :: navigation_bar">Navigation</header>
+	<header th:replace="index :: navigation_bar">Navigation</header>
 	<h3>
 		<span th:text="${band.name}">Informationen zur Band</span>
 	</h3>
@@ -74,5 +74,7 @@
 			name="ownerid" th:field="*{owner.id}" type="hidden"> <input
 			type="submit" value="Edit">
 	</form>
+	
+	<footer th:replace="index :: footer">Footer</footer>
 </body>
 </html>

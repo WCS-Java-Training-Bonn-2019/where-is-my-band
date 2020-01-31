@@ -89,7 +89,7 @@ public class BandController {
 		addressRepository.save(band.getAddress());
 		bandRepository.save(band);
 		model.addAttribute(band);
-		return "redirect:/search/list";
+		return "redirect:/search/list/all";
 	}
 
 	@GetMapping("delete")
