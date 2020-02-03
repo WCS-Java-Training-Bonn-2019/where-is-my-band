@@ -71,15 +71,25 @@
 			</li>
 		</ul>
 
-		<h4>Bandpositionen (Pflege geht noch nicht)</h4>
+		<h4>Bandpositionen (Hinzufügen und Löschen geht noch nicht)</h4>
 		<table>
-			<tr th:each="position : *{bandPositions}">
+			<tr>
+				<th>Instrument</th>
+				<th>Alter von</th>
+				<th>Alter bis</th>
+				<th>Besetzungsstatus</th>
+			</tr>	
+			<tr th:each="position, positionStat : *{bandPositions}">
+				<input name="${position.id}" th:field="*{bandPositions[__${positionStat.index}__].id}" type="hidden" />
+				<input name="${position.band.id}" th:field="*{bandPositions[__${positionStat.index}__].band.id}" type="hidden" />
+				<input name="${position.instrument.id}" th:field="*{bandPositions[__${positionStat.index}__].instrument.id}" type="hidden" />
 				<td><span th:text="${position.instrument.name} + ':'">Posaune:</span></td>
-<!-- 				<td><select th:field="${position.state}">
+				<td><input type="number" th:field="*{bandPositions[__${positionStat.index}__].ageFrom}" /></td>
+				<td><input type="number" th:field="*{bandPositions[__${positionStat.index}__].ageTo}" /></td>
+ 				<td><select th:field="*{bandPositions[__${positionStat.index}__].state}">
 						<option th:each="state : ${positionStates}" th:value="${state}"
 							th:text="${state}">Besetzungstatus</option>
 				</select></td>
-				-->
 			</tr>
 		</table>
 		<input type="submit" value="Speichern" />
