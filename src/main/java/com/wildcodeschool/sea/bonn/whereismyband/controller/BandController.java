@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -121,6 +122,23 @@ public class BandController {
 		return "banddetails";
 	}
 
+	@GetMapping("{id}/view")
+	public String viewBand2(Model model,
+			@PathVariable(required = false) Long id) {
 
+		Band band = new Band();
+		//retrieve object from database
+		Optional<Band> optionalBand = bandRepository.findById(id);
+		// if database object could be retrieved
+		if (optionalBand.isPresent()) {
+			// set gender to the object retrieved
+			band = optionalBand.get();
+		}
+
+		// add band to the view model
+		model.addAttribute("band", band);
+
+		return "banddetails";
+	}
 
 }

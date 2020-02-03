@@ -29,7 +29,9 @@
 	<form method="post" th:action="@{/band/edit}" th:object="${band}">
 		<input name="id" th:field="*{id}" type="hidden" />
 		<input name="owner" th:field="*{owner}" type="hidden" />
-		
+
+		<a class="btn btn-default" href="#"
+                                   th:href="@{'/band/' + ${band.id} + '/changeimage'}" role="button">Bild ändern</a>
 
 		<table>
 			<tr>
