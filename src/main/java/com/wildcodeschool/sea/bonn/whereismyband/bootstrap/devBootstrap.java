@@ -59,15 +59,6 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 
 	private void initData() {
 
-		// Delete data from database
-		bandpositionRepository.deleteAll();
-		bandRepository.deleteAll();
-		musicianRepository.deleteAll();
-		genderRepository.deleteAll();
-		addressRepository.deleteAll();
-		genreRepository.deleteAll();
-		instrumentRepository.deleteAll();
-
 		// Create Genders
 		Gender male = createGenderIfNotExisting("Mann");
 		Gender female = createGenderIfNotExisting("Frau");
