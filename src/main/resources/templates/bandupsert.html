@@ -26,10 +26,13 @@
 	<header th:replace="index :: navigation_bar">Navigation</header>
 
 	<h3 th:text="${band.id} ? 'Edit Band' : 'Create Band'">Band</h3>
-	<form method="post" th:action="@{/band/edit}" th:object="${band}">
-		<input name="id" th:field="*{id}" type="hidden" />
-		<input name="owner" th:field="*{owner}" type="hidden" />
-		
+	<form method="post" th:action="@{'/band/' + ${band.id} + '/edit'}" th:object="${band}">
+		<input
+			name="owner" th:field="*{owner}" type="hidden" /> 
+		<a class="btn btn-default" href="#"
+			th:href="@{'/band/' + ${band.id} + '/uploadimage'}" role="button"><img
+			src="../static/images/acdc_schriftzug.jpeg"
+			th:src="@{'/band/' + ${band.id} + '/bandimage'}" height="300"></a>
 
 		<table>
 			<tr>
@@ -78,15 +81,24 @@
 				<th>Alter von</th>
 				<th>Alter bis</th>
 				<th>Besetzungsstatus</th>
-			</tr>	
+			</tr>
 			<tr th:each="position, positionStat : *{bandPositions}">
-				<input name="${position.id}" th:field="*{bandPositions[__${positionStat.index}__].id}" type="hidden" />
-				<input name="${position.band.id}" th:field="*{bandPositions[__${positionStat.index}__].band.id}" type="hidden" />
-				<input name="${position.instrument.id}" th:field="*{bandPositions[__${positionStat.index}__].instrument.id}" type="hidden" />
+				<input name="${position.id}"
+					th:field="*{bandPositions[__${positionStat.index}__].id}"
+					type="hidden" />
+				<input name="${position.band.id}"
+					th:field="*{bandPositions[__${positionStat.index}__].band.id}"
+					type="hidden" />
+				<input name="${position.instrument.id}"
+					th:field="*{bandPositions[__${positionStat.index}__].instrument.id}"
+					type="hidden" />
 				<td><span th:text="${position.instrument.name} + ':'">Posaune:</span></td>
-				<td><input type="number" th:field="*{bandPositions[__${positionStat.index}__].ageFrom}" /></td>
-				<td><input type="number" th:field="*{bandPositions[__${positionStat.index}__].ageTo}" /></td>
- 				<td><select th:field="*{bandPositions[__${positionStat.index}__].state}">
+				<td><input type="number"
+					th:field="*{bandPositions[__${positionStat.index}__].ageFrom}" /></td>
+				<td><input type="number"
+					th:field="*{bandPositions[__${positionStat.index}__].ageTo}" /></td>
+				<td><select
+					th:field="*{bandPositions[__${positionStat.index}__].state}">
 						<option th:each="state : ${positionStates}" th:value="${state}"
 							th:text="${state}">Besetzungstatus</option>
 				</select></td>
@@ -95,7 +107,7 @@
 		<input type="submit" value="Speichern" />
 	</form>
 
-    <footer th:replace="index :: footer"></footer>
-    
+	<footer th:replace="index :: footer"></footer>
+
 </body>
 </html>

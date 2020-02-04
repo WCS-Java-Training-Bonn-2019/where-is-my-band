@@ -1,16 +1,24 @@
 package com.wildcodeschool.sea.bonn.whereismyband.controller;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashSet;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.wildcodeschool.sea.bonn.whereismyband.entity.Band;
 import com.wildcodeschool.sea.bonn.whereismyband.entity.Genre;
@@ -21,27 +29,30 @@ import com.wildcodeschool.sea.bonn.whereismyband.repository.BandRepository;
 import com.wildcodeschool.sea.bonn.whereismyband.repository.BandpositionRepository;
 import com.wildcodeschool.sea.bonn.whereismyband.repository.GenreRepository;
 import com.wildcodeschool.sea.bonn.whereismyband.repository.MusicianRepository;
+import com.wildcodeschool.sea.bonn.whereismyband.services.ImageService;
 
 @Controller
-@RequestMapping("/band")
+@RequestMapping("/band/{id}")
 public class BandController {
 
-	private BandRepository bandRepository;
-	private MusicianRepository musicianRepository;
-	private GenreRepository genreRepository;
-	private AddressRepository addressRepository;
-	private BandpositionRepository bandPositionsRepository;
+	private final BandRepository bandRepository;
+	private final MusicianRepository musicianRepository;
+	private final GenreRepository genreRepository;
+	private final AddressRepository addressRepository;
+	private final BandpositionRepository bandPositionsRepository;
+	private final ImageService imageService;
 	
 	@Autowired
 	public BandController(BandRepository bandRepository, MusicianRepository musicianRepository,
 			GenreRepository genreRepository, AddressRepository addressRepository,
-			BandpositionRepository bandPositionsRepository) {
+			BandpositionRepository bandPositionsRepository, ImageService imageService) {
 		super();
 		this.bandRepository = bandRepository;
 		this.musicianRepository = musicianRepository;
 		this.genreRepository = genreRepository;
 		this.addressRepository = addressRepository;
 		this.bandPositionsRepository = bandPositionsRepository;
+		this.imageService = imageService;
 	}
 
 	@GetMapping("list")
@@ -52,7 +63,7 @@ public class BandController {
 
 	@GetMapping("edit")
 	public String getBand(Model model,
-			@RequestParam(required = false, name = "id") Long bandid,
+			@PathVariable(name = "id") Long bandid,
 			@RequestParam(required = false, name = "owner.id") Long ownerid) {
 
 		// Create an empty Band object
@@ -89,22 +100,38 @@ public class BandController {
 
 	@PostMapping("edit")
 	public String postBand(Model model, @ModelAttribute Band band) {
+
+		// read band as existing in DB
+		Band bandFromDB = bandRepository.getOne(band.getId());
+		
+		// DB contains an image for this band
+		if (bandFromDB.getImage() != null) {
+			// set image of band to the one stored n the DB
+			band.setImage(bandFromDB.getImage());
+		}
+		
+		// save band.address in address table
 		addressRepository.save(band.getAddress());
+		
+		// save band attributes in band table
 		bandRepository.save(band);
+
+		// save bandpositions in bandposition table
 		bandPositionsRepository.saveAll(band.getBandPositions());
+		
 		model.addAttribute(band);
-		return "redirect:/search/list/all";
+		return "redirect:/band/" + band.getId() + "/view";
 	}
 
 	@GetMapping("delete")
-	public String deleteBand(@RequestParam Long id) {
+	public String deleteBand(@PathVariable Long id) {
 		bandRepository.deleteById(id);
 		return "redirect:list";
 	}
 
 	@GetMapping("view")
 	public String viewBand(Model model,
-			@RequestParam(required = false) Long id) {
+			@PathVariable Long id) {
 
 		Band band = new Band();
 		//retrieve object from database
@@ -120,7 +147,49 @@ public class BandController {
 
 		return "banddetails";
 	}
+	
+	@GetMapping("uploadimage")
+	public String showUploadForm(@PathVariable String id, Model model){
+		model.addAttribute("bandid", id);
 
+		return "imageuploadform";
+	}
 
+	@PostMapping("uploadimage")
+	public String handleImagePost(@PathVariable String id, @RequestParam("imagefile") MultipartFile file){
+
+		imageService.saveImageFile(Long.valueOf(id), file);
+		return "redirect:/band/" + id + "/view";
+	}
+
+	// Via this route, the image can be retrieved for display via an HTML image element <img ...>
+	@GetMapping("bandimage")
+	public void renderImageFromDB(@PathVariable String id, HttpServletResponse response) throws IOException {
+		
+		// retrieve band from DB
+		Optional<Band> bandOptional = bandRepository.findById(Long.valueOf(id));
+
+		// if band was found and image exists
+		if (bandOptional.isPresent() && bandOptional.get().getImage() != null) {
+			
+			// get image from Optional
+			Band band = bandOptional.get();
+			
+			// write bytes of image to byteArray
+			byte[] byteArray = new byte[band.getImage().length];
+			int i = 0;
+
+			for (Byte wrappedByte : band.getImage()){
+				byteArray[i++] = wrappedByte; //auto unboxing
+			}
+
+			// set result type to http response
+			response.setContentType("image/jpeg");
+			
+			// write ByteArray to http response
+			InputStream is = new ByteArrayInputStream(byteArray);
+			IOUtils.copy(is, response.getOutputStream());
+		}
+	}
 
 }
