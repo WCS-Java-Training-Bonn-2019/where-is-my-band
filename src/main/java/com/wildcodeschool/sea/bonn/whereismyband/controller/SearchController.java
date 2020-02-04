@@ -37,7 +37,7 @@ public class SearchController {
 		model.addAttribute("bands", bandRepository.findDistinctByBandPositionsState(PositionState.offen));
 		model.addAttribute("instruments", instrumentRepository.findAll());
 		model.addAttribute("genres", genreRepository.findAll());
-		return "bandsuche-template-v2";
+		return "bandsuche";
 	}
 	
 	@GetMapping("list/all")
@@ -46,7 +46,7 @@ public class SearchController {
 		model.addAttribute("bands", bandRepository.findAll());
 		model.addAttribute("instruments", instrumentRepository.findAll());
 		model.addAttribute("genres", genreRepository.findAll());
-		return "bandsuche-template-v2";
+		return "bandsuche";
 	}
 	
 }
