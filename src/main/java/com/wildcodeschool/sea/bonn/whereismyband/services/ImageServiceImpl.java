@@ -26,18 +26,23 @@ public class ImageServiceImpl implements ImageService {
     public void saveImageFile(Long bandId, MultipartFile file) {
 
         try {
-            Band band = bandRepository.findById(bandId).get();
+            // retrieve the band, which the image belongs to
+        	Band band = bandRepository.findById(bandId).get();
 
-            Byte[] byteObjects = new Byte[file.getBytes().length];
+            // declare a byteArray, whhich hast the same size as the image
+        	Byte[] byteArray = new Byte[file.getBytes().length];
 
             int i = 0;
 
+            // copy the bytes of the file received to byteArray
             for (byte b : file.getBytes()){
-                byteObjects[i++] = b;
+                byteArray[i++] = b;
             }
 
-            band.setImage(byteObjects);
+            // set image attribute of band to byteArray 
+            band.setImage(byteArray);
 
+            // save the band with the image in the DB
             bandRepository.save(band);
         } catch (IOException e) {
 
