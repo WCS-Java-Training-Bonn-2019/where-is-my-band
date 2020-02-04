@@ -26,8 +26,8 @@
 	<header th:replace="index :: navigation_bar">Navigation</header>
 
 	<h3 th:text="${band.id} ? 'Edit Band' : 'Create Band'">Band</h3>
-	<form method="post" th:action="@{/band/edit}" th:object="${band}">
-		<input name="id" th:field="*{id}" type="hidden" /> <input
+	<form method="post" th:action="@{'/band/' + ${band.id} + '/edit'}" th:object="${band}">
+		<input
 			name="owner" th:field="*{owner}" type="hidden" /> 
 		<a class="btn btn-default" href="#"
 			th:href="@{'/band/' + ${band.id} + '/uploadimage'}" role="button"><img
