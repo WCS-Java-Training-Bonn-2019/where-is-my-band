@@ -32,7 +32,7 @@ import com.wildcodeschool.sea.bonn.whereismyband.repository.MusicianRepository;
 import com.wildcodeschool.sea.bonn.whereismyband.services.ImageService;
 
 @Controller
-@RequestMapping("/band")
+@RequestMapping("/band/{id}")
 public class BandController {
 
 	private final BandRepository bandRepository;
@@ -63,7 +63,7 @@ public class BandController {
 
 	@GetMapping("edit")
 	public String getBand(Model model,
-			@RequestParam(required = false, name = "id") Long bandid,
+			@PathVariable(name = "id") Long bandid,
 			@RequestParam(required = false, name = "owner.id") Long ownerid) {
 
 		// Create an empty Band object
@@ -124,33 +124,14 @@ public class BandController {
 	}
 
 	@GetMapping("delete")
-	public String deleteBand(@RequestParam Long id) {
+	public String deleteBand(@PathVariable Long id) {
 		bandRepository.deleteById(id);
 		return "redirect:list";
 	}
 
 	@GetMapping("view")
 	public String viewBand(Model model,
-			@RequestParam(required = false) Long id) {
-
-		Band band = new Band();
-		//retrieve object from database
-		Optional<Band> optionalBand = bandRepository.findById(id);
-		// if database object could be retrieved
-		if (optionalBand.isPresent()) {
-			// set gender to the object retrieved
-			band = optionalBand.get();
-		}
-
-		// add band to the view model
-		model.addAttribute("band", band);
-
-		return "banddetails";
-	}
-
-	@GetMapping("{id}/view")
-	public String viewBand2(Model model,
-			@PathVariable(required = false) Long id) {
+			@PathVariable Long id) {
 
 		Band band = new Band();
 		//retrieve object from database
@@ -167,14 +148,14 @@ public class BandController {
 		return "banddetails";
 	}
 	
-	@GetMapping("{id}/uploadimage")
+	@GetMapping("uploadimage")
 	public String showUploadForm(@PathVariable String id, Model model){
-		model.addAttribute("band", bandRepository.findById(Long.valueOf(id)).get());
+		model.addAttribute("bandid", id);
 
 		return "imageuploadform";
 	}
 
-	@PostMapping("{id}/uploadimage")
+	@PostMapping("uploadimage")
 	public String handleImagePost(@PathVariable String id, @RequestParam("imagefile") MultipartFile file){
 
 		imageService.saveImageFile(Long.valueOf(id), file);
@@ -182,7 +163,7 @@ public class BandController {
 	}
 
 	// Via this route, the image can be retrieved for display via an HTML image element <img ...>
-	@GetMapping("{id}/bandimage")
+	@GetMapping("bandimage")
 	public void renderImageFromDB(@PathVariable String id, HttpServletResponse response) throws IOException {
 		
 		// retrieve band from DB

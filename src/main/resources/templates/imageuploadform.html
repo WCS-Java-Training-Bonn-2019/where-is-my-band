@@ -31,7 +31,7 @@
 	<header th:replace="index :: navigation_bar">Navigation</header>
 	<h3>Band Photo Upload</h3>
 	<form method="post"
-		th:action="@{'/band/' + ${band.getId()} + '/uploadimage'}"
+		th:action="@{'/band/' + ${bandid} + '/uploadimage'}"
 		enctype="multipart/form-data">
 		<label class="control-label">Wähle Bilddatei</label> <input
 			id="imagefile" name="imagefile" type="file" class="file" /> <br>

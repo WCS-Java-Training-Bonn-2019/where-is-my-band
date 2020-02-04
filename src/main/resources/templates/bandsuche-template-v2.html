@@ -82,7 +82,7 @@
 		</tr>
 		<tr  th:each="band : ${bands}">
 			<td> 
-				<a th:href="@{/band/view(id=${band.id})}" th:text="${band.name}">ACDC</a>
+				<a th:href="@{'/band/' + ${band.id} + '/view'}" th:text="${band.name}">ACDC</a>
 				<ul>
 					<li th:text="${band.address.postCode} + ' ' + ${band.address.city}" ></li>
 					<li>

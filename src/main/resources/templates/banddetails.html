@@ -72,8 +72,8 @@
 			th:text="${position.instrument.name}+' ('+${position.state}+')'">Posaune
 				(offen)</span></li>
 	</ul>
-	<form method="get" th:action="@{/band/edit}" th:object="${band}">
-		<input name="bandid" th:field="*{id}" type="hidden"> <input
+	<form method="get" th:action="@{'/band/' + ${band.id} + '/edit'}" th:object="${band}">
+		<input
 			name="ownerid" th:field="*{owner.id}" type="hidden"> <input
 			type="submit" value="Edit">
 	</form>

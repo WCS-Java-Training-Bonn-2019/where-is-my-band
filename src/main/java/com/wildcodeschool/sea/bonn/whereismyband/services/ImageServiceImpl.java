@@ -29,7 +29,7 @@ public class ImageServiceImpl implements ImageService {
             // retrieve the band, which the image belongs to
         	Band band = bandRepository.findById(bandId).get();
 
-            // declare a byteArray, whhich hast the same size as the image
+            // declare a byteArray, which has the same size as the image
         	Byte[] byteArray = new Byte[file.getBytes().length];
 
             int i = 0;
