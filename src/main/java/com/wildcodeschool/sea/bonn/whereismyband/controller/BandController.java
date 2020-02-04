@@ -158,7 +158,7 @@ public class BandController {
 	@PostMapping("uploadimage")
 	public String handleImagePost(@PathVariable String id, @RequestParam("imagefile") MultipartFile file){
 
-		imageService.saveImageFile(Long.valueOf(id), file);
+		imageService.saveImageFileBand(Long.valueOf(id), file);
 		return "redirect:/band/" + id + "/view";
 	}
 
@@ -175,19 +175,11 @@ public class BandController {
 			// get image from Optional
 			Band band = bandOptional.get();
 			
-			// write bytes of image to byteArray
-			byte[] byteArray = new byte[band.getImage().length];
-			int i = 0;
-
-			for (Byte wrappedByte : band.getImage()){
-				byteArray[i++] = wrappedByte; //auto unboxing
-			}
-
 			// set result type to http response
 			response.setContentType("image/jpeg");
 			
 			// write ByteArray to http response
-			InputStream is = new ByteArrayInputStream(byteArray);
+			InputStream is = new ByteArrayInputStream(band.getImage());
 			IOUtils.copy(is, response.getOutputStream());
 		}
 	}

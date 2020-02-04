@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -19,12 +20,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 @Entity
 @Getter
 @Setter
-@ToString
 public class Musician {
 	
 	@Id
@@ -33,7 +32,10 @@ public class Musician {
 	private String firstName;
 	private String lastName;
 	private String description;
-
+	private String phone;
+	private String email;	
+	private String password;
+	
 	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
 	private LocalDate birthday;
 	
@@ -60,4 +62,6 @@ public class Musician {
 	@OneToMany (mappedBy = "owner")
 	private Set<Band> bands = new HashSet<>();
 
+	@Lob
+	private byte[] image;
 }

@@ -13,5 +13,6 @@ public interface MusicianRepository extends JpaRepository<Musician, Long> {
 	
 	public List<Musician> findByFirstNameAndLastNameAndBirthday(String firstName, String lastName, LocalDate birthday);
 	public List<Musician> findByFirstNameAndLastName(String firstName, String lastName);
+	public List<Musician> findByEmail(String email);
 
 }

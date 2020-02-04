@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Soundmachine Registration</title>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+<link
+	href="https://fonts.googleapis.com/css?family=Allerta+Stencil%7CJosefin+Sans%7CReem+Kufi&display=swap"
+	rel="stylesheet">
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+	integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+	crossorigin="anonymous"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+	integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+	crossorigin="anonymous"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+	crossorigin="anonymous"></script>
+<link rel="stylesheet" th:href="@{/css/style.css}">
+<link th:remove="all" rel="stylesheet" href="../static/css/style.css">
+</head>
+<body>
+	<header th:replace="index :: navigation_bar">Navigation</header>
+
+	<h3>Musiker Profil</h3>
+	<table>
+		<tr>
+			<td>Geschlecht:</td>
+			<td th:text="${musician.gender.name}">Divers</td>
+		</tr>
+		<tr>
+			<td>Vorname:</td>
+			<td th:text="${musician.firstName}">Thomas</td>
+		</tr>
+		<tr>
+			<td>Nachname:</td>
+			<td th:text="${musician.lastName}">Trompete</td>
+		</tr>
+		<tr>
+			<td>Bild:</td>
+			<td><img src="../static/images/acdc_schriftzug.jpeg"
+				th:src="@{'/musician/' + ${musician.id} + '/image'}" height="300">
+			</td>
+		</tr>
+		<tr>
+			<td>Geburtsdatum:</td>
+			<td th:text="${#temporals.format(musician.birthday, 'dd. MMMM yyyy')}">01.01.1900</td>
+		</tr>
+
+		<tr>
+			<td>Beschreibung:</td>
+			<td th:text="${musician.description}">Mein Beschreibungstext</td>
+		</tr>
+		<tr>
+			<td>Standort:</td>
+			<td th:text="${musician.address.postCode} + ' ' + ${musician.address.city}">10000
+				Entenhausen</td>
+		</tr>
+		<tr>
+			<td>Phone:</td>
+			<td th:text="${musician.phone}">0228/181-0</td>
+		</tr>
+		<tr>
+			<td>Email/Benutzername:</td>
+			<td th:text="${musician.email}">m@m.de</td>
+		</tr>
+
+		<tr>
+			<td>Genres:</td>
+			<td><span
+				th:each="genre, genreStat : ${musician.favoriteGenres}"> <span
+					th:text="not ${genreStat.last} ? ${genre.name} + ', ' : ${genre.name}">Pop</span>
+				</span>
+			</td>
+		</tr>
+		<tr>
+			<td>Instruments:</td>
+			<td><span
+				th:each="instrument, instrStat : ${musician.instruments}"> <span
+					th:text="not ${instrStat.last} ? ${instrument.name} + ', ' : ${instrument.name}">Piano</span>
+				</span>
+			</td>
+		</tr>
+	</table>
+
+	<footer th:replace="index :: footer">Footer</footer>
+
+</body>
+</html>

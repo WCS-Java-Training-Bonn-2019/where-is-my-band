@@ -1,32 +1,54 @@
 package com.wildcodeschool.sea.bonn.whereismyband.controller;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.wildcodeschool.sea.bonn.whereismyband.entity.Musician;
+import com.wildcodeschool.sea.bonn.whereismyband.repository.AddressRepository;
 import com.wildcodeschool.sea.bonn.whereismyband.repository.GenderRepository;
+import com.wildcodeschool.sea.bonn.whereismyband.repository.GenreRepository;
+import com.wildcodeschool.sea.bonn.whereismyband.repository.InstrumentRepository;
 import com.wildcodeschool.sea.bonn.whereismyband.repository.MusicianRepository;
+import com.wildcodeschool.sea.bonn.whereismyband.services.ImageService;
 
 @Controller
-@RequestMapping("/musician")
+@RequestMapping(value = {"/musician/{id}/", "/musician/"})
 public class MusicianController {
 	
-	private GenderRepository genderRepository;
-	private MusicianRepository musicianRepository;
+	private final GenderRepository genderRepository;
+	private final MusicianRepository musicianRepository;
+	private final InstrumentRepository instrumentRepository;
+	private final GenreRepository genreRepository;
+	private final AddressRepository addressRepository;
+	private final ImageService imageService;
 	
 	@Autowired
-	public MusicianController(GenderRepository genderRepository, MusicianRepository musicianRepository) {
+	public MusicianController(GenderRepository genderRepository, MusicianRepository musicianRepository,
+			InstrumentRepository instrumentRepository, GenreRepository genreRepository,
+			AddressRepository addressRepository, ImageService imageService) {
 		super();
 		this.genderRepository = genderRepository;
 		this.musicianRepository = musicianRepository;
+		this.instrumentRepository = instrumentRepository;
+		this.genreRepository = genreRepository;
+		this.addressRepository = addressRepository;
+		this.imageService = imageService;
 	}
 
 	@GetMapping("list")
@@ -63,7 +85,7 @@ public class MusicianController {
     }
 
     @PostMapping("edit")
-    public String postMusician(@ModelAttribute Musician musician) {
+    public String postMusician(@PathVariable (name = "id", required=false) Long id, @ModelAttribute Musician musician) {
 
         musicianRepository.save(musician);
 
@@ -71,13 +93,81 @@ public class MusicianController {
     }
 
     @GetMapping("delete")
-    public String deleteMusician(@RequestParam Long id) {
+    public String deleteMusician(@PathVariable Long id) {
 
         musicianRepository.deleteById(id);
 
         return "redirect:list";
     }
-	
-	
 
+	@GetMapping("view")
+    public String viewMusician(@PathVariable Long id, Model model) {
+
+        Optional<Musician> musicianOptional = musicianRepository.findById(id);
+        
+        if (! musicianOptional.isPresent()) {
+        	throw new IllegalArgumentException("Musiker ID icht gefunden!");
+        }
+		model.addAttribute("musician", musicianOptional.get());
+
+        return "musiciandetails";
+    }
+
+	@PostMapping("register")
+    public String postRegForm( 
+    		@ModelAttribute Musician musician, 
+    		@RequestParam (name = "passwordRepeated", required = true) String pwRepeated,
+    		@RequestParam("imagefile") MultipartFile file) {
+
+    	// Prüfe, ob gesetztes Passwort gesetzt ist und dem pwRepeated entspricht
+    	if ((pwRepeated == null) 
+    			|| (musician.getPassword() == null) 
+    			|| ! pwRepeated.equals(musician.getPassword())) {
+    		throw new IllegalArgumentException("Passwort nicht gesetzt bzw. nicht identisch");
+    	}
+    	
+    	addressRepository.save(musician.getAddress());
+    	musicianRepository.save(musician);
+    	imageService.saveImageFileMusician(musician.getId(), file);
+    	
+    	return "index";
+    }
+    
+    @GetMapping("register")
+    public String getRegForm(Model model) {
+
+        model.addAttribute("allGenders", genderRepository.findAll());
+        model.addAttribute("allInstruments", instrumentRepository.findAll());
+        model.addAttribute("allGenres", genreRepository.findAll());
+        
+        // Create an empty Musician object
+    	Musician musician = new Musician();
+
+    	// add (empty) musician to the view model
+    	model.addAttribute("musician", musician);
+
+        return "registration";
+    }
+
+	// Via this route, the image can be retrieved for display via an HTML image element <img ...>
+	@GetMapping("image")
+	public void renderImageFromDB(@PathVariable Long id, HttpServletResponse response) throws IOException {
+		
+		// retrieve band from DB
+		Optional<Musician> musicianOptional = musicianRepository.findById(id);
+
+		// if band was found and image exists
+		if (musicianOptional.isPresent() && musicianOptional.get().getImage() != null) {
+			
+			// get image from Optional
+			Musician musician = musicianOptional.get();
+			
+			// set result type to http response
+			response.setContentType("image/jpeg");
+			
+			// write ByteArray to http response
+			InputStream is = new ByteArrayInputStream(musician.getImage());
+			IOUtils.copy(is, response.getOutputStream());
+		}
+	}
 }

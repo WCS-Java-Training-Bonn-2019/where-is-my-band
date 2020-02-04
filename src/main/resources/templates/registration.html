@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Soundmachine Registration</title>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+<link
+	href="https://fonts.googleapis.com/css?family=Allerta+Stencil%7CJosefin+Sans%7CReem+Kufi&display=swap"
+	rel="stylesheet">
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+	integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+	crossorigin="anonymous"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+	integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+	crossorigin="anonymous"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+	crossorigin="anonymous"></script>
+<link rel="stylesheet" th:href="@{/css/style.css}">
+<link th:remove="all" rel="stylesheet" href="../static/css/style.css">
+</head>
+<body>
+	<header th:replace="index :: navigation_bar">Navigation</header>
+
+	<h3>Soundmachine Registration</h3>
+	<form method="post" th:action="@{/musician/register}"
+		th:object="${musician}" enctype="multipart/form-data">
+		<table>
+			<tr th:each="gender : ${allGenders}">
+				<td><input type="radio" th:value="${gender.id}"
+					th:field="*{gender}" required /> <label
+					th:for="${#ids.prev('gender')}" th:text="${gender.name}">Divers</label>
+				</td>
+			</tr>
+			<tr>
+				<td><label>Vorname:</label></td>
+				<td><input type="text" placeholder="Vorname" required
+					th:field="*{firstName}" /></td>
+			</tr>
+			<tr>
+				<td><label>Nachname:</label></td>
+				<td><input type="text" placeholder="Nachname" required
+					th:field="*{lastName}" /></td>
+			</tr>
+			<tr>
+				<td><label>Wähle Bilddatei</label></td>
+				<td><input type="file" id="imagefile" name="imagefile"/></td>
+			</tr>
+			<tr>
+				<td><label>Geburtsdatum:</label></td>
+				<td><input type="date" required th:field="*{birthday}" /></td>
+			</tr>
+
+			<tr>
+				<td><label>Beschreibung:</label></td>
+				<td><textarea name="description" rows="5" cols="40"
+						th:field="*{description}">Mein Beschreibungstext</textarea></td>
+			</tr>
+			<tr>
+				<td><label>PLZ:</label></td>
+				<td><input type="text" placeholder="Postleitzahl" required
+					th:field="*{address.postCode}" /></td>
+			</tr>
+			<tr>
+				<td><label>Stadt:</label></td>
+				<td><input type="text" placeholder="Stadt" required
+					th:field="*{address.city}" /></td>
+			</tr>
+			<tr>
+				<td><label>Phone:</label></td>
+				<td><input type="text" placeholder="Phone" th:field="*{phone}" /></td>
+			</tr>
+			<tr>
+				<td><label>Email/Benutzername:</label></td>
+				<td><input type="email" placeholder="Email" required
+					th:field="*{email}" /></td>
+			</tr>
+			<tr>
+				<td><label>Passwort:</label></td>
+				<td><input type="password" placeholder="Passwort" required
+					th:field="*{password}" /></td>
+			</tr>
+			<tr>
+				<td><label>Passwort (wiederholt):</label></td>
+				<td><input type="password"
+					placeholder="Passwort (Wiederholung)" required
+					th:name="passwordRepeated" /></td>
+			</tr>
+		</table>
+		<h4>Genres</h4>
+		<table>
+			<tr th:each="genre : ${allGenres}">
+				<td><input type="checkbox" th:value="${genre.id}"
+					th:field="*{favoriteGenres}" /> <label
+					th:for="${#ids.prev('favoriteGenres')}" th:text="${genre.name}">Kuschelrock</label>
+				</td>
+			</tr>
+		</table>
+		<h4>Instrumente</h4>
+		<table>
+			<tr th:each="instrument : ${allInstruments}">
+				<td><input type="checkbox" th:value="${instrument.id}"
+					th:field="*{instruments}" /> <label
+					th:for="${#ids.prev('instruments')}" th:text="${instrument.name}">Schlagzeug</label>
+				</td>
+			</tr>
+		</table>
+
+		<input type="submit" value="Speichern" />
+	</form>
+
+	<footer th:replace="index :: footer">Footer</footer>
+
+</body>
+</html>
