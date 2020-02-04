@@ -38,7 +38,7 @@
     <main>
         <div class="container-fluid">
             <h3>Search your band</h3>
-            <form>
+            <form action="#" th:action="@{'/search/'}" method="get">
                 <div class="form-group">
                     <label>Positions</label>
                     <select class="form-control" id="showBand">
@@ -51,24 +51,34 @@
                 </div>
                 <div class="form-group">
                     <label class="col-form-label">Zip-Code</label>
-                    <input type="text" class="form-control" id="zipcode" placeholder="Zip-Code">
+                    <input name="zipcode" type="text" class="form-control" id="zipcode" placeholder="Zip-Code">
                 </div>
                 <div class="form-group">
                     <label for="city">City</label>
-                    <input type="text" class="form-control" id="city" placeholder="City">
+                    <input name="city" type="text" class="form-control" id="city" placeholder="City">
                 </div>
                 <div class="form-group">
                     <label for="instrument">Instruments</label>
-                    <select class="form-control" id="instrument">
+                    <select name="instrument" class="form-control" id="instrument">
+                        <option></option>
                         <option>Violine</option>
                         <option>Bass</option>
+                        <option>Schlagzeug</option>
+                        <option>Gesang</option>
+                        <option>Keyboard</option>
+                        <option>E-Gitarre</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="genre">Genres</label>
-                    <select class="form-control" id="genre">
+                    <select name="genre" class="form-control" id="genre">
+                        <option></option>
                         <option>Metal</option>
                         <option>Jazz</option>
+                        <option>Rock</option>
+                        <option>Pop</option>
+                        <option>Oldies</option>
+                        <option>Schlager</option>
                     </select>
                 </div>
                 <button type="submit" class="btn btn-sm btn-light btn-block">Search</button>
