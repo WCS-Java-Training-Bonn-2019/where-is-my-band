@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import com.wildcodeschool.sea.bonn.whereismyband.entity.Address;
 import com.wildcodeschool.sea.bonn.whereismyband.entity.Band;
 import com.wildcodeschool.sea.bonn.whereismyband.entity.PositionState;
 
@@ -16,6 +17,7 @@ public interface BandRepository extends JpaRepository<Band, Long>{
 
 	public Optional<Band> findByName(String name);
 	public List<Band> findDistinctByBandPositionsState(PositionState state);
+	public List<Band> findByPostCode(Address postCode);
 
 
 }
