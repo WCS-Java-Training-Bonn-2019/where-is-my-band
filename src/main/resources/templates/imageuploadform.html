@@ -1,7 +1,8 @@
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf" lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>Bandliste</title>
+<meta charset="UTF-8">
+<title>SoundMachine Musician File Upload</title>
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 
@@ -20,41 +21,22 @@
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
 	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
 	crossorigin="anonymous"></script>
+
+<!-- zum lokalen Testen -->
+<!--  <link rel="stylesheet" href="../static/css/style.css"> -->
 <link rel="stylesheet" th:href="@{/css/style.css}">
+
 </head>
 <body>
 	<header th:replace="index :: navigation_bar">Navigation</header>
-	<h1>List of Bands</h1>
-	<table>
-		<tr>
-			<th>Name</th>
-<!-- 			<th>Adresse</th> 		-->
-			<th>E-Mail</th>	
-			<th>Phone No.</th>		
-			<th>View-Link</th>
-			<th>Delete-Link</th>
-		</tr>
-		<tr th:remove="all">
-			<td>007</td>
-			<td>James</td>
-			<td>Bond</td>
-			<td>Herr</td>
-			<td>01.01.1960</td>
-			<td>edit</td>
-			<td>delete</td>
-		</tr>
-		<tr th:each="band : ${bands}">
-			<td th:text="${band.name}">
-	<!--		<td th:text="${band.address}">		-->
-			<td th:text="${band.email}">
-			<td th:text="${band.phone}">		
-			<td><a th:href="@{/band/view(id=${band.id})}">View</a></td>
-        	<td><a th:href="@{/band/delete(id=${band.id})}">Delete</a></td>
-		</tr>
-	</table>
-	<a th:href="@{/band/edit}">Insert new band</a>
-	<br>
-	<a th:href="@{/}">To Index page</a>
-	
+	<h3>Band Photo Upload</h3>
+	<form method="post"
+		th:action="@{'/band/' + ${bandid} + '/uploadimage'}"
+		enctype="multipart/form-data">
+		<label class="control-label">Wähle Bilddatei</label> <input
+			id="imagefile" name="imagefile" type="file" class="file" /> <br>
+		<button type="submit" class="btn btn-primary">Upload</button>
+	</form>
+	<footer th:replace="index :: footer">Footer</footer>
 </body>
 </html>

@@ -27,6 +27,9 @@
 	<h3>
 		<span th:text="${band.name}">Informationen zur Band</span>
 	</h3>
+	<img src="../static/images/acdc_schriftzug.jpeg"
+                                     th:src="@{'/band/' + ${band.id} + '/bandimage'}"
+                                     height="300">
 	<p th:text="${band.description}">Lorem ipsum dolor sit amet,
 		consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut
 		labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos
@@ -69,8 +72,8 @@
 			th:text="${position.instrument.name}+' ('+${position.state}+')'">Posaune
 				(offen)</span></li>
 	</ul>
-	<form method="get" th:action="@{/band/edit}" th:object="${band}">
-		<input name="bandid" th:field="*{id}" type="hidden"> <input
+	<form method="get" th:action="@{'/band/' + ${band.id} + '/edit'}" th:object="${band}">
+		<input
 			name="ownerid" th:field="*{owner.id}" type="hidden"> <input
 			type="submit" value="Edit">
 	</form>
