@@ -53,8 +53,7 @@
 						<div class="navbar-nav float-right text-right pr-3">
 
 							<a class="nav-item nav-link" th:href="@{/}">Home</a> 
-							<a class="nav-item nav-link" th:href="@{/search/list/all}">Bands (all)</a> 
-							<a class="nav-item nav-link" th:href="@{/search/list/open}">Bands (open)</a>
+							<a class="nav-item nav-link" th:href="@{/search/list/all}">Bandsuche</a> 
 							<a class="nav-item nav-link" href="#">Profile</a>
 						</div>
 					
@@ -66,7 +65,7 @@
 						</ul>
 						<ul class="nav navbar-nav navbar-right">
 							<li class="nav-item">
-								<a class="nav-link" href="#" th:href="@{/register}" sec:authorize="!isAuthenticated()">Register</a>
+								<a class="nav-link" href="#" th:href="@{/musician/register}" sec:authorize="!isAuthenticated()">Register</a>
 							</li>
 						</ul>
 					</div>
