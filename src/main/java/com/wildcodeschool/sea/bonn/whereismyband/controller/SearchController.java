@@ -1,6 +1,7 @@
 package com.wildcodeschool.sea.bonn.whereismyband.controller;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,39 +39,39 @@ public class SearchController {
 	
 	@GetMapping("/")
 	public String searchBands(Model model, 
-			@RequestParam(required = false, name = "zipcode") Integer zipcode,
+			@RequestParam(required = false, name = "zipcode") String zipcode,
 			@RequestParam(required = false, name = "city") String city,
 			@RequestParam(required = false, name = "instrument") String instrument,
 			@RequestParam(required = false, name = "genre") String genre) {
 		List<Band> searchResult;
-		System.out.println(zipcode + "+" + city + "+" + instrument + "+" + genre);
+
 		if (zipcode != null) {
 			if (!"".equals(city)) {
 				if (!"".equals(instrument)) {
 					if (!"".equals(genre)) {
-						searchResult = bandRepository.findByAddressPostCodeAndAddressCityAndBandPositionsInstrumentNameAndFavoriteGenresName(zipcode, city, instrument, genre);
+						searchResult = bandRepository.findDistinctByBandPositionsStateAndAddressPostCodeStartingWithAndAddressCityAndBandPositionsInstrumentNameAndFavoriteGenresName(PositionState.offen, zipcode, city, instrument, genre);
 					} else {
-						searchResult = bandRepository.findByAddressPostCodeAndAddressCityAndBandPositionsInstrumentName(zipcode, city, instrument);
+						searchResult = bandRepository.findDistinctByBandPositionsStateAndAddressPostCodeStartingWithAndAddressCityAndBandPositionsInstrumentName(PositionState.offen, zipcode, city, instrument);
 					}					
 				} else {
 					if (!"".equals(genre)) {
-						searchResult = bandRepository.findByAddressPostCodeAndAddressCityAndFavoriteGenresName(zipcode, city, genre);
+						searchResult = bandRepository.findDistinctByBandPositionsStateAndAddressPostCodeStartingWithAndAddressCityAndFavoriteGenresName(PositionState.offen, zipcode, city, genre);
 					} else {
-						searchResult = bandRepository.findByAddressPostCodeAndAddressCity(zipcode, city);
+						searchResult = bandRepository.findDistinctByBandPositionsStateAndAddressPostCodeStartingWithAndAddressCity(PositionState.offen, zipcode, city);
 					}	
 				}
 			} else {
 				if (!"".equals(instrument)) {
 					if (!"".equals(genre)) {
-						searchResult = bandRepository.findByAddressPostCodeAndBandPositionsInstrumentNameAndFavoriteGenresName(zipcode, instrument, genre);
+						searchResult = bandRepository.findDistinctByBandPositionsStateAndAddressPostCodeStartingWithAndBandPositionsInstrumentNameAndFavoriteGenresName(PositionState.offen, zipcode, instrument, genre);
 					} else {
-						searchResult = bandRepository.findByAddressPostCodeAndBandPositionsInstrumentName(zipcode, instrument);
+						searchResult = bandRepository.findDistinctByBandPositionsStateAndAddressPostCodeStartingWithAndBandPositionsInstrumentName(PositionState.offen, zipcode, instrument);
 					}					
 				} else {
 					if (!"".equals(genre)) {
-						searchResult = bandRepository.findByAddressPostCodeAndFavoriteGenresName(zipcode, genre);
+						searchResult = bandRepository.findDistinctByBandPositionsStateAndAddressPostCodeStartingWithAndFavoriteGenresName(PositionState.offen, zipcode, genre);
 					} else {
-						searchResult = bandRepository.findByAddressPostCode(zipcode);
+						searchResult = bandRepository.findDistinctByBandPositionsStateAndAddressPostCodeStartingWith(PositionState.offen, zipcode);
 					}	
 				}
 
@@ -79,37 +80,41 @@ public class SearchController {
 			if (!"".equals(city)) {
 				if (!"".equals(instrument)) {
 					if (!"".equals(genre)) {
-						searchResult = bandRepository.findByAddressCityAndBandPositionsInstrumentNameAndFavoriteGenresName(city, instrument, genre);
+						searchResult = bandRepository.findDistinctByBandPositionsStateAndAddressCityAndBandPositionsInstrumentNameAndFavoriteGenresName(PositionState.offen, city, instrument, genre);
 					} else {
-						searchResult = bandRepository.findByAddressCityAndBandPositionsInstrumentName(city, instrument);
+						searchResult = bandRepository.findDistinctByBandPositionsStateAndAddressCityAndBandPositionsInstrumentName(PositionState.offen, city, instrument);
 					}					
 				} else {
 					if (!"".equals(genre)) {
-						searchResult = bandRepository.findByAddressCityAndFavoriteGenresName(city, genre);
+						searchResult = bandRepository.findDistinctByBandPositionsStateAndAddressCityAndFavoriteGenresName(PositionState.offen, city, genre);
 					} else {
-						searchResult = bandRepository.findByAddressCity(city);
+						searchResult = bandRepository.findDistinctByBandPositionsStateAndAddressCity(PositionState.offen, city);
 					}	
 				}
 			} else {
 				if (!"".equals(instrument)) {
 					if (!"".equals(genre)) {
-						searchResult = bandRepository.findByBandPositionsInstrumentNameAndFavoriteGenresName(instrument, genre);
+						searchResult = bandRepository.findDistinctByBandPositionsStateAndBandPositionsInstrumentNameAndFavoriteGenresName(PositionState.offen, instrument, genre);
 					} else {
-						searchResult = bandRepository.findByBandPositionsInstrumentName(instrument);
+						searchResult = bandRepository.findDistinctByBandPositionsStateAndBandPositionsInstrumentName(PositionState.offen, instrument);
 					}					
 				} else {
 					if (!"".equals(genre)) {
-						searchResult = bandRepository.findByFavoriteGenresName(genre);
+						searchResult = bandRepository.findDistinctByBandPositionsStateAndFavoriteGenresName(PositionState.offen, genre);
 					} else {
-						//kein Suchkriterium angegeben, hier nur um den Compiler zufriedenzustellen
-						searchResult = bandRepository.findByAddressCity("");
+						//kein Suchkriterium angegeben, also leere Liste ins Model
+						searchResult = new ArrayList<>();
 					}	
 				}
-
 			}
-
 		}
 		model.addAttribute("bands", searchResult);
+		model.addAttribute("allInstruments", instrumentRepository.findAll());
+		model.addAttribute("allGenres", genreRepository.findAll());
+		model.addAttribute("enteredZipcode", zipcode);
+		model.addAttribute("enteredCity", city);
+		model.addAttribute("selectedInstrument", instrument);
+		model.addAttribute("selectedGenre", genre);
 
 		return "bandsuche";
 	}

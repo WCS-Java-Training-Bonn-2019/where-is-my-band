@@ -39,6 +39,8 @@
         <div class="container-fluid">
             <h3>Search your band</h3>
             <form action="#" th:action="@{'/search/'}" method="get">
+ 
+            <!--  Keine Wahlmöglichkeit für Positions - er werden nur Bands mit offenen Positionen gesucht
                 <div class="form-group">
                     <label>Positions</label>
                     <select class="form-control" id="showBand">
@@ -49,36 +51,29 @@
                         Show all bands or only bands with open positions.
                     </small>
                 </div>
+                -->
+                
                 <div class="form-group">
                     <label class="col-form-label">Zip-Code</label>
-                    <input name="zipcode" type="text" class="form-control" id="zipcode" placeholder="Zip-Code">
+                    <input name="zipcode" type="text" class="form-control" id="zipcode" placeholder="Zip-Code" th:value="${enteredZipcode}">
                 </div>
                 <div class="form-group">
                     <label for="city">City</label>
-                    <input name="city" type="text" class="form-control" id="city" placeholder="City">
+                    <input name="city" type="text" class="form-control" id="city" placeholder="City" th:value="${enteredCity}">
                 </div>
                 <div class="form-group">
                     <label for="instrument">Instruments</label>
                     <select name="instrument" class="form-control" id="instrument">
                         <option></option>
-                        <option>Violine</option>
-                        <option>Bass</option>
-                        <option>Schlagzeug</option>
-                        <option>Gesang</option>
-                        <option>Keyboard</option>
-                        <option>E-Gitarre</option>
+                        <option th:each="instrumentIterator : ${allInstruments}" th:value="${instrumentIterator.name}" th:text="${instrumentIterator.name}" th:selected="${instrumentIterator.name==selectedInstrument}"></option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="genre">Genres</label>
                     <select name="genre" class="form-control" id="genre">
                         <option></option>
-                        <option>Metal</option>
-                        <option>Jazz</option>
-                        <option>Rock</option>
-                        <option>Pop</option>
-                        <option>Oldies</option>
-                        <option>Schlager</option>
+                        <option th:each="genreIterator : ${allGenres}" th:value="${genreIterator.name}" th:text="${genreIterator.name}" th:selected="${genreIterator.name==selectedGenre}"></option>
+
                     </select>
                 </div>
                 <button type="submit" class="btn btn-sm btn-light btn-block">Search</button>
@@ -113,8 +108,9 @@
 		</tr>
 	</table>
 	
+<!-- Muss auf eine andere Seite und in einen anderen Controller
 	<a th:href="@{/band/edit}">Insert new band</a>
-
+-->
 
  
     <footer th:replace="index :: footer"></footer>

@@ -17,40 +17,22 @@ public interface BandRepository extends JpaRepository<Band, Long>{
 
 	public Optional<Band> findByName(String name);
 	public List<Band> findDistinctByBandPositionsState(PositionState state);
-	//public List<Band> findByPostCode(Address postCode);
-	public List<Band> findByAddressPostCodeAndAddressCityAndBandPositionsInstrumentNameAndFavoriteGenresName(Integer postCode, String city, String instrument, String name);
-	public List<Band> findByAddressPostCodeAndAddressCityAndBandPositionsInstrumentName(Integer postCode, String city, String instrument);
-	public List<Band> findByAddressPostCodeAndAddressCityAndFavoriteGenresName(Integer postCode, String city, String name);
-	public List<Band> findByAddressPostCodeAndAddressCity(Integer zipcode, String city);
-	public List<Band> findByAddressPostCodeAndBandPositionsInstrumentNameAndFavoriteGenresName( Integer postCode, String instrument, String name);
-	public List<Band> findByAddressPostCodeAndBandPositionsInstrumentName(Integer postCode, String instrument);
-	public List<Band> findByAddressPostCodeAndFavoriteGenresName(Integer postCode, String name);
-	public List<Band> findByAddressPostCode(Integer zipcode);
-	public List<Band> findByAddressCityAndBandPositionsInstrumentNameAndFavoriteGenresName(String city,	String instrument, String name);
-	public List<Band> findByAddressCityAndBandPositionsInstrumentName(String city, String instrument);
-	public List<Band> findByAddressCityAndFavoriteGenresName(String city, String name);
-	public List<Band> findByAddressCity(String city);
-	public List<Band> findByBandPositionsInstrumentNameAndFavoriteGenresName(String instrument, String name);
-	public List<Band> findByBandPositionsInstrumentName(String instrument);
-	public List<Band> findByFavoriteGenresName(String name);
 	
-//	public List<Band> findByAddressPostCodeContainingAndAddressCityAndBandPositionsInstrumentNameAndFavoriteGenresName(Integer postCode, String city, String instrument, String name);	
-//	public List<Band> findByAddressPostCodeContainingAndAddressCityAndBandPositionsInstrumentNameAndFavoriteGenresName(Integer postCode, String city, String instrument, String name);
-//	public List<Band> findByAddressPostCodeContainingAndAddressCityAndBandPositionsInstrumentName(Integer postCode, String city, String instrument);
-//	public List<Band> findByAddressPostCodeContainingAndAddressCityAndFavoriteGenresName(Integer postCode, String city, String name);
-//	public List<Band> findByAddressPostCodeContainingAndAddressCity(Integer zipcode, String city);
-//	public List<Band> findByAddressPostCodeContainingAndBandPositionsInstrumentNameAndFavoriteGenresName( Integer postCode, String instrument, String name);
-//	public List<Band> findByAddressPostCodeContainingAndBandPositionsInstrumentName(Integer postCode, String instrument);
-//	public List<Band> findByAddressPostCodeContainingAndFavoriteGenresName(Integer postCode, String name);
-//	public List<Band> findByAddressPostCodeContaining(Integer zipcode);
-//	public List<Band> findByAddressCityAndBandPositionsInstrumentNameAndFavoriteGenresName(String city,	String instrument, String name);
-//	public List<Band> findByAddressCityAndBandPositionsInstrumentName(String city, String instrument);
-//	public List<Band> findByAddressCityAndFavoriteGenresName(String city, String name);
-//	public List<Band> findByAddressCity(String city);
-//	public List<Band> findByBandPositionsInstrumentNameAndFavoriteGenresName(String instrument, String name);
-//	public List<Band> findByBandPositionsInstrumentName(String instrument);
-//	public List<Band> findByFavoriteGenresName(String name);
 
-
-
+	public List<Band> findDistinctByBandPositionsStateAndAddressPostCodeStartingWithAndAddressCityAndBandPositionsInstrumentNameAndFavoriteGenresName(PositionState state, String postCode, String city, String instrument, String name);
+	public List<Band> findDistinctByBandPositionsStateAndAddressPostCodeStartingWithAndAddressCityAndBandPositionsInstrumentName(PositionState state, String postCode, String city, String instrument);
+	public List<Band> findDistinctByBandPositionsStateAndAddressPostCodeStartingWithAndAddressCityAndFavoriteGenresName(PositionState state, String postCode, String city, String name);
+	public List<Band> findDistinctByBandPositionsStateAndAddressPostCodeStartingWithAndAddressCity(PositionState state, String zipcode, String city);
+	public List<Band> findDistinctByBandPositionsStateAndAddressPostCodeStartingWithAndBandPositionsInstrumentNameAndFavoriteGenresName(PositionState state, String postCode, String instrument, String name);
+	public List<Band> findDistinctByBandPositionsStateAndAddressPostCodeStartingWithAndBandPositionsInstrumentName(PositionState state, String postCode, String instrument);
+	public List<Band> findDistinctByBandPositionsStateAndAddressPostCodeStartingWithAndFavoriteGenresName(PositionState state, String postCode, String name);
+	public List<Band> findDistinctByBandPositionsStateAndAddressPostCodeStartingWith(PositionState state, String zipcode);
+	public List<Band> findDistinctByBandPositionsStateAndAddressCityAndBandPositionsInstrumentNameAndFavoriteGenresName(PositionState state, String city,String instrument, String name);
+	public List<Band> findDistinctByBandPositionsStateAndAddressCityAndBandPositionsInstrumentName(PositionState state, String city, String instrument);
+	public List<Band> findDistinctByBandPositionsStateAndAddressCityAndFavoriteGenresName(PositionState state, String city, String name);
+	public List<Band> findDistinctByBandPositionsStateAndAddressCity(PositionState state, String city);
+	public List<Band> findDistinctByBandPositionsStateAndBandPositionsInstrumentNameAndFavoriteGenresName(PositionState state, String instrument, String name);
+	public List<Band> findDistinctByBandPositionsStateAndBandPositionsInstrumentName(PositionState state, String instrument);
+	public List<Band> findDistinctByBandPositionsStateAndFavoriteGenresName(PositionState state, String name);
+	
 }

@@ -69,12 +69,17 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 		Genre pop = createGenreIfNotExisting("Pop");
 		Genre schlager = createGenreIfNotExisting("Schlager");
 		Genre oldies = createGenreIfNotExisting("Oldies");
+		Genre metal = createGenreIfNotExisting("Metal");
+		Genre jazz = createGenreIfNotExisting("Jazz");
 
 		// Create instruments
 		Instrument schlagzeug = createInstrumentIfNotExisting("Schlagzeug");
 		Instrument keyboard = createInstrumentIfNotExisting("Keyboard");
 		Instrument egitarre = createInstrumentIfNotExisting("E-Gitarre");
 		Instrument gesang = createInstrumentIfNotExisting("Gesang");
+		Instrument violine = createInstrumentIfNotExisting("Violine");
+		Instrument bass = createInstrumentIfNotExisting("Bass");
+		
 
 		boolean elkeExistedBefore = (! musicianRepository.findByFirstNameAndLastNameAndBirthday("Elke", "E-Gitarre", LocalDate.of(1994, 10, 03)).isEmpty());
 		Musician elke;
@@ -89,7 +94,7 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 					LocalDate.of(1994, 10, 03), 
 					female);
 
-			Address elkesAddress = createAdressIfNotExisting("Bonn", 53227);
+			Address elkesAddress = createAdressIfNotExisting("Bonn", "53227");
 			elke.setAddress(elkesAddress);
 
 			elke.setDescription("Hallo, ich bin Elke und spiele E-Gitarre. Musik ist meine große Leidenschaft!");
@@ -139,7 +144,7 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 					LocalDate.of(1992, 01, 01), 
 					male);
 
-			Address stefansAddress = createAdressIfNotExisting("Sankt Augustin", 53757);
+			Address stefansAddress = createAdressIfNotExisting("Sankt Augustin", "53757");
 			stefan.setAddress(stefansAddress);
 
 			stefan.setDescription("Hallo, ich bin Stefan, spiele Schlagzeug seit 6 Jahren und spiele unregelmäßig in einem Musikverein!");
@@ -184,7 +189,7 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 			// ***************************
 			Band acdc = createBandIfNotExisting("ACDC");
 
-			Address acdcAddress = createAdressIfNotExisting("Bonn", 53227);
+			Address acdcAddress = createAdressIfNotExisting("Bonn", "53227");
 			acdc.setAddress(acdcAddress);
 
 			// set band owner elke
@@ -250,7 +255,7 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 			// ***************************
 			Band kkmusiker = createBandIfNotExisting("Kölner Karnevalsmusiker");
 
-			Address kkmusikerAddress = createAdressIfNotExisting("Köln", 51111);
+			Address kkmusikerAddress = createAdressIfNotExisting("Köln", "51111");
 			kkmusiker.setAddress(kkmusikerAddress);
 
 			// set band owner elke
@@ -305,7 +310,7 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 			// ***************************
 			Band gmg = createBandIfNotExisting("Göttinger Männergesangsverein");
 
-			Address gmgAddress = createAdressIfNotExisting("Göttingen", 37073);
+			Address gmgAddress = createAdressIfNotExisting("Göttingen", "37073");
 			gmg.setAddress(gmgAddress);
 
 			// set band owner elke
@@ -391,7 +396,7 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 		}
 	}
 
-	private Address createAdressIfNotExisting(String city, Integer postCode) {
+	private Address createAdressIfNotExisting(String city, String postCode) {
 
 		// Lookup address in repository
 		Optional<Address> addressOptional = addressRepository.findByCityAndPostCode(city, postCode);
