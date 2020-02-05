@@ -28,6 +28,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 				.anyRequest().hasAnyRole("ADMIN")
 				.and()
 			.formLogin()
+//				.loginPage("/login")
+//				.permitAll()
 				.and()
 			.httpBasic();
 	}
