@@ -69,12 +69,17 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 		Genre pop = createGenreIfNotExisting("Pop");
 		Genre schlager = createGenreIfNotExisting("Schlager");
 		Genre oldies = createGenreIfNotExisting("Oldies");
+		Genre metal = createGenreIfNotExisting("Metal");
+		Genre jazz = createGenreIfNotExisting("Jazz");
 
 		// Create instruments
 		Instrument schlagzeug = createInstrumentIfNotExisting("Schlagzeug");
 		Instrument keyboard = createInstrumentIfNotExisting("Keyboard");
 		Instrument egitarre = createInstrumentIfNotExisting("E-Gitarre");
 		Instrument gesang = createInstrumentIfNotExisting("Gesang");
+		Instrument violine = createInstrumentIfNotExisting("Violine");
+		Instrument bass = createInstrumentIfNotExisting("Bass");
+		
 
 		boolean elkeExistedBefore = (! musicianRepository.findByFirstNameAndLastNameAndBirthday("Elke", "E-Gitarre", LocalDate.of(1994, 10, 03)).isEmpty());
 		Musician elke;
@@ -89,7 +94,7 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 					LocalDate.of(1994, 10, 03), 
 					female);
 
-			Address elkesAddress = createAdressIfNotExisting("Bonn", 53227);
+			Address elkesAddress = createAdressIfNotExisting("Bonn", "53227");
 			elke.setAddress(elkesAddress);
 
 			elke.setDescription("Hallo, ich bin Elke und spiele E-Gitarre. Musik ist meine große Leidenschaft!");
@@ -139,7 +144,7 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 					LocalDate.of(1992, 01, 01), 
 					male);
 
-			Address stefansAddress = createAdressIfNotExisting("Sankt Augustin", 53757);
+			Address stefansAddress = createAdressIfNotExisting("Sankt Augustin", "53757");
 			stefan.setAddress(stefansAddress);
 
 			stefan.setDescription("Hallo, ich bin Stefan, spiele Schlagzeug seit 6 Jahren und spiele unregelmäßig in einem Musikverein!");
@@ -184,7 +189,7 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 			// ***************************
 			Band acdc = createBandIfNotExisting("ACDC");
 
-			Address acdcAddress = createAdressIfNotExisting("Bonn", 53227);
+			Address acdcAddress = createAdressIfNotExisting("Bonn", "53227");
 			acdc.setAddress(acdcAddress);
 
 			// set band owner elke
@@ -240,6 +245,101 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 			// Creation of band ACDC finished
 			// ******************************
 		};
+		
+		// Noch 2 Mock-Bands zum Testen der Suche-Funktionalität:
+		// Band Kölner Karnevalsmusiker
+		// if Kölner Karnevalsmusiker does not exist
+		if (! bandRepository.findByName("Kölner Karnevalsmusiker").isPresent()) {
+
+			// Start creation of band Kölner Karnevalsmusiker
+			// ***************************
+			Band kkmusiker = createBandIfNotExisting("Kölner Karnevalsmusiker");
+
+			Address kkmusikerAddress = createAdressIfNotExisting("Köln", "51111");
+			kkmusiker.setAddress(kkmusikerAddress);
+
+			// set band owner elke
+			kkmusiker.setOwner(elke);
+			elke.getBands().add(kkmusiker);
+			musicianRepository.save(elke);
+
+			// Add favorite genres
+			kkmusiker.getFavoriteGenres().add(schlager);
+			schlager.getBands().add(kkmusiker);
+			kkmusiker.getFavoriteGenres().add(oldies);
+			oldies.getBands().add(kkmusiker);
+
+			bandRepository.save(kkmusiker);
+
+			// Create Position 1
+			Bandposition bandpos1 = new Bandposition();
+			bandpos1.setInstrument(schlagzeug);
+			bandpos1.setBand(kkmusiker);
+			bandpos1.setAgeFrom(20);
+			bandpos1.setAgeTo(30);
+			bandpos1.setState(PositionState.besetzt);
+			bandpositionRepository.save(bandpos1);
+
+			// Create Position 2
+			Bandposition bandpos2 = new Bandposition();
+			bandpos2.setInstrument(keyboard);
+			bandpos2.setBand(kkmusiker);
+			bandpos2.setAgeFrom(25);
+			bandpos2.setAgeTo(45);
+			bandpos2.setState(PositionState.offen);
+			bandpositionRepository.save(bandpos2);		
+
+			// Create  Position 3
+			Bandposition bandpos3 = new Bandposition();
+			bandpos3.setInstrument(gesang);
+			bandpos3.setBand(kkmusiker);
+			bandpos3.setAgeFrom(30);
+			bandpos3.setAgeTo(50);
+			bandpos3.setState(PositionState.offen);
+			bandpositionRepository.save(bandpos3);
+
+
+			// Creation of band Kölner Kernevalsmusiker finished
+			// ******************************
+		};
+		
+		// if Göttinger Männergesangsverein  does not exist
+		if (! bandRepository.findByName("Göttinger Männergesangsverein").isPresent()) {
+
+			// Start creation of band Göttinger Männergesangsverein
+			// ***************************
+			Band gmg = createBandIfNotExisting("Göttinger Männergesangsverein");
+
+			Address gmgAddress = createAdressIfNotExisting("Göttingen", "37073");
+			gmg.setAddress(gmgAddress);
+
+			// set band owner elke
+			gmg.setOwner(elke);
+			elke.getBands().add(gmg);
+			musicianRepository.save(elke);
+
+			// Add favorite genres
+			gmg.getFavoriteGenres().add(schlager);
+			schlager.getBands().add(gmg);
+
+			bandRepository.save(gmg);
+	
+
+			// Create  Position 1
+			Bandposition bandpos3 = new Bandposition();
+			bandpos3.setInstrument(gesang);
+			bandpos3.setBand(gmg);
+			bandpos3.setAgeFrom(30);
+			bandpos3.setAgeTo(50);
+			bandpos3.setState(PositionState.offen);
+			bandpositionRepository.save(bandpos3);
+
+
+			// Creation of band Göttinger Männergesangsverein finished
+			// ******************************
+		};
+		
+		
 	}
 
 
@@ -296,7 +396,7 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 		}
 	}
 
-	private Address createAdressIfNotExisting(String city, Integer postCode) {
+	private Address createAdressIfNotExisting(String city, String postCode) {
 
 		// Lookup address in repository
 		Optional<Address> addressOptional = addressRepository.findByCityAndPostCode(city, postCode);
