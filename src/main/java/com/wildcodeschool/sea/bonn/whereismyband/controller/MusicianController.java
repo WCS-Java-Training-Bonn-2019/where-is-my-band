@@ -3,6 +3,7 @@ package com.wildcodeschool.sea.bonn.whereismyband.controller;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.Principal;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletResponse;
@@ -10,6 +11,7 @@ import javax.validation.Valid;
 
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -30,20 +32,23 @@ import com.wildcodeschool.sea.bonn.whereismyband.repository.MusicianRepository;
 import com.wildcodeschool.sea.bonn.whereismyband.services.ImageService;
 
 @Controller
-@RequestMapping(value = {"/musician/{id}/", "/musician/"})
+@RequestMapping(value = {"/musician/{id}/", "/musician/", "/"})
 public class MusicianController {
 	
+
 	private final GenderRepository genderRepository;
 	private final MusicianRepository musicianRepository;
 	private final InstrumentRepository instrumentRepository;
 	private final GenreRepository genreRepository;
 	private final AddressRepository addressRepository;
 	private final ImageService imageService;
+	private final PasswordEncoder passwordEncoder;
 	
+
 	@Autowired
 	public MusicianController(GenderRepository genderRepository, MusicianRepository musicianRepository,
 			InstrumentRepository instrumentRepository, GenreRepository genreRepository,
-			AddressRepository addressRepository, ImageService imageService) {
+			AddressRepository addressRepository, ImageService imageService, PasswordEncoder passwordEncoder) {
 		super();
 		this.genderRepository = genderRepository;
 		this.musicianRepository = musicianRepository;
@@ -51,8 +56,21 @@ public class MusicianController {
 		this.genreRepository = genreRepository;
 		this.addressRepository = addressRepository;
 		this.imageService = imageService;
+		this.passwordEncoder = passwordEncoder;
 	}
 
+	@GetMapping("")
+    public String getIndex(Model model, Principal principal) {
+
+		if (principal != null) {
+			Optional<Musician> musicianOptional = musicianRepository.findByUsername(principal.getName());
+
+			model.addAttribute("musician", musicianOptional.get());
+		}
+
+        return "index";
+    }
+	
 	@GetMapping("list")
     public String getAll(Model model) {
 
@@ -89,7 +107,11 @@ public class MusicianController {
     @PostMapping("edit")
     public String postMusician(@PathVariable (name = "id", required=false) Long id, @ModelAttribute Musician musician) {
 
-        musicianRepository.save(musician);
+    	if("admin".equals(musician.getUsername())) {
+    		throw new IllegalArgumentException("admin not allowed here");
+    	}
+    	musician.setPassword(passwordEncoder.encode(musician.getPassword()));
+    	musician = musicianRepository.save(musician);
 
         return "redirect:list";
     }
@@ -115,33 +137,6 @@ public class MusicianController {
         return "musiciandetails";
     }
 
-	@PostMapping("register")
-    public String postRegForm( 
-    		@Valid @ModelAttribute Musician musician, 
-    		@RequestParam (name = "passwordRepeated", required = true) String pwRepeated,
-    		@RequestParam("imagefile") MultipartFile file,
-    		BindingResult bindingResult) {
-
-    	// Wenn Validierungsregeln nicht erfüllt
-		if (bindingResult.hasErrors()) {
-			// Zeige das Formular mit entsprechenden Fehlermeldungen wieder an
-    		return "/musician/register";
-    	}
-
-    	// Prüfe, ob gesetztes Passwort gesetzt ist und dem pwRepeated entspricht
-    	if ((pwRepeated == null) 
-    			|| (musician.getPassword() == null) 
-    			|| ! pwRepeated.equals(musician.getPassword())) {
-    		throw new IllegalArgumentException("Passwort nicht gesetzt bzw. nicht identisch");
-    	}
-    	
-    	addressRepository.save(musician.getAddress());
-    	musicianRepository.save(musician);
-    	imageService.saveImageFileMusician(musician.getId(), file);
-    	
-    	return "index";
-    }
-    
     @GetMapping("register")
     public String getRegForm(Model model) {
 
@@ -157,6 +152,34 @@ public class MusicianController {
 
         return "registration";
     }
+
+    @PostMapping("register")
+    public String postRegForm(Model model, 
+    		@Valid Musician musician, 
+    		BindingResult bindingResult, @RequestParam (name = "passwordRepeated", required = true) String pwRepeated,
+    		@RequestParam("imagefile") MultipartFile file) {
+
+    	// Wenn Validierungsregeln nicht erfüllt
+		if (bindingResult.hasErrors()) {
+			// Zeige das Formular mit entsprechenden Fehlermeldungen wieder an
+    		return "registration";
+    	}
+
+    	// Prüfe, ob gesetztes Passwort gesetzt ist und dem pwRepeated entspricht
+    	if ((pwRepeated == null) 
+    			|| (musician.getPassword() == null) 
+    			|| ! pwRepeated.equals(musician.getPassword())) {
+    		throw new IllegalArgumentException("Passwort nicht gesetzt bzw. nicht identisch");
+    	}
+    	
+    	addressRepository.save(musician.getAddress());
+    	musician.setPassword(passwordEncoder.encode(musician.getPassword()));
+    	musicianRepository.save(musician);
+    	imageService.saveImageFileMusician(musician.getId(), file);
+    	
+    	return "index";
+    }
+    
 
 	// Via this route, the image can be retrieved for display via an HTML image element <img ...>
 	@GetMapping("image")

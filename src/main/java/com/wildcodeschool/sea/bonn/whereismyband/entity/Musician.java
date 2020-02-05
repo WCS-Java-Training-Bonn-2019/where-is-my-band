@@ -1,9 +1,12 @@
 package com.wildcodeschool.sea.bonn.whereismyband.entity;
 
 import java.time.LocalDate;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,6 +22,9 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import com.wildcodeschool.sea.bonn.whereismyband.services.PhoneNumberConstraint;
 
@@ -28,8 +34,10 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class Musician {
-
+public class Musician implements UserDetails {
+	
+	private static final long serialVersionUID = 2854259156697777966L;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -41,14 +49,14 @@ public class Musician {
 	private String lastName;
 
 	private String description;
+	
+	@Column(unique = true)
+	@NotNull(message = "Eine Email-Adresse als Benutzername muss angegeben werden!")
+	private String username;
+	private String password;
 
 	@PhoneNumberConstraint(message = "Bitte eine gültige Telefonnummer eingeben!")
 	private String phone;
-
-	@NotNull(message = "Eine Email-Adresse als Benutzername muss angegeben werden!")
-	private String email;	
-
-	private String password;
 
 	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
 	@NotNull(message = "Bitte gib ein Geburtsdatum an!")
@@ -81,4 +89,35 @@ public class Musician {
 
 	@Lob
 	private byte[] image;
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_MUSICIAN");
+		return Collections.singletonList(authority);
+	}
+
+	@Override
+	public String getUsername() {
+		return username;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return true;
+	}
 }

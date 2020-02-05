@@ -40,7 +40,7 @@
 			</tr>
 			<tr>
 				<td><label>Vorname:</label></td>
-				<td><input type="text" placeholder="Vorname" required
+				<td><input type="text" placeholder="Vorname"
 					th:field="*{firstName}" /></td>
 				<td th:if="${#fields.hasErrors('firstName')}"
 					th:errors="*{firstName}">Vorname Fehler</td>
@@ -94,8 +94,8 @@
 			<tr>
 				<td><label>Email/Benutzername:</label></td>
 				<td><input type="email" placeholder="Email" required
-					th:field="*{email}" /></td>
-				<td th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email
+					th:field="*{username}" /></td>
+				<td th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Email
 					Fehler</td>
 			</tr>
 			<tr>

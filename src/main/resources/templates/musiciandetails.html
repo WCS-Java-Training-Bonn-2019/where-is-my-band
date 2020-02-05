@@ -26,7 +26,7 @@
 <body>
 	<header th:replace="index :: navigation_bar">Navigation</header>
 
-	<h3>Musiker Profil</h3>
+	<h3 th:text="${musician.firstName} + '\'s Profil'">Musiker Profil</h3>
 	<table>
 		<tr>
 			<td>Geschlecht:</td>
@@ -66,7 +66,7 @@
 		</tr>
 		<tr>
 			<td>Email/Benutzername:</td>
-			<td th:text="${musician.email}">m@m.de</td>
+			<td th:text="${musician.username}">m@m.de</td>
 		</tr>
 
 		<tr>
