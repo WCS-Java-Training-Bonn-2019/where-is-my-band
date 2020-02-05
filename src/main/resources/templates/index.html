@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security5">
 
 <head>
     <meta charset="UTF-8">
@@ -49,8 +49,14 @@
                         <a class="nav-item nav-link" th:href="@{/search/list/all}">Bands (all)</a>
                         <a class="nav-item nav-link" th:href="@{/search/list/open}">Bands (open)</a>
                         <a class="nav-item nav-link" href="#">Profile</a>
-                        <a class="nav-item nav-link" th:href="@{/index.html}">Logout</a>
                     </div>
+                    
+                    <ul class="nav navbar-nav navbar-right">
+        				<li class="nav-item">
+				            <a class="nav-link" href="#" th:href="@{/login}" sec:authorize="!isAuthenticated()">Login</a>
+				            <a class="nav-link" href="#" th:href="@{/logout}" sec:authorize="isAuthenticated()"><span sec:authentication="name"></span> (logout)</a>
+				        </li>
+     				</ul>
                 </div>
             </nav>
         </div>

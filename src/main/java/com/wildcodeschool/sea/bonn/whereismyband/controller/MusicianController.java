@@ -3,6 +3,7 @@ package com.wildcodeschool.sea.bonn.whereismyband.controller;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,12 +22,14 @@ public class MusicianController {
 	
 	private GenderRepository genderRepository;
 	private MusicianRepository musicianRepository;
+	private PasswordEncoder passwordEncoder;
 	
 	@Autowired
-	public MusicianController(GenderRepository genderRepository, MusicianRepository musicianRepository) {
+	public MusicianController(GenderRepository genderRepository, MusicianRepository musicianRepository, PasswordEncoder passwordEncoder) {
 		super();
 		this.genderRepository = genderRepository;
 		this.musicianRepository = musicianRepository;
+		this.passwordEncoder = passwordEncoder;
 	}
 
 	@GetMapping("list")
@@ -64,8 +67,11 @@ public class MusicianController {
 
     @PostMapping("edit")
     public String postMusician(@ModelAttribute Musician musician) {
-
-        musicianRepository.save(musician);
+    	if("admin".equals(musician.getUsername())) {
+    		throw new IllegalArgumentException("admin not allowed here");
+    	}
+    	musician.setPassword(passwordEncoder.encode(musician.getPassword()));
+    	musician = musicianRepository.save(musician);
 
         return "redirect:list";
     }
