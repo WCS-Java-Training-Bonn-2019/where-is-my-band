@@ -19,7 +19,7 @@ public class Address {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private Integer postCode;
+	private String postCode;
 	private String city;
 	
 	@OneToOne(mappedBy = "address")
