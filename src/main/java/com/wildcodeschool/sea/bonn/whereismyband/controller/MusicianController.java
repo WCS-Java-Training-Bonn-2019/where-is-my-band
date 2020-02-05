@@ -6,11 +6,13 @@ import java.io.InputStream;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -115,9 +117,16 @@ public class MusicianController {
 
 	@PostMapping("register")
     public String postRegForm( 
-    		@ModelAttribute Musician musician, 
+    		@Valid @ModelAttribute Musician musician, 
     		@RequestParam (name = "passwordRepeated", required = true) String pwRepeated,
-    		@RequestParam("imagefile") MultipartFile file) {
+    		@RequestParam("imagefile") MultipartFile file,
+    		BindingResult bindingResult) {
+
+    	// Wenn Validierungsregeln nicht erfüllt
+		if (bindingResult.hasErrors()) {
+			// Zeige das Formular mit entsprechenden Fehlermeldungen wieder an
+    		return "/musician/register";
+    	}
 
     	// Prüfe, ob gesetztes Passwort gesetzt ist und dem pwRepeated entspricht
     	if ((pwRepeated == null) 

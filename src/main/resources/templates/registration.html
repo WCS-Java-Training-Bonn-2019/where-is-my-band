@@ -35,24 +35,34 @@
 					th:field="*{gender}" required /> <label
 					th:for="${#ids.prev('gender')}" th:text="${gender.name}">Divers</label>
 				</td>
+				<td th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}">Geschlecht
+					Fehler</td>
 			</tr>
 			<tr>
 				<td><label>Vorname:</label></td>
 				<td><input type="text" placeholder="Vorname" required
 					th:field="*{firstName}" /></td>
+				<td th:if="${#fields.hasErrors('firstName')}"
+					th:errors="*{firstName}">Vorname Fehler</td>
 			</tr>
 			<tr>
 				<td><label>Nachname:</label></td>
 				<td><input type="text" placeholder="Nachname" required
 					th:field="*{lastName}" /></td>
+				<td th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Nachname
+					Fehler</td>
 			</tr>
 			<tr>
 				<td><label>Wähle Bilddatei</label></td>
-				<td><input type="file" id="imagefile" name="imagefile"/></td>
+				<td><input type="file" id="imagefile" name="imagefile" /></td>
+				<td th:if="${#fields.hasErrors('image')}" th:errors="*{image}">Bild
+					Fehler</td>
 			</tr>
 			<tr>
 				<td><label>Geburtsdatum:</label></td>
 				<td><input type="date" required th:field="*{birthday}" /></td>
+				<td th:if="${#fields.hasErrors('birthday')}" th:errors="*{birthday}">Geburtstag
+					Fehler</td>
 			</tr>
 
 			<tr>
@@ -64,20 +74,29 @@
 				<td><label>PLZ:</label></td>
 				<td><input type="text" placeholder="Postleitzahl" required
 					th:field="*{address.postCode}" /></td>
+				<td th:if="${#fields.hasErrors('address.postCode')}"
+					th:errors="*{address.postCode}">PLZ Fehler</td>
 			</tr>
 			<tr>
 				<td><label>Stadt:</label></td>
 				<td><input type="text" placeholder="Stadt" required
 					th:field="*{address.city}" /></td>
+				<td th:if="${#fields.hasErrors('address.city')}"
+					th:errors="*{address.city}">Stadt Fehler</td>
 			</tr>
 			<tr>
-				<td><label>Phone:</label></td>
+				<td><label>Telefon:</label></td>
 				<td><input type="text" placeholder="Phone" th:field="*{phone}" /></td>
+				<td th:if="${#fields.hasErrors('phone')}"
+					th:errors="*{phone}">Telefon Fehler</td>
+
 			</tr>
 			<tr>
 				<td><label>Email/Benutzername:</label></td>
 				<td><input type="email" placeholder="Email" required
 					th:field="*{email}" /></td>
+				<td th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email
+					Fehler</td>
 			</tr>
 			<tr>
 				<td><label>Passwort:</label></td>
@@ -107,6 +126,8 @@
 					th:field="*{instruments}" /> <label
 					th:for="${#ids.prev('instruments')}" th:text="${instrument.name}">Schlagzeug</label>
 				</td>
+				<td th:if="${#fields.hasErrors('instruments')}"
+					th:errors="*{instruments}">Instrumentenfehler</td>
 			</tr>
 		</table>
 

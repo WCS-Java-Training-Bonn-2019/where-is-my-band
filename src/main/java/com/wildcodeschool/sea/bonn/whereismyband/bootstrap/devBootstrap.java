@@ -1,5 +1,6 @@
 package com.wildcodeschool.sea.bonn.whereismyband.bootstrap;
 
+import java.io.FileInputStream;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
@@ -91,7 +92,7 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 
 			Address elkesAddress = createAdressIfNotExisting("Bonn", 53227);
 			elke.setAddress(elkesAddress);
-
+			
 			elke.setDescription("Hallo, ich bin Elke und spiele E-Gitarre. Musik ist meine große Leidenschaft!");
 
 			// Prepare HashSet favoriteGenres
@@ -114,7 +115,7 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 
 			// Update Instruments
 			elke.setInstruments(elkesInstruments);
-
+			
 			// Save changes in repositories
 			instrumentRepository.save(egitarre);
 			genreRepository.save(oldies);
@@ -141,7 +142,7 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 
 			Address stefansAddress = createAdressIfNotExisting("Sankt Augustin", 53757);
 			stefan.setAddress(stefansAddress);
-
+			
 			stefan.setDescription("Hallo, ich bin Stefan, spiele Schlagzeug seit 6 Jahren und spiele unregelmäßig in einem Musikverein!");
 
 			// Prepare HashSet favoriteGenres
@@ -274,6 +275,8 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 			musician.setLastName(lastName);
 			musician.setBirthday(birthday);
 			musician.setGender(gender);
+			musician.setEmail(firstName + "@" + lastName + ".de");
+			musician.setPhone("02281810");
 			musicianRepository.save(musician);
 			return musician;
 		} else {
