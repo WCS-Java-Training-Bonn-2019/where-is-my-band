@@ -1,23 +1,8 @@
 package com.wildcodeschool.sea.bonn.whereismyband.controller;
 
-import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.persistence.Column;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.Lob;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,12 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.wildcodeschool.sea.bonn.whereismyband.constraints.PhoneNumberConstraint;
 import com.wildcodeschool.sea.bonn.whereismyband.entity.Address;
-import com.wildcodeschool.sea.bonn.whereismyband.entity.Band;
-import com.wildcodeschool.sea.bonn.whereismyband.entity.Gender;
-import com.wildcodeschool.sea.bonn.whereismyband.entity.Genre;
-import com.wildcodeschool.sea.bonn.whereismyband.entity.Instrument;
 import com.wildcodeschool.sea.bonn.whereismyband.entity.Musician;
 import com.wildcodeschool.sea.bonn.whereismyband.entity.RegistrationForm;
 import com.wildcodeschool.sea.bonn.whereismyband.repository.AddressRepository;
