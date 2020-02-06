@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.wildcodeschool.sea.bonn.whereismyband.entity.Band;
@@ -22,7 +21,6 @@ import com.wildcodeschool.sea.bonn.whereismyband.repository.InstrumentRepository
 import com.wildcodeschool.sea.bonn.whereismyband.repository.MusicianRepository;
 
 @Controller
-@RequestMapping("/search")
 public class SearchController {
 
 	private GenreRepository genreRepository;
@@ -40,7 +38,7 @@ public class SearchController {
 		this.musicianRepository = musicianRepository;
 	}
 
-	@GetMapping("")
+	@GetMapping("/search")
 	public String searchBands(Model model, Principal principal,
 			@RequestParam(required = false, name = "zipcode") String zipcode,
 			@RequestParam(required = false, name = "city") String city,
@@ -129,7 +127,7 @@ public class SearchController {
 		return "bandsuche";
 	}
 
-	@GetMapping("list/open")
+	@GetMapping("/search/list/open")
 	public String getOpen(Model model) {
 
 		model.addAttribute("bands", bandRepository.findDistinctByBandPositionsState(PositionState.offen));
@@ -138,7 +136,7 @@ public class SearchController {
 		return "bandsuche";
 	}
 
-	@GetMapping("list/all")
+	@GetMapping("/search/list/all")
 	public String getAll(Model model) {
 
 		model.addAttribute("bands", bandRepository.findAll());

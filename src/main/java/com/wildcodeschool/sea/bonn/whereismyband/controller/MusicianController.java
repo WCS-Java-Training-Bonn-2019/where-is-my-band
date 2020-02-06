@@ -59,7 +59,7 @@ public class MusicianController {
 		this.passwordEncoder = passwordEncoder;
 	}
 
-	@GetMapping("/")
+	@GetMapping("")
     public String getIndex(Model model, Principal principal) {
 
 		if (principal != null) {
