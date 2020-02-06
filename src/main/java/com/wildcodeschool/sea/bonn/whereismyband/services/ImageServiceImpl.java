@@ -7,7 +7,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.wildcodeschool.sea.bonn.whereismyband.entity.Band;
+import com.wildcodeschool.sea.bonn.whereismyband.entity.Musician;
 import com.wildcodeschool.sea.bonn.whereismyband.repository.BandRepository;
+import com.wildcodeschool.sea.bonn.whereismyband.repository.MusicianRepository;
 
 
 @Service
@@ -15,32 +17,26 @@ public class ImageServiceImpl implements ImageService {
 
 
     private final BandRepository bandRepository;
+    private final MusicianRepository musicianRepository;
 
-    public ImageServiceImpl( BandRepository bandService) {
 
-        this.bandRepository = bandService;
-    }
+    public ImageServiceImpl(BandRepository bandRepository, MusicianRepository musicianRepository) {
+		super();
+		this.bandRepository = bandRepository;
+		this.musicianRepository = musicianRepository;
+	}
 
-    @Override
+
+	@Override
     @Transactional
-    public void saveImageFile(Long bandId, MultipartFile file) {
+    public void saveImageFileBand(Long id, MultipartFile file) {
 
         try {
             // retrieve the band, which the image belongs to
-        	Band band = bandRepository.findById(bandId).get();
-
-            // declare a byteArray, which has the same size as the image
-        	Byte[] byteArray = new Byte[file.getBytes().length];
-
-            int i = 0;
-
-            // copy the bytes of the file received to byteArray
-            for (byte b : file.getBytes()){
-                byteArray[i++] = b;
-            }
+        	Band band = bandRepository.findById(id).get();
 
             // set image attribute of band to byteArray 
-            band.setImage(byteArray);
+            band.setImage(file.getBytes());
 
             // save the band with the image in the DB
             bandRepository.save(band);
@@ -49,4 +45,24 @@ public class ImageServiceImpl implements ImageService {
             e.printStackTrace();
         }
     }
+	
+	@Override
+    @Transactional
+    public void saveImageFileMusician(Long id, MultipartFile file) {
+
+        try {
+            // retrieve the band, which the image belongs to
+        	Musician musician = musicianRepository.findById(id).get();
+
+            // set image attribute of band to byteArray 
+            musician.setImage(file.getBytes());
+
+            // save the band with the image in the DB
+            musicianRepository.save(musician);
+        } catch (IOException e) {
+
+            e.printStackTrace();
+        }
+    }
+
 }

@@ -4,5 +4,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface ImageService {
 
-    void saveImageFile(Long bandId, MultipartFile file);
+    void saveImageFileBand(Long id, MultipartFile file);
+    void saveImageFileMusician(Long id, MultipartFile file);
 }

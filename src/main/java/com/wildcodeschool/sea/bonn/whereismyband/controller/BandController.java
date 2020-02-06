@@ -3,6 +3,7 @@ package com.wildcodeschool.sea.bonn.whereismyband.controller;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.Principal;
 import java.util.HashSet;
 import java.util.Optional;
 
@@ -41,7 +42,7 @@ public class BandController {
 	private final AddressRepository addressRepository;
 	private final BandpositionRepository bandPositionsRepository;
 	private final ImageService imageService;
-	
+
 	@Autowired
 	public BandController(BandRepository bandRepository, MusicianRepository musicianRepository,
 			GenreRepository genreRepository, AddressRepository addressRepository,
@@ -62,7 +63,7 @@ public class BandController {
 	}
 
 	@GetMapping("edit")
-	public String getBand(Model model,
+	public String getBand(Model model, Principal principal,
 			@PathVariable(name = "id") Long bandid,
 			@RequestParam(required = false, name = "owner.id") Long ownerid) {
 
@@ -82,7 +83,7 @@ public class BandController {
 			// No band was sent => new band to be created
 			// Retrieve owner from DB (important for new bands)
 			Musician owner = musicianRepository.findByFirstNameAndLastName("Elke", "E-Gitarre").get(0);
-			
+
 			// if musician with ownerid given was found in DB
 			if (owner != null) {
 				// initialize band.owner
@@ -95,31 +96,44 @@ public class BandController {
 		model.addAttribute("allGenres", new HashSet<Genre>(genreRepository.findAll()));
 		model.addAttribute("positionStates", PositionState.values());
 
+		if (principal != null) {
+			Optional<Musician> musicianOptional = musicianRepository.findByUsername(principal.getName());
+
+			model.addAttribute("musician", musicianOptional.get());
+		}
+
 		return "bandupsert";
 	}
 
 	@PostMapping("edit")
-	public String postBand(Model model, @ModelAttribute Band band) {
+	public String postBand(Model model, @ModelAttribute Band band, Principal principal) {
 
 		// read band as existing in DB
 		Band bandFromDB = bandRepository.getOne(band.getId());
-		
+
 		// DB contains an image for this band
 		if (bandFromDB.getImage() != null) {
 			// set image of band to the one stored n the DB
 			band.setImage(bandFromDB.getImage());
 		}
-		
+
 		// save band.address in address table
 		addressRepository.save(band.getAddress());
-		
+
 		// save band attributes in band table
 		bandRepository.save(band);
 
 		// save bandpositions in bandposition table
 		bandPositionsRepository.saveAll(band.getBandPositions());
-		
+
 		model.addAttribute(band);
+
+		if (principal != null) {
+			Optional<Musician> musicianOptional = musicianRepository.findByUsername(principal.getName());
+
+			model.addAttribute("musician", musicianOptional.get());
+		}
+
 		return "redirect:/band/" + band.getId() + "/view";
 	}
 
@@ -131,7 +145,7 @@ public class BandController {
 
 	@GetMapping("view")
 	public String viewBand(Model model,
-			@PathVariable Long id) {
+			@PathVariable Long id, Principal principal) {
 
 		Band band = new Band();
 		//retrieve object from database
@@ -145,12 +159,24 @@ public class BandController {
 		// add band to the view model
 		model.addAttribute("band", band);
 
+		if (principal != null) {
+			Optional<Musician> musicianOptional = musicianRepository.findByUsername(principal.getName());
+
+			model.addAttribute("musician", musicianOptional.get());
+		}
+
 		return "banddetails";
 	}
-	
+
 	@GetMapping("uploadimage")
-	public String showUploadForm(@PathVariable String id, Model model){
+	public String showUploadForm(@PathVariable String id, Model model, Principal principal){
 		model.addAttribute("bandid", id);
+		
+		if (principal != null) {
+			Optional<Musician> musicianOptional = musicianRepository.findByUsername(principal.getName());
+
+			model.addAttribute("musician", musicianOptional.get());
+		}
 
 		return "imageuploadform";
 	}
@@ -158,36 +184,28 @@ public class BandController {
 	@PostMapping("uploadimage")
 	public String handleImagePost(@PathVariable String id, @RequestParam("imagefile") MultipartFile file){
 
-		imageService.saveImageFile(Long.valueOf(id), file);
+		imageService.saveImageFileBand(Long.valueOf(id), file);
 		return "redirect:/band/" + id + "/view";
 	}
 
 	// Via this route, the image can be retrieved for display via an HTML image element <img ...>
 	@GetMapping("bandimage")
 	public void renderImageFromDB(@PathVariable String id, HttpServletResponse response) throws IOException {
-		
+
 		// retrieve band from DB
 		Optional<Band> bandOptional = bandRepository.findById(Long.valueOf(id));
 
 		// if band was found and image exists
 		if (bandOptional.isPresent() && bandOptional.get().getImage() != null) {
-			
+
 			// get image from Optional
 			Band band = bandOptional.get();
-			
-			// write bytes of image to byteArray
-			byte[] byteArray = new byte[band.getImage().length];
-			int i = 0;
-
-			for (Byte wrappedByte : band.getImage()){
-				byteArray[i++] = wrappedByte; //auto unboxing
-			}
 
 			// set result type to http response
 			response.setContentType("image/jpeg");
-			
+
 			// write ByteArray to http response
-			InputStream is = new ByteArrayInputStream(byteArray);
+			InputStream is = new ByteArrayInputStream(band.getImage());
 			IOUtils.copy(is, response.getOutputStream());
 		}
 	}

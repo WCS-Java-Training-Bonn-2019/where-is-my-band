@@ -37,7 +37,7 @@
     <!-- Hauptbereich -->
     <main>
         <div class="container-fluid">
-            <h3>Search your band</h3>
+            <h3>Suche nach offenen Bandpositionen</h3>
             <form action="#" th:action="@{'/search/'}" method="get">
  
             <!--  Keine Wahlmöglichkeit für Positions - er werden nur Bands mit offenen Positionen gesucht
@@ -54,15 +54,15 @@
                 -->
                 
                 <div class="form-group">
-                    <label class="col-form-label">Zip-Code</label>
-                    <input name="zipcode" type="text" class="form-control" id="zipcode" placeholder="Zip-Code" th:value="${enteredZipcode}">
+                    <label class="col-form-label">Postleitzahl</label>
+                    <input name="zipcode" type="text" class="form-control" id="zipcode" placeholder="Postleitzahl" th:value="${enteredZipcode}">
                 </div>
                 <div class="form-group">
-                    <label for="city">City</label>
-                    <input name="city" type="text" class="form-control" id="city" placeholder="City" th:value="${enteredCity}">
+                    <label for="city">Stadt</label>
+                    <input name="city" type="text" class="form-control" id="city" placeholder="Stadt" th:value="${enteredCity}">
                 </div>
                 <div class="form-group">
-                    <label for="instrument">Instruments</label>
+                    <label for="instrument">Instrumente</label>
                     <select name="instrument" class="form-control" id="instrument">
                         <option></option>
                         <option th:each="instrumentIterator : ${allInstruments}" th:value="${instrumentIterator.name}" th:text="${instrumentIterator.name}" th:selected="${instrumentIterator.name==selectedInstrument}"></option>
@@ -76,37 +76,35 @@
 
                     </select>
                 </div>
-                <button type="submit" class="btn btn-sm btn-light btn-block">Search</button>
+                <button type="submit" class="btn btn-sm btn-light btn-block">Suchen</button>
             </form>
         </div>
     </main>
+    
+    <!--  Generische Anlage der Trefferliste in From von Bootstrap-Cards -->
+    
+    <div class="card" th:each="band : ${bands}">
+	  <img th:src="@{'/band/' + ${band.id} + '/bandimage'}" class="card-img-top" alt="...">
+	  <div class="card-body">
+	  	<h5 th:text="${band.name}">ACDC</h5>
+	    <p class="card-text" th:text="${band.address.postCode} + ' ' + ${band.address.city}"></p>
+	    <p class="card-text">
+	    	<span>Bandpositionen: </span>
+			<span th:each="position, posStat : ${band.bandPositions}">
+				<span th:text="${posStat.last} ? ${position.instrument.name} + ' (' + ${position.state} + ')' : ${position.instrument.name} + ' (' + ${position.state} + '), '">Flöte</span>
+			</span>
+		</p>
+		<p class="card-text">
+	    	<span>Genre: </span>
+			<span th:each="genre, genreStat : ${band.favoriteGenres}">
+				<span th:text="${genreStat.last} ? ${genre.name} : ${genre.name} + ', '">Folklore</span>
+			</span>
+		</p>
+	    <a th:href="@{'/band/' + ${band.id} + '/view'}" class="btn btn-primary">Bandprofil</a>
+	  </div>
+	</div>
 	
-	<table>
-		<tr>
-			<th class="center">Trefferliste</th>
-		</tr>
-		<tr  th:each="band : ${bands}">
-			<td> 
-				<a th:href="@{'/band/' + ${band.id} + '/view'}" th:text="${band.name}">ACDC</a>
-				<ul>
-					<li th:text="${band.address.postCode} + ' ' + ${band.address.city}" ></li>
-					<li>
-						<span>Bandpositionen: </span>
-						<span th:each="position : ${band.bandPositions}">
-							<span th:text="${position.instrument.name} + ', '">Flöte</span>
-						</span>
-					</li>
-					<li>
-						<span>Genre: </span>
-						<span th:each="genre : ${band.favoriteGenres}">
-							<span th:text="${genre.name} + ', '">Folklore</span>
-						</span>
-					</li>
-					
-				</ul>
-			</td>
-		</tr>
-	</table>
+	
 	
 <!-- Muss auf eine andere Seite und in einen anderen Controller
 	<a th:href="@{/band/edit}">Insert new band</a>

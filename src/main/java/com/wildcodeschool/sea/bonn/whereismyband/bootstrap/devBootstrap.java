@@ -8,6 +8,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.wildcodeschool.sea.bonn.whereismyband.entity.Address;
@@ -35,13 +36,14 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 	private InstrumentRepository instrumentRepository;
 	private BandpositionRepository bandpositionRepository;
 	private MusicianRepository musicianRepository;
-	private GenderRepository genderRepository;	
+	private GenderRepository genderRepository;
+	private final PasswordEncoder passwordEncoder;
 
 	@Autowired
 	public devBootstrap(AddressRepository addressRepository, BandRepository bandRepository,
 			GenreRepository genreRepository, InstrumentRepository instrumentRepository,
 			BandpositionRepository bandpositionRepository, MusicianRepository musicianRepository,
-			GenderRepository genderRepository) {
+			GenderRepository genderRepository, PasswordEncoder passwordEncoder) {
 		super();
 		this.addressRepository = addressRepository;
 		this.bandRepository = bandRepository;
@@ -50,6 +52,7 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 		this.bandpositionRepository = bandpositionRepository;
 		this.musicianRepository = musicianRepository;
 		this.genderRepository = genderRepository;
+		this.passwordEncoder = passwordEncoder;
 	}
 
 	@Override
@@ -96,7 +99,7 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 
 			Address elkesAddress = createAdressIfNotExisting("Bonn", "53227");
 			elke.setAddress(elkesAddress);
-
+			
 			elke.setDescription("Hallo, ich bin Elke und spiele E-Gitarre. Musik ist meine große Leidenschaft!");
 
 			// Prepare HashSet favoriteGenres
@@ -119,7 +122,7 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 
 			// Update Instruments
 			elke.setInstruments(elkesInstruments);
-
+			
 			// Save changes in repositories
 			instrumentRepository.save(egitarre);
 			genreRepository.save(oldies);
@@ -146,7 +149,7 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 
 			Address stefansAddress = createAdressIfNotExisting("Sankt Augustin", "53757");
 			stefan.setAddress(stefansAddress);
-
+			
 			stefan.setDescription("Hallo, ich bin Stefan, spiele Schlagzeug seit 6 Jahren und spiele unregelmäßig in einem Musikverein!");
 
 			// Prepare HashSet favoriteGenres
@@ -374,6 +377,9 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 			musician.setLastName(lastName);
 			musician.setBirthday(birthday);
 			musician.setGender(gender);
+			musician.setUsername(firstName + "@" + lastName + ".de");
+			musician.setPhone("02281810");
+			musician.setPassword(passwordEncoder.encode(firstName.toLowerCase()));
 			musicianRepository.save(musician);
 			return musician;
 		} else {
