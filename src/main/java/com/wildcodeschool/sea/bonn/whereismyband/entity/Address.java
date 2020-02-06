@@ -6,19 +6,21 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
+import com.wildcodeschool.sea.bonn.whereismyband.services.PostCodeConstraint;
+
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 @Entity
 @Getter
 @Setter
-@ToString
 public class Address {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	@PostCodeConstraint(message="Ungültige Postleitzahl!!!")
 	private String postCode;
 	private String city;
 	

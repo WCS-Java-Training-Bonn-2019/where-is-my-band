@@ -10,7 +10,7 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 
 // Siehe https://www.baeldung.com/spring-mvc-custom-validator
-
+// Zu annotieren über @PhoneNumberConstraint
 @Documented
 @Constraint(validatedBy = PhoneNumberValidator.class)
 @Target( { ElementType.METHOD, ElementType.FIELD })
