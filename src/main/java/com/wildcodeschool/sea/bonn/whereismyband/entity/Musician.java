@@ -26,7 +26,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.wildcodeschool.sea.bonn.whereismyband.services.PhoneNumberConstraint;
+import com.wildcodeschool.sea.bonn.whereismyband.constraints.PhoneNumberConstraint;
 
 import lombok.Getter;
 import lombok.Setter;

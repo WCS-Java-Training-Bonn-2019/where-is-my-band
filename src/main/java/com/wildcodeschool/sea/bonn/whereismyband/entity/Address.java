@@ -5,8 +5,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
-
-import com.wildcodeschool.sea.bonn.whereismyband.services.PostCodeConstraint;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -20,8 +20,10 @@ public class Address {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@PostCodeConstraint(message="Ungültige Postleitzahl!!!")
+	@Size(min=5, max = 5)
+	@Pattern( regexp = "^[0-9]{5}$", message="Ungültige Postleitzahl!!!")
 	private String postCode;
+
 	private String city;
 	
 	@OneToOne(mappedBy = "address")

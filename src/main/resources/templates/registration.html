@@ -27,14 +27,15 @@
 	<header th:replace="index :: navigation_bar">Navigation</header>
 
 	<h3>Soundmachine Registration</h3>
-	<form method="post" th:action="@{/musician/register}"
-		th:object="${musician}" enctype="multipart/form-data">
+	<form method="post" th:action="@{/register}"
+		th:object="${registrationForm}" enctype="multipart/form-data">
 		<table>
 			<tr th:each="gender : ${allGenders}">
 				<td><input type="radio" th:value="${gender.id}"
 					th:field="*{gender}" required /> <label
 					th:for="${#ids.prev('gender')}" th:text="${gender.name}">Divers</label>
 				</td>
+				<td></td>
 				<td th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}">Geschlecht
 					Fehler</td>
 			</tr>
@@ -73,22 +74,22 @@
 			<tr>
 				<td><label>PLZ:</label></td>
 				<td><input type="text" placeholder="Postleitzahl" required
-					th:field="*{address.postCode}" /></td>
-				<td th:if="${#fields.hasErrors('address.postCode')}"
-					th:errors="*{address.postCode}">PLZ Fehler</td>
+					th:field="*{postCode}" /></td>
+				<td th:if="${#fields.hasErrors('postCode')}" th:errors="*{postCode}">PLZ
+					Fehler</td>
 			</tr>
 			<tr>
 				<td><label>Stadt:</label></td>
 				<td><input type="text" placeholder="Stadt" required
-					th:field="*{address.city}" /></td>
-				<td th:if="${#fields.hasErrors('address.city')}"
-					th:errors="*{address.city}">Stadt Fehler</td>
+					th:field="*{city}" /></td>
+				<td th:if="${#fields.hasErrors('city')}" th:errors="*{city}">Stadt
+					Fehler</td>
 			</tr>
 			<tr>
 				<td><label>Telefon:</label></td>
 				<td><input type="text" placeholder="Phone" th:field="*{phone}" /></td>
-				<td th:if="${#fields.hasErrors('phone')}"
-					th:errors="*{phone}">Telefon Fehler</td>
+				<td th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">Telefon
+					Fehler</td>
 
 			</tr>
 			<tr>
@@ -98,24 +99,34 @@
 				<td th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Email
 					Fehler</td>
 			</tr>
+			<td><label>Email/Benutzername (wiederholt):</label></td>
+			<td><input type="email" placeholder="Email wiederholt" required
+				th:field="*{usernameRepeated}" /></td>
+			<td th:if="${#fields.hasErrors('usernameRepeated')}"
+				th:errors="*{usernameRepeated}">Email Fehler</td>
+			</tr>
 			<tr>
 				<td><label>Passwort:</label></td>
 				<td><input type="password" placeholder="Passwort" required
 					th:field="*{password}" /></td>
+				<td th:if"${#fields.hasErrors('password')}" th:errors="*{password}">Passwort
+					Fehler</td>
 			</tr>
 			<tr>
 				<td><label>Passwort (wiederholt):</label></td>
-				<td><input type="password"
-					placeholder="Passwort (Wiederholung)" required
-					th:name="passwordRepeated" /></td>
+				<td><input type="password" placeholder="Passwort wiederholt"
+					required th:field="*{passwordRepeated}" /></td>
+				<td
+					th:if"${#fields.hasErrors('passwordRepeated')}" th:errors="*{passwordRepeated}">Passwort
+					Fehler</td>
 			</tr>
 		</table>
 		<h4>Genres</h4>
 		<table>
 			<tr th:each="genre : ${allGenres}">
 				<td><input type="checkbox" th:value="${genre.id}"
-					th:field="*{favoriteGenres}" /> <label
-					th:for="${#ids.prev('favoriteGenres')}" th:text="${genre.name}">Kuschelrock</label>
+					th:field="*{genres}" /> <label
+					th:for="${#ids.prev('genres')}" th:text="${genre.name}">Kuschelrock</label>
 				</td>
 			</tr>
 		</table>

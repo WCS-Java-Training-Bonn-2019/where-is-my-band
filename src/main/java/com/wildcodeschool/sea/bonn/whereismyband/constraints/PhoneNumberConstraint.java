@@ -1,4 +1,4 @@
-package com.wildcodeschool.sea.bonn.whereismyband.services;
+package com.wildcodeschool.sea.bonn.whereismyband.constraints;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

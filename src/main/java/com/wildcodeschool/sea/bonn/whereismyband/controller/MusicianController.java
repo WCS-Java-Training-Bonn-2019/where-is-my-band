@@ -137,53 +137,6 @@ public class MusicianController {
 		return "musiciandetails";
 	}
 
-	@GetMapping("register")
-	public String getRegForm(Model model) {
-
-		model.addAttribute("allGenders", genderRepository.findAll());
-		model.addAttribute("allInstruments", instrumentRepository.findAll());
-		model.addAttribute("allGenres", genreRepository.findAll());
-
-		// Create an empty Musician object
-		Musician musician = new Musician();
-
-		// add (empty) musician to the view model
-		model.addAttribute("musician", musician);
-
-		return "registration";
-	}
-
-	@PostMapping("register")
-	public String postRegForm(Model model, 
-			@Valid Musician musician, 
-			BindingResult bindingResult, 
-			@RequestParam (name = "passwordRepeated", required = true) String pwRepeated,
-			@RequestParam("imagefile") MultipartFile file) {
-
-		// Wenn Validierungsregeln nicht erfüllt
-		if (bindingResult.hasErrors()) {
-			// Zeige das Formular mit entsprechenden Fehlermeldungen wieder an
-			model.addAttribute("allGenders", genderRepository.findAll());
-			model.addAttribute("allInstruments", instrumentRepository.findAll());
-			model.addAttribute("allGenres", genreRepository.findAll());
-			return "registration";
-		}
-
-		// Prüfe, ob gesetztes Passwort gesetzt ist und dem pwRepeated entspricht
-		if ((pwRepeated == null) 
-				|| (musician.getPassword() == null) 
-				|| ! pwRepeated.equals(musician.getPassword())) {
-			throw new IllegalArgumentException("Passwort nicht gesetzt bzw. nicht identisch");
-		}
-
-		addressRepository.save(musician.getAddress());
-		musician.setPassword(passwordEncoder.encode(musician.getPassword()));
-		musicianRepository.save(musician);
-		imageService.saveImageFileMusician(musician.getId(), file);
-
-		return "index";
-	}
-
 
 	// Via this route, the image can be retrieved for display via an HTML image element <img ...>
 	@GetMapping("image")

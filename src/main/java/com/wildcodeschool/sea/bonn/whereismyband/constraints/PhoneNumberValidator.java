@@ -1,4 +1,4 @@
-package com.wildcodeschool.sea.bonn.whereismyband.services;
+package com.wildcodeschool.sea.bonn.whereismyband.constraints;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
