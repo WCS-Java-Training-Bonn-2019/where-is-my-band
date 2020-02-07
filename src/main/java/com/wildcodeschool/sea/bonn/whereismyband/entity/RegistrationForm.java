@@ -55,8 +55,7 @@ public class RegistrationForm {
 	@NotNull(message = "Das Geschlecht muss angegeben werden!")
 	private Gender gender;
 
-	@Size(min=5, max = 5)
-	@Pattern( regexp = "^[0-9]{5}$", message="Ungültige Postleitzahl!!!")
+	@Pattern( regexp = "^[0-9]{5}$", message="Bitte eine fünfstellige Zahl eingeben!!!")
 	private String postCode;
 	
 	@NotBlank
