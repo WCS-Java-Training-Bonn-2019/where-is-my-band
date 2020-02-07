@@ -1,5 +1,7 @@
 package com.wildcodeschool.sea.bonn.whereismyband.controller;
 
+import java.util.Optional;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,6 +83,13 @@ public class RegistrationController {
 			return "registration";
 		}
 
+		// Prüfe, ob der Benutzername bereits existiert
+		Optional<Musician> musicianOptionalFromDB = musicianRepository.findByUsername(regForm.getUsername());
+		if (musicianOptionalFromDB.isPresent()) {
+			model.addAttribute("message", "Der Benutzername \'"+ regForm.getUsername() + "\' existiert bereits in der Datenbank!");
+			return "soundmachineerror";
+		}
+		
 		Musician musician = new Musician();
 		musician.setFirstName(regForm.getFirstName());
 		musician.setLastName(regForm.getLastName());
