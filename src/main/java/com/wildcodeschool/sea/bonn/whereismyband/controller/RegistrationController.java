@@ -92,18 +92,20 @@ public class RegistrationController {
 		}
 		
 		// convert file into image byte array
-//		byte[] image=null;
-//		try {
-//			image = file.getBytes();
-//		
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//		
-//		if (imageService.getImageType(image) != "JPEG") {
-//			model.addAttribute("message", "Bitte geben Sie eine Bilddatei im JPEG Format an!");
-//			return "soundmachineerror";			
-//		}
+		byte[] image=new byte[(int) file.getSize()];
+		try {
+			image = file.getBytes();
+		
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		String bildTyp = imageService.getImageType(image);
+		
+		if (! "JPEG".equals(bildTyp)) {
+			model.addAttribute("message", "Bitte geben Sie eine Bilddatei im JPEG Format an!");
+			return "soundmachineerror";			
+		}
 
 		Musician musician = new Musician();
 		musician.setFirstName(regForm.getFirstName());
