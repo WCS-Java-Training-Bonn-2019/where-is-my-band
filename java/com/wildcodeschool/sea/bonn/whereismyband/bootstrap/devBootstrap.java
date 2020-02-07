@@ -74,6 +74,9 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 		Genre oldies = createGenreIfNotExisting("Oldies");
 		Genre metal = createGenreIfNotExisting("Metal");
 		Genre jazz = createGenreIfNotExisting("Jazz");
+		Genre hiphop = createGenreIfNotExisting("Hip Hop");
+		Genre rap = createGenreIfNotExisting("Rap");
+		Genre klassik = createGenreIfNotExisting("Klassik");
 
 		// Create instruments
 		Instrument schlagzeug = createInstrumentIfNotExisting("Schlagzeug");
@@ -82,6 +85,9 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 		Instrument gesang = createInstrumentIfNotExisting("Gesang");
 		Instrument violine = createInstrumentIfNotExisting("Violine");
 		Instrument bass = createInstrumentIfNotExisting("Bass");
+		Instrument trompete = createInstrumentIfNotExisting("Trompete");
+		Instrument saxophon = createInstrumentIfNotExisting("Saxophon");
+		Instrument posaune = createInstrumentIfNotExisting("Posaune");
 		
 
 		boolean elkeExistedBefore = (! musicianRepository.findByFirstNameAndLastNameAndBirthday("Elke", "E-Gitarre", LocalDate.of(1994, 10, 03)).isEmpty());

@@ -36,7 +36,7 @@
 				<input class="form-check-input" type="radio" th:value="${gender.id}"
 					th:field="*{gender}" required /> <label class="form-check-label"
 					th:for="${#ids.prev('gender')}" th:text="${gender.name}">Divers</label>
-				<small class="form-text text-muted"
+				<small class="form-text"
 					th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}">Geschlecht
 					Fehler</small>
 			</div>
@@ -45,14 +45,14 @@
 			<div class="form-group col">
 				<label>Vorname:</label> <input class="form-control" type="text"
 					placeholder="Vorname" th:field="*{firstName}" /> <small
-					class="form-text text-muted"
+					class="form-text "
 					th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">Vorname
 					Fehler</small>
 			</div>
 			<div class="form-group col">
 				<label>Nachname:</label> <input class="form-control" type="text"
 					placeholder="Nachname" required th:field="*{lastName}" /> <small
-					class="form-text text-muted"
+					class="form-text"
 					th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Nachname
 					Fehler</small>
 			</div>
@@ -61,14 +61,14 @@
 			<div class="form-group col">
 				<label>Geburtsdatum:</label> <input class="form-control" type="date"
 					required th:field="*{birthday}" /> <small
-					class="form-text text-muted"
+					class="form-text"
 					th:if="${#fields.hasErrors('birthday')}" th:errors="*{birthday}">Geburtstag
 					Fehler</small>
 			</div>
 			<div class="form-group col">
 				<label>Telefon:</label> <input class="form-control" type="text"
 					placeholder="Phone" th:field="*{phone}" /> <small
-					class="form-text text-muted" th:if="${#fields.hasErrors('phone')}"
+					class="form-text" th:if="${#fields.hasErrors('phone')}"
 					th:errors="*{phone}">Telefon Fehler</small>
 			</div>
 		</div>
@@ -83,22 +83,22 @@
 			<div class="form-group col">
 				<label>PLZ:</label> <input class="form-control" type="text"
 					placeholder="Postleitzahl" required th:field="*{postCode}" /> <small
-					class="form-text text-muted"
+					class="form-text"
 					th:if="${#fields.hasErrors('postCode')}" th:errors="*{postCode}">PLZ
 					Fehler</small>
 			</div>
 			<div class="form-group col">
 				<label>Stadt:</label> <input class="form-control" type="text"
 					placeholder="Stadt" required th:field="*{city}" /> <small
-					class="form-text text-muted" th:if="${#fields.hasErrors('city')}"
+					class="form-text" th:if="${#fields.hasErrors('city')}"
 					th:errors="*{city}">Stadt Fehler</small>
 			</div>
 		</div>
 		<div class="row">
 			<div class="form-group col">
 				<label>Wähle Bilddatei</label> <input class="form-control-file"
-					type="file" id="imagefile" name="imagefile" /> <small
-					class="form-text text-muted" th:if="${#fields.hasErrors('image')}"
+					type="file" id="imagefile" name="imagefile" required /> <small
+					class="form-text" th:if="${#fields.hasErrors('image')}"
 					th:errors="*{image}">Bild Fehler</small>
 			</div>
 		</div>
@@ -106,7 +106,7 @@
 			<div class="form-group col">
 				<label>Email/Benutzername:</label> <input class="form-control"
 					type="email" placeholder="Email" required th:field="*{username}" />
-				<small class="form-text text-muted"
+				<small class="form-text"
 					th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Email
 					Fehler</small>
 			</div>
@@ -114,7 +114,7 @@
 				<label>Email/Benutzername (wiederholt):</label> <input
 					class="form-control" type="email" placeholder="Email wiederholt"
 					required th:field="*{usernameRepeated}" /> <small
-					class="form-text text-muted"
+					class="form-text"
 					th:if="${#fields.hasErrors('usernameRepeated')}"
 					th:errors="*{usernameRepeated}">Email Fehler</small>
 			</div>
@@ -123,7 +123,7 @@
 			<div class="form-group col">
 				<label>Passwort:</label> <input class="form-control" type="password"
 					placeholder="Passwort" required th:field="*{password}" /> <small
-					class="form-text text-muted"
+					class="form-text"
 					th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Passwort
 					Fehler</small>
 			</div>
@@ -131,7 +131,7 @@
 				<label>Passwort (wiederholt):</label> <input class="form-control"
 					type="password" placeholder="Passwort wiederholt" required
 					th:field="*{passwordRepeated}" /> <small
-					class="form-text text-muted"
+					class="form-text"
 					th:if="${#fields.hasErrors('passwordRepeated')}"
 					th:errors="*{passwordRepeated}">Passwort Fehler</small>
 			</div>
@@ -154,7 +154,7 @@
 						th:value="${instrument.id}" th:field="*{instruments}" /> <label
 						class="form-check-label" th:for="${#ids.prev('instruments')}"
 						th:text="${instrument.name}">Schlagzeug</label> <small
-						class="form-text text-muted"
+						class="form-text"
 						th:if="${#fields.hasErrors('instruments')}"
 						th:errors="*{instruments}">Instrumentenfehler</small>
 				</div>

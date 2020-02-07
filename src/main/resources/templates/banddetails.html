@@ -27,7 +27,9 @@
 	<h3>
 		<span th:text="${band.name}">Informationen zur Band</span>
 	</h3>
-	<img src="../static/images/acdc_schriftzug.jpeg"
+
+	<img th:unless="${band.image}" src="https://via.placeholder.com/728x300.png">
+	<img th:if="${band.image}" src="../static/images/acdc_schriftzug.jpeg"
                                      th:src="@{'/band/' + ${band.id} + '/bandimage'}"
                                      height="300">
 	<p th:text="${band.description}">Lorem ipsum dolor sit amet,
