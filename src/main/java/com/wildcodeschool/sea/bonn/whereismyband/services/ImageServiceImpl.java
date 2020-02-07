@@ -73,7 +73,7 @@ public class ImageServiceImpl implements ImageService {
 	@Override
 	public String getImageType(byte[] image) {
 
-		String imageType = "";
+		String imageType = null;
 		
 		try {
 
@@ -85,7 +85,7 @@ public class ImageServiceImpl implements ImageService {
 			// if not at least one reader was found
 			if (!iter.hasNext()) {
 
-				throw new RuntimeException("No readers found!");
+				return null;
 
 			}
 

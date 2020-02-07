@@ -1,5 +1,6 @@
 package com.wildcodeschool.sea.bonn.whereismyband.controller;
 
+import java.io.IOException;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -90,6 +91,20 @@ public class RegistrationController {
 			return "soundmachineerror";
 		}
 		
+		// convert file into image byte array
+//		byte[] image=null;
+//		try {
+//			image = file.getBytes();
+//		
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		
+//		if (imageService.getImageType(image) != "JPEG") {
+//			model.addAttribute("message", "Bitte geben Sie eine Bilddatei im JPEG Format an!");
+//			return "soundmachineerror";			
+//		}
+
 		Musician musician = new Musician();
 		musician.setFirstName(regForm.getFirstName());
 		musician.setLastName(regForm.getLastName());
