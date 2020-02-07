@@ -30,9 +30,9 @@
 		<input
 			name="owner" th:field="*{owner}" type="hidden" /> 
 		<a class="btn btn-default" href="#"
-			th:href="@{'/band/' + ${band.id} + '/uploadimage'}" role="button"><img
-			src="../static/images/acdc_schriftzug.jpeg"
-			th:src="@{'/band/' + ${band.id} + '/bandimage'}" height="300"></a>
+			th:href="@{'/band/' + ${band.id} + '/uploadimage'}" role="button">
+			<img th:unless="${band.image}" src="https://via.placeholder.com/728x300.png">
+			<img th:if="${band.image}" th:src="@{'/band/' + ${band.id} + '/bandimage'}" height="300"></a>
 
 		<table>
 			<tr>
@@ -104,8 +104,10 @@
 				</select></td>
 			</tr>
 		</table>
-		<input type="submit" value="Speichern" />
+		<input class="btn btn-primary" type="submit" value="Speichern" />
 	</form>
+	<a class="btn btn-secondary" href="#" onclick="history.go(-1)">Go
+		Back</a>
 
 	<footer th:replace="index :: footer"></footer>
 

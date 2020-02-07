@@ -20,8 +20,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @FieldMatch.List({
-    @FieldMatch(first = "password", second = "passwordRepeated", message = "Die Passwortfelder müssen passen!!!"),
-    @FieldMatch(first = "username", second = "usernameRepeated", message = "Die Benutzernamen müssen passen!!!")
+    @FieldMatch(first = "password", second = "passwordRepeated", message = "Die Passwortfelder sind nicht identisch. Bitte überprüfen!!!"),
+    @FieldMatch(first = "username", second = "usernameRepeated", message = "Die Benutzernamen sind nicht identisch. Bitte überprüfen!!!")
 })
 public class RegistrationForm {
 

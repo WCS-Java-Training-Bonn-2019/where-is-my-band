@@ -42,7 +42,9 @@
 		</tr>
 		<tr>
 			<td>Bild:</td>
-			<td><img src="../static/images/acdc_schriftzug.jpeg"
+			<td>
+			<img th:unless="${musician.image}" src="https://via.placeholder.com/728x300.png">
+			<img th:if="${musician.image}" src="../static/images/acdc_schriftzug.jpeg"
 				th:src="@{'/musician/' + ${musician.id} + '/image'}" height="300">
 			</td>
 		</tr>
@@ -85,6 +87,17 @@
 				</span>
 			</td>
 		</tr>
+		<tr>
+			<td>Meine Bands:</td>
+			<td><span
+				th:each="band, bandStat : ${musician.bands}"> 
+				<a th:href="@{'/band/' + ${band.id} + '/view'}">
+				 <span th:text="not ${bandStat.last} ? ${band.name} + ', ' : ${band.name}">Trio</span>
+				</a>
+				</span>
+			</td>
+		</tr>
+		
 	</table>
 
 	<footer th:replace="index :: footer">Footer</footer>

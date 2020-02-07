@@ -84,7 +84,8 @@
     <!--  Generische Anlage der Trefferliste in From von Bootstrap-Cards -->
     
     <div class="card" th:each="band : ${bands}">
-	  <img th:src="@{'/band/' + ${band.id} + '/bandimage'}" class="card-img-top" alt="...">
+	  <img th:if="${band.image}" th:src="@{'/band/' + ${band.id} + '/bandimage'}" class="card-img-top" alt="...">
+	  <img th:unless="${band.image}" src="https://via.placeholder.com/728x300.png" class="card-img-top" alt="...">
 	  <div class="card-body">
 	  	<h5 th:text="${band.name}">ACDC</h5>
 	    <p class="card-text" th:text="${band.address.postCode} + ' ' + ${band.address.city}"></p>

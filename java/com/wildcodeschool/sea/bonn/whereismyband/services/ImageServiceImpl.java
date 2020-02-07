@@ -1,6 +1,11 @@
 package com.wildcodeschool.sea.bonn.whereismyband.services;
 
 import java.io.IOException;
+import java.util.Iterator;
+
+import javax.imageio.ImageIO;
+import javax.imageio.ImageReader;
+import javax.imageio.stream.ImageInputStream;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -65,4 +70,39 @@ public class ImageServiceImpl implements ImageService {
         }
     }
 
+	@Override
+	public String getImageType(byte[] image) {
+
+		String imageType = "";
+		
+		try {
+
+			ImageInputStream iis = ImageIO.createImageInputStream(image);
+
+			// get all currently registered readers that recognize the image format
+			Iterator<ImageReader> iter = ImageIO.getImageReaders(iis);
+
+			// if not at least one reader was found
+			if (!iter.hasNext()) {
+
+				throw new RuntimeException("No readers found!");
+
+			}
+
+			// get the first reader
+			ImageReader reader = iter.next();
+
+			// set result variable
+			imageType = reader.getFormatName();
+
+			// close stream
+			iis.close();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		};
+
+		return imageType;
+		
+	}
 }

@@ -64,6 +64,9 @@ h5 {
 	text-decoration: underline;
 }
 
+.form-check-inline .form-check-input {
+	margin-left: 0.3125rem;
+}
 
 
 
