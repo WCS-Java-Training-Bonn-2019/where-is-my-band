@@ -73,9 +73,11 @@
 				(offen)</span></li>
 	</ul>
 	<form method="get" th:action="@{'/band/' + ${band.id} + '/edit'}" th:object="${band}">
+		<div th:if="${band.owner.id == musician.id}">
 		<input
 			name="ownerid" th:field="*{owner.id}" type="hidden"> <input
 			type="submit" value="Edit">
+		</div>
 	</form>
 	
 	<footer th:replace="index :: footer">Footer</footer>
