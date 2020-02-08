@@ -13,6 +13,9 @@ public class FieldMatchValidator implements ConstraintValidator<FieldMatch, Obje
     private String secondFieldName;
     private String message;
 
+    // KrillMi, 08.02.2020
+    // Einlesen der Annotationsparameter für die beiden Attributnamen und die message
+    // Methode wird vor der Verwendung aufgerufen mit der Annotation als Parameter
     @Override
     public void initialize(final FieldMatch constraintAnnotation) {
         firstFieldName = constraintAnnotation.first();
@@ -20,15 +23,20 @@ public class FieldMatchValidator implements ConstraintValidator<FieldMatch, Obje
         message = constraintAnnotation.message();
     }
 
+    // KrillMi, 08.02.2020
+    // Methode wird zur Laufzeit zur Überprüfung des jeweiligen Objektpärchens aufgerufen
+    // Übergeben wird ein Objekt der  Klasse, die mit Fieldmatch annotiert wurde
+    // Die beiden zu vergleichenden Werte werden über BeanUtils.getProperty ausgelesen
     @Override
-    public boolean isValid(final Object value, final ConstraintValidatorContext context) {
+    public boolean isValid(final Object objectToBeValidated, final ConstraintValidatorContext context) {
         boolean valid = true;
         try
         {
-            final Object firstObj = BeanUtils.getProperty(value, firstFieldName);
-            final Object secondObj = BeanUtils.getProperty(value, secondFieldName);
+            final Object firstAttribute = BeanUtils.getProperty(objectToBeValidated, firstFieldName);
+            final Object secondAttribute = BeanUtils.getProperty(objectToBeValidated, secondFieldName);
 
-            valid =  firstObj == null && secondObj == null || firstObj != null && firstObj.equals(secondObj);
+            valid =  firstAttribute == null && secondAttribute == null 
+            		|| firstAttribute != null && firstAttribute.equals(secondAttribute);
         }
         catch (final Exception ignore)
         {

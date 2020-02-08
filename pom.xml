@@ -22,6 +22,7 @@
 	<dependencies>
 
 		<!-- https://mvnrepository.com/artifact/commons-beanutils/commons-beanutils -->
+		<!-- KrillMi => used for FieldMatch contraint validation -->
 		<dependency>
 			<groupId>commons-beanutils</groupId>
 			<artifactId>commons-beanutils</artifactId>

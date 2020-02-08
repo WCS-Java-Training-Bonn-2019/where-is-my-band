@@ -7,11 +7,11 @@ import java.util.Set;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.wildcodeschool.sea.bonn.whereismyband.constraints.FieldMatch;
+import com.wildcodeschool.sea.bonn.whereismyband.constraints.JPEGConstraint;
 import com.wildcodeschool.sea.bonn.whereismyband.constraints.PhoneNumberConstraint;
 
 import lombok.Getter;
@@ -67,6 +67,7 @@ public class RegistrationForm {
 	@NotNull
 	private Set<Instrument> instruments = new HashSet<>();
 
+	@JPEGConstraint(message = "Datei enthält kein Bild im JPEG-Format!")
 	private byte[] image;
 
 	public RegistrationForm() {

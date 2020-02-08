@@ -1,6 +1,5 @@
 package com.wildcodeschool.sea.bonn.whereismyband.controller;
 
-import java.io.IOException;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -12,8 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.wildcodeschool.sea.bonn.whereismyband.entity.Address;
 import com.wildcodeschool.sea.bonn.whereismyband.entity.Musician;
@@ -23,7 +20,6 @@ import com.wildcodeschool.sea.bonn.whereismyband.repository.GenderRepository;
 import com.wildcodeschool.sea.bonn.whereismyband.repository.GenreRepository;
 import com.wildcodeschool.sea.bonn.whereismyband.repository.InstrumentRepository;
 import com.wildcodeschool.sea.bonn.whereismyband.repository.MusicianRepository;
-import com.wildcodeschool.sea.bonn.whereismyband.services.ImageService;
 
 @Controller
 public class RegistrationController {
@@ -34,21 +30,19 @@ public class RegistrationController {
 	private final InstrumentRepository instrumentRepository;
 	private final GenreRepository genreRepository;
 	private final AddressRepository addressRepository;
-	private final ImageService imageService;
 	private final PasswordEncoder passwordEncoder;
 
 
 	@Autowired
 	public RegistrationController(GenderRepository genderRepository, MusicianRepository musicianRepository,
 			InstrumentRepository instrumentRepository, GenreRepository genreRepository,
-			AddressRepository addressRepository, ImageService imageService, PasswordEncoder passwordEncoder) {
+			AddressRepository addressRepository, PasswordEncoder passwordEncoder) {
 		super();
 		this.genderRepository = genderRepository;
 		this.musicianRepository = musicianRepository;
 		this.instrumentRepository = instrumentRepository;
 		this.genreRepository = genreRepository;
 		this.addressRepository = addressRepository;
-		this.imageService = imageService;
 		this.passwordEncoder = passwordEncoder;
 	}
 
@@ -72,7 +66,6 @@ public class RegistrationController {
 	public String postRegForm( 
 			@Valid RegistrationForm regForm, 
 			BindingResult bindingResult, 
-			@RequestParam("imagefile") MultipartFile file,
 			Model model) {
 
 		// Wenn Validierungsregeln nicht erfüllt
@@ -91,22 +84,6 @@ public class RegistrationController {
 			return "soundmachineerror";
 		}
 		
-		// convert file into image byte array
-		byte[] image=new byte[(int) file.getSize()];
-		try {
-			image = file.getBytes();
-		
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		String bildTyp = imageService.getImageType(image);
-		
-		if (! "JPEG".equals(bildTyp)) {
-			model.addAttribute("message", "Bitte geben Sie eine Bilddatei im JPEG Format an!");
-			return "soundmachineerror";			
-		}
-
 		Musician musician = new Musician();
 		musician.setFirstName(regForm.getFirstName());
 		musician.setLastName(regForm.getLastName());
@@ -128,10 +105,10 @@ public class RegistrationController {
 		
 		musician.setFavoriteGenres(regForm.getGenres());
 		musician.setInstruments(regForm.getInstruments());
-
+		musician.setImage(regForm.getImage());
+		
 		addressRepository.save(musician.getAddress());
 		musicianRepository.save(musician);
-		imageService.saveImageFileMusician(musician.getId(), file);
 
 		return "index";
 	}
