@@ -68,6 +68,11 @@ h5 {
 	margin-left: 0.3125rem;
 }
 
+.login {
+	display: flex;
+	justif-content: center;
+}
+
 
 
 
