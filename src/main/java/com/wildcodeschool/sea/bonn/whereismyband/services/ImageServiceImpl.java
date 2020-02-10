@@ -72,6 +72,8 @@ public class ImageServiceImpl implements ImageService {
 		}
 	}
 
+	// KrillMi, 08.02.2020 => detects the type of image passed as a parameter
+	// returns empty String, if nothing was detected
 	@Override
 	public String getImageType(byte[] image) {
 
@@ -93,7 +95,8 @@ public class ImageServiceImpl implements ImageService {
 			// get all currently registered readers that recognize the image format
 			Iterator<ImageReader> iter = ImageIO.getImageReaders(iis);
 
-			// if not at least one reader was found
+			// if not at least one reader was found 
+			// [probably not necessary due to iis being null before in this case]
 			if (!iter.hasNext()) {
 				return null;
 			};

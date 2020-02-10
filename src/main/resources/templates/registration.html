@@ -96,10 +96,12 @@
 		</div>
 		<div class="row">
 			<div class="form-group col">
+
 				<label>Wähle Bilddatei</label> <input class="form-control-file"
-					type="file" id="imagefile" name="imagefile" required /> <small
+					type="file" th:field="*{image}" required /> <small
 					class="form-text" th:if="${#fields.hasErrors('image')}"
 					th:errors="*{image}">Bild Fehler</small>
+
 			</div>
 		</div>
 		<div class="row">
