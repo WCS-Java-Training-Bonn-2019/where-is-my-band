@@ -27,24 +27,26 @@
 
 <body>
 	<header th:replace="index :: navigation_bar">Navigation</header>
-	
-	<main class="login">
-		<h2>Sign in</h2>
-		
-		<form th:action="@{/login}" method="post">
-			<div class="row">
-				<input type="text" placeholder="Email">
-			</div>
-			<div class="row">
-				<input type="password" placeholder="Password">
-			</div>
-			<div class="row">
-				<button type="submit">Login</button>
-			</div>		
-		</form>
-	
+
+	<main>
+
+		<div class="container">
+			<form class="form-signin" method="post" action="/login">
+				<h2 class="form-signin-heading">Login</h2>
+				<p>
+					<label for="username" class="sr-only">Email</label> <input
+						type="text" id="username" name="username" class="form-control"
+						placeholder="Username" required autofocus>
+				</p>
+				<p>
+					<label for="password" class="sr-only">Password</label> <input
+						type="password" id="password" name="password" class="form-control"
+						placeholder="Password" required>
+				</p>
+				<button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+			</form>
+		</div>
 	</main>
-	
 	<footer th:replace="index :: footer">Footer</footer>
 
 </body>

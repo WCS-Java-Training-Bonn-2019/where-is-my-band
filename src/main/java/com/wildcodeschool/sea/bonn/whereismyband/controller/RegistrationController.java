@@ -5,9 +5,6 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,10 +20,9 @@ import com.wildcodeschool.sea.bonn.whereismyband.repository.GenderRepository;
 import com.wildcodeschool.sea.bonn.whereismyband.repository.GenreRepository;
 import com.wildcodeschool.sea.bonn.whereismyband.repository.InstrumentRepository;
 import com.wildcodeschool.sea.bonn.whereismyband.repository.MusicianRepository;
-import com.wildcodeschool.sea.bonn.whereismyband.services.UserDetailsServiceImpl;
 
 @Controller
-public class RegistrationController implements UserDetailsService{
+public class RegistrationController{
 
 
 	private final GenderRepository genderRepository;
@@ -115,38 +111,6 @@ public class RegistrationController implements UserDetailsService{
 		musicianRepository.save(musician);
 
 		return "index";
-	}
-	
-	/* Baustelle für CustomLogin */
-	
-	@GetMapping("/login")
-	public String getLogin() {
-		return "login";
-	}
-	
-	@PostMapping("/login")
-	public String postLogin(Model model) {
-		
-		return "index";
-	}
-
-	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		// TODO Auto-generated method stub
-		Optional<Musician> musician = musicianRepository.findByUsername(username);
-		if(musician != null) {
-			String password = musician.
-		}
-		return loadMusicianByName(username);
-	}
-
-	private UserDetails loadMusicianByName(String username) {
-		// TODO Auto-generated method stub
-		Optional<Musician> optionalMusician = musicianRepository.findByUsername(username);
-		if (optionalMusician.isPresent()) {
-			return optionalMusician.get();
-		}
-		throw new UsernameNotFoundException("User '" + username + "' not found.");
 	}
 	
 }
