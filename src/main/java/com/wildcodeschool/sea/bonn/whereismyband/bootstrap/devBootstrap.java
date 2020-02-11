@@ -74,7 +74,7 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 		Genre oldies = createGenreIfNotExisting("Oldies");
 		Genre metal = createGenreIfNotExisting("Metal");
 		Genre jazz = createGenreIfNotExisting("Jazz");
-		Genre hiphop = createGenreIfNotExisting("Hip Hop");
+		Genre hiphop = createGenreIfNotExisting("HipHop");
 		Genre rap = createGenreIfNotExisting("Rap");
 		Genre klassik = createGenreIfNotExisting("Klassik");
 

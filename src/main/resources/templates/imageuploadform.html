@@ -33,9 +33,13 @@
 	<form method="post"
 		th:action="@{'/band/' + ${bandid} + '/uploadimage'}"
 		enctype="multipart/form-data">
-		<label class="control-label">Wähle Bilddatei</label> <input
-			id="imagefile" name="imagefile" type="file" class="file" /> <br>
-		<button type="submit" class="btn btn-primary">Upload</button>
+		<div class="form-group">
+			<input class="form-control-file" 
+				id="imagefile" name="imagefile" type="file" />
+			<div>
+				<button type="submit" class="btn btn-primary">Upload</button>
+			</div>
+		</div>
 	</form>
 	<footer th:replace="index :: footer">Footer</footer>
 </body>

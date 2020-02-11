@@ -8,6 +8,7 @@ body {
     color: #ffffff;
 
     font-family: 'Reem Kufi', sans-serif;
+    padding: 15px;
 }
 
 a {
@@ -83,6 +84,16 @@ h5 {
 
 
 
+.selectbtn {
+    margin-top: 0em;
+}
 
+.deletebtn {
+    margin-top: 0em;
+}
+
+h4 {
+	margin-top: 1em;
+}
 
 
