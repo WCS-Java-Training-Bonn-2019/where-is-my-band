@@ -18,6 +18,7 @@ import javax.validation.Payload;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface JPEGConstraint {
     String message() default "Bild hat kein JPEG-Format!";
+
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }
