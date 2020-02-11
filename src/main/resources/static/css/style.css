@@ -1,5 +1,4 @@
 body {
-   
     background: 
     url(../images/1078886V2.jpg) no-repeat,
     url(../images/1078886bg.jpg) repeat
@@ -67,6 +66,22 @@ h5 {
 .form-check-inline .form-check-input {
 	margin-left: 0.3125rem;
 }
+/* Positionierung Login-Feld */
+.login {
+	display: flex;
+	justify-content: center;
+	margin-top: 5%;
+	margin-bottom: 5%;
+	align-content: center;
+}
+
+/* Positionierung des rechten Footerbereichs auf der rechten Seite */
+.right {
+	text-align: right;
+}
+
+
+
 
 
 
