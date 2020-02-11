@@ -22,7 +22,7 @@ import com.wildcodeschool.sea.bonn.whereismyband.repository.InstrumentRepository
 import com.wildcodeschool.sea.bonn.whereismyband.repository.MusicianRepository;
 
 @Controller
-public class RegistrationController {
+public class RegistrationController{
 
 
 	private final GenderRepository genderRepository;
@@ -112,4 +112,5 @@ public class RegistrationController {
 
 		return "index";
 	}
+	
 }

@@ -36,11 +36,6 @@
 	<!-- Navigationsleiste-->
 	<header th:fragment="navigation_bar">
 
-		<!-- hier muss noch eine Loesung für das active-Attribut her-->
-		<!-- <a class="nav-item nav-link active" href="#">Home<span class="sr-only">(current)</span></a> -->
-
-		<!-- User is logged in, TRUE has to be replaced by login-information from code  -->
-		<!-- important, "trennung" = login/register in the top right corner -->
 		<div th:if="${TRUE}"> 
 				<nav class="navbar navbar-expand-md navbar-dark bg-transparent">
 					<a class="navbar-brand" th:href="@{'/'}">SoundMachine</a>
@@ -72,25 +67,6 @@
 				</nav>
 		</div>
 
-		<!-- User is not logged in or has to register , FALSE has to be replaced by login-information from code-->
-		<!-- disabled for static page test
-        <div th:unless="${FALSE}">
-            <nav class="navbar navbar-expand-md navbar-dark bg-transparent">
-                <a class="navbar-brand" href="#">SoundMachine</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <div class="navbar-nav float-right text-right pr-3">
-                        <a class="nav-item nav-link" href="#">Home</a>
-                        <a class="nav-item nav-link" href="#">Bands</a>
-                        <a class="nav-item nav-link" href="homepage_logged_in.html">Register/Login</a>
-                    </div>
-                </div>
-            </nav>
-        </div>
-        -->
 	</header>
 
 
@@ -116,10 +92,10 @@
 
 	<!-- Footer-->
 	<footer th:fragment="footer"
-		class="page-footer font-small pt-4 bg-transparent">
+		class="page-footer sticky-bottom font-small pt-4 bg-transparent">
 		<div class="container-fluid text-md-left">
 			<!-- nicht zentrieren bei kleinen Screens <div class="container-fluid text-center text-md-left"> -->
-			<div class="row">
+			<div class="row footer-space">
 				<!-- Auswahlliste links -->
 				<div class="col align-self-start">
 					<ul class="list-unstyled">
@@ -130,13 +106,12 @@
 				</div>
 				<hr class="clearfix w-100 d-md-none pb-3">
 				<!-- Texte rechts -->
-				<div class="col align-self-start">
+				<div class="col align-self-start right">
 					<ul class="list-unstyled">
 						<li><a href="#">Über uns</a></li>
 						<li>Projekt von Teilnehmern der <a
 							href="https://wildcodeschool.com/" target="_blank"> Wild Code
 								School</a><i class="far fa-copyright"></i> 2020
-							</p>
 						</li>
 					</ul>
 				</div>
