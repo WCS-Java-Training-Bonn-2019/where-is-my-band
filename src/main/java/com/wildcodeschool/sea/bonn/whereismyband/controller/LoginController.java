@@ -13,6 +13,6 @@ public class LoginController {
 	
 	@GetMapping("/logout")
 	public String getLogout() {
-		return "redirect:/index";
+		return "login";
 	}
 }
