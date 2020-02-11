@@ -1,5 +1,4 @@
 body {
-   
     background: 
     url(../images/1078886V2.jpg) no-repeat,
     url(../images/1078886bg.jpg) repeat
@@ -70,8 +69,18 @@ h5 {
 
 .login {
 	display: flex;
-	justif-content: center;
+	justify-content: center;
+	margin-top: 5%;
+	margin-bottom: 5%;
+	align-content: center;
 }
+
+.right {
+	text-align: right;
+}
+
+
+
 
 
 
