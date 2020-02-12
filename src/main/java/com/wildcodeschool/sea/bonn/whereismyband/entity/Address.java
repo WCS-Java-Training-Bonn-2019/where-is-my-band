@@ -20,7 +20,6 @@ public class Address {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Size(min=5, max = 5)
 	@Pattern( regexp = "^[0-9]{5}$", message="Ungültige Postleitzahl!!!")
 	private String postCode;
 

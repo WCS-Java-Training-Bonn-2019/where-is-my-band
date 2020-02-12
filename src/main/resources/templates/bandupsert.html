@@ -28,7 +28,7 @@
 	<header th:replace="index :: navigation_bar">Navigation</header>
 
 	<h3 th:text="${band.id} ? 'Band pflegen' : 'Band anlegen'">Band</h3>
-	<form method="post" th:action="@{'/band/' + ${band.id} + '/upsert'}"
+	<form method="post" th:action="${band.id} ? @{'/band/' + ${band.id} + '/edit'} : @{'/band/new'}"
 		th:object="${band}">
 		<input name="id" th:field="*{id}" type="hidden" /> <input
 			name="owner" th:field="*{owner}" type="hidden" />
@@ -126,7 +126,7 @@
 								th:text="${state}">Besetzungstatus</option>
 					</select></td>
 					<td><a class="btn deletebtn btn-secondary"
-						th:href="'/band/' + ${band.id} + '/delete/' + ${position.id}">Delete</a>
+						th:href="'/band/' + ${band.id} + '/deletebandposition/' + ${position.id}">Delete</a>
 					</td>
 				</tr>
 			</table>
@@ -136,7 +136,7 @@
 	<div th:if="${band.id}">
 		<h4>Bandposition hinzufügen</h4>
 		<form method="post"
-			th:action="@{'/band/' + ${band.id} + '/newposition'}"
+			th:action="@{'/band/' + ${band.id} + '/newbandposition'}"
 			th:object="${Position}">
 			<div class="input-group">
 				<div class="input-group-prepend">
