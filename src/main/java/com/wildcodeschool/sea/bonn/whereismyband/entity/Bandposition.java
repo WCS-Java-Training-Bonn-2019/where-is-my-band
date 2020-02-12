@@ -1,5 +1,7 @@
 package com.wildcodeschool.sea.bonn.whereismyband.entity;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -30,5 +32,7 @@ public class Bandposition {
 	private Instrument instrument;
 
 	private PositionState state;
+	
+	private LocalDateTime lastCreated;
 	
 }

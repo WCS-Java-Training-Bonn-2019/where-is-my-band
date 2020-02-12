@@ -1,6 +1,7 @@
 package com.wildcodeschool.sea.bonn.whereismyband.bootstrap;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -88,6 +89,9 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 		Instrument trompete = createInstrumentIfNotExisting("Trompete");
 		Instrument saxophon = createInstrumentIfNotExisting("Saxophon");
 		Instrument posaune = createInstrumentIfNotExisting("Posaune");
+		
+		// Create lastCreatedDate
+		LocalDateTime now = LocalDateTime.now();
 		
 
 		boolean elkeExistedBefore = (! musicianRepository.findByFirstNameAndLastNameAndBirthday("Elke", "E-Gitarre", LocalDate.of(1994, 10, 03)).isEmpty());
@@ -197,6 +201,8 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 			// Start creation of band ACDC
 			// ***************************
 			Band acdc = createBandIfNotExisting("ACDC");
+			
+			
 
 			Address acdcAddress = createAdressIfNotExisting("Bonn", "53227");
 			acdc.setAddress(acdcAddress);
@@ -221,6 +227,7 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 			bandpos1.setAgeFrom(20);
 			bandpos1.setAgeTo(30);
 			bandpos1.setState(PositionState.besetzt);
+			bandpos1.setLastCreated(now);
 			bandpositionRepository.save(bandpos1);
 
 			// Create Position 2
@@ -230,6 +237,7 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 			bandpos2.setAgeFrom(25);
 			bandpos2.setAgeTo(45);
 			bandpos2.setState(PositionState.offen);
+			bandpos2.setLastCreated(now);
 			bandpositionRepository.save(bandpos2);		
 
 			// Create Position 3
@@ -239,6 +247,7 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 			bandpos3.setAgeFrom(30);
 			bandpos3.setAgeTo(50);
 			bandpos3.setState(PositionState.offen);
+			bandpos3.setLastCreated(now);
 			bandpositionRepository.save(bandpos3);
 
 			// Create  Position 4
@@ -248,6 +257,7 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 			bandpos4.setAgeFrom(30);
 			bandpos4.setAgeTo(50);
 			bandpos4.setState(PositionState.offen);
+			bandpos4.setLastCreated(now);
 			bandpositionRepository.save(bandpos4);
 
 
@@ -287,6 +297,7 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 			bandpos1.setAgeFrom(20);
 			bandpos1.setAgeTo(30);
 			bandpos1.setState(PositionState.besetzt);
+			bandpos1.setLastCreated(now);
 			bandpositionRepository.save(bandpos1);
 
 			// Create Position 2
@@ -296,6 +307,7 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 			bandpos2.setAgeFrom(25);
 			bandpos2.setAgeTo(45);
 			bandpos2.setState(PositionState.offen);
+			bandpos2.setLastCreated(now);
 			bandpositionRepository.save(bandpos2);		
 
 			// Create  Position 3
@@ -305,6 +317,7 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 			bandpos3.setAgeFrom(30);
 			bandpos3.setAgeTo(50);
 			bandpos3.setState(PositionState.offen);
+			bandpos3.setLastCreated(now);
 			bandpositionRepository.save(bandpos3);
 
 
@@ -341,6 +354,7 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 			bandpos3.setAgeFrom(30);
 			bandpos3.setAgeTo(50);
 			bandpos3.setState(PositionState.offen);
+			bandpos3.setLastCreated(now);
 			bandpositionRepository.save(bandpos3);
 
 
