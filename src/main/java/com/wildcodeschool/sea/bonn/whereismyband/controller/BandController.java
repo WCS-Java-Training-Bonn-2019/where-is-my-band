@@ -4,7 +4,6 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.Principal;
-import java.util.HashSet;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletResponse;
@@ -21,9 +20,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.wildcodeschool.sea.bonn.whereismyband.entity.Address;
 import com.wildcodeschool.sea.bonn.whereismyband.entity.Band;
 import com.wildcodeschool.sea.bonn.whereismyband.entity.Bandposition;
-import com.wildcodeschool.sea.bonn.whereismyband.entity.Genre;
 import com.wildcodeschool.sea.bonn.whereismyband.entity.Instrument;
 import com.wildcodeschool.sea.bonn.whereismyband.entity.Musician;
 import com.wildcodeschool.sea.bonn.whereismyband.entity.PositionState;
@@ -62,66 +61,69 @@ public class BandController {
 		this.instrumentRepository = instrumentRepository;
 	}
 
-	@GetMapping("list")
-	public String getAll(Model model) {
-		model.addAttribute("bands", bandRepository.findAll());
-		return "bands";
-	}
+	@GetMapping("upsert")
+	public String getUpsertBandForm(Model model, Principal principal,
+			@PathVariable(required = false, name = "id") Long bandid) {
 
-	@GetMapping("edit")
-	public String getBand(Model model, Principal principal,
-			@PathVariable(name = "id") Long bandid,
-			@RequestParam(required = false, name = "owner.id") Long ownerid) {
+		Optional<Musician> userOptional = musicianRepository.findByUsername(principal.getName());
 
-		// Create an empty Band object
-		Band band = new Band();
+		// musician matching the principal was found in DB
+		if (! userOptional.isPresent()) {
+			model.addAttribute("message", "Angemeldeter Benutzer wurde nicht in der Datenbank gefunden");
+			return "soundmachinerror";
+		};
 
-		// if a bandid was sent as a parameter
+		Musician musicianLoggedIn = userOptional.get();
+
+		Band band = null;
+		
+		// if a an existing band shall be updated
 		if (bandid != null) {
-			//retrieve object from database
-			Optional<Band> optionalBand = bandRepository.findById(bandid);
-			// if database object could be retrieved
-			if (optionalBand.isPresent()) {
-				// set gender to the object retrieved
-				band = optionalBand.get();
-			}
-		} else {
-			// No band was sent => new band to be created
-			// Retrieve owner from DB (important for new bands)
-			Musician owner = musicianRepository.findByFirstNameAndLastName("Elke", "E-Gitarre").get(0);
 
-			// if musician with ownerid given was found in DB
-			if (owner != null) {
-				// initialize band.owner
-				band.setOwner(owner);
-			}
+			// read band from database
+			Optional<Band> optionalBand = bandRepository.findById(bandid);
+
+			// if band could not be retrieved
+			if (! optionalBand.isPresent()) {
+				model.addAttribute("message", "Band konnte in Datenbank nicht gefunden werden!");
+				return "soundmachinerror";
+			};				
+
+			// initialize band object with the data read from DB
+			band = optionalBand.get();
+
+		} else {
+			// new band will be created
+			band = new Band();
+
+			// Owner will be the musician logged in
+			band.setOwner(musicianLoggedIn);
+			band.setAddress(new Address());
+
 		}
 
 		// add band to the view model (either empty or prefilled with DB data)
 		model.addAttribute("band", band);
-		model.addAttribute("allGenres", new HashSet<Genre>(genreRepository.findAll()));
+		model.addAttribute("allGenres", genreRepository.findAll());
 		model.addAttribute("positionStates", PositionState.values());
 		model.addAttribute("allInstruments", instrumentRepository.findAll());
-
-		if (principal != null) {
-			Optional<Musician> musicianOptional = musicianRepository.findByUsername(principal.getName());
-
-			model.addAttribute("musician", musicianOptional.get());
-		}
+		model.addAttribute("musician", band.getOwner());
 
 		return "bandupsert";
 	}
 
-	@PostMapping("edit")
-	public String postBand(Model model, @ModelAttribute Band band, Principal principal) {
+	@PostMapping("upsert")
+	public String postUpsertBandForm(Model model, @ModelAttribute Band band, Principal principal) {
 
-		// read band as existing in DB
-		Band bandFromDB = bandRepository.getOne(band.getId());
+		if (band.getId() != null) {
+			// read band as existing in DB
+			Band bandFromDB = bandRepository.getOne(band.getId());
 
-		// DB contains an image for this band
-		if (bandFromDB.getImage() != null) {
-			// set image of band to the one stored n the DB
-			band.setImage(bandFromDB.getImage());
+			// DB contains an image for this band
+			if (bandFromDB.getImage() != null) {
+				// set image of band to the one stored n the DB
+				band.setImage(bandFromDB.getImage());
+			}
 		}
 
 		// save band.address in address table
@@ -151,7 +153,7 @@ public class BandController {
 			@RequestParam(required = true, name="instrID") Long instrID) {
 		// look for band with id in DB
 		Optional<Band> bandOptional = bandRepository.findById(bandID);
-		
+
 		// if band with id could not be found
 		if (!bandOptional.isPresent()) {
 			model.addAttribute("message", "A band with this ID could not be found!");
@@ -165,7 +167,7 @@ public class BandController {
 			model.addAttribute("message", " Instrument with this ID could not be found");
 			return "soundmachineerror";
 		}
-		
+
 		// retrieve band and instrument from DB
 		Band band = bandOptional.get();
 		Instrument instrument = instrumentOptional.get();		
@@ -178,11 +180,15 @@ public class BandController {
 		bandPosition.setAgeFrom(20);
 		bandPosition.setAgeTo(70);
 		bandPositionsRepository.save(bandPosition);
-				
-		return "redirect:/band/" + band.getId() + "/edit";
+
+		if (band.getId() != null) {
+			return "redirect:/band/" + band.getId() + "/upsert";
+		} else {
+			return "redirect:/band//upsert";
+		}
 	}
 
-	
+
 	// KrillMi, 10.02.2020: Deletes the position identified by posID for the band identified by id
 	@GetMapping("delete/{posID}")
 	public String deleteBand(@PathVariable(name="id") Long id, @PathVariable(name="posID") Long posID) {
@@ -218,7 +224,7 @@ public class BandController {
 	@GetMapping("uploadimage")
 	public String showUploadForm(@PathVariable String id, Model model, Principal principal){
 		model.addAttribute("bandid", id);
-		
+
 		if (principal != null) {
 			Optional<Musician> musicianOptional = musicianRepository.findByUsername(principal.getName());
 

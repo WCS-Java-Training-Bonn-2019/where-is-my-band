@@ -27,22 +27,24 @@
 <body>
 	<header th:replace="index :: navigation_bar">Navigation</header>
 
-	<h3 th:text="${band.id} ? 'Edit Band' : 'Create Band'">Band</h3>
-	<form method="post" th:action="@{'/band/' + ${band.id} + '/edit'}"
+	<h3 th:text="${band.id} ? 'Band pflegen' : 'Band anlegen'">Band</h3>
+	<form method="post" th:action="@{'/band/' + ${band.id} + '/upsert'}"
 		th:object="${band}">
-		<input name="owner" th:field="*{owner}" type="hidden" />
+		<input name="id" th:field="*{id}" type="hidden" /> <input
+			name="owner" th:field="*{owner}" type="hidden" />
 		<div class="row">
 			<div class="form-group col">
 				<a class="btn btn-default" href="#"
 					th:href="@{'/band/' + ${band.id} + '/uploadimage'}" role="button">
 					<img th:unless="${band.image}"
-					src="https://via.placeholder.com/728x200.png" class="img-fluid float-left bandphoto">
-					<img th:if="${band.image}"
-					th:src="@{'/band/' + ${band.id} + '/bandimage'}" class="img-fluid float-left bandphoto">
+					src="https://via.placeholder.com/728x200.png"
+					class="img-fluid float-left bandphoto"> <img
+					th:if="${band.image}"
+					th:src="@{'/band/' + ${band.id} + '/bandimage'}"
+					class="img-fluid float-left bandphoto">
 				</a>
 			</div>
-			<div class="form-group col">
-			</div>
+			<div class="form-group col"></div>
 		</div>
 		<div class="row">
 			<div class="form-group col">
@@ -53,7 +55,8 @@
 			</div>
 			<div class="form-group col">
 				<label th:for="*{description}">Beschreibung:</label>
-				<textarea class="form-control" rows="5" cols="50" th:field="*{description}">Eine Beschreibung der Band!</textarea>
+				<textarea class="form-control" rows="5" cols="50"
+					th:field="*{description}">Eine Beschreibung der Band!</textarea>
 				<small class="invalid-feedback"
 					th:if="${#fields.hasErrors('description')}"
 					th:errors="*{description}">Beschreibungsfehler</small>
@@ -70,19 +73,14 @@
 					th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">Telefonfehler</small>
 			</div>
 			<div class="form-group col">
-				<label th:for="*{address.postCode}">PLZ:</label> 
-				<input
+				<label th:for="*{address.postCode}">PLZ:</label> <input
 					class="form-control" type="text" placeholder="Postleitzahl"
-					required th:field="*{address.postCode}" /> 
-				<small
+					required th:field="*{address.postCode}" /> <small
 					class="invalid-feedback"
 					th:if="${#fields.hasErrors('address.postCode')}"
-					th:errors="*{address.postCode}">Telefonfehler</small> 
-				<label
-					th:for="*{address.city}">Stadt:</label> 
-				<input
-					class="form-control" type="text" placeholder="Stadt" required
-					th:field="*{address.city}" /> 
+					th:errors="*{address.postCode}">Telefonfehler</small> <label
+					th:for="*{address.city}">Stadt:</label> <input class="form-control"
+					type="text" placeholder="Stadt" required th:field="*{address.city}" />
 				<small class="invalid-feedback"
 					th:if="${#fields.hasErrors('address.city')}"
 					th:errors="*{address.city}">Stadtfehler</small>
@@ -98,8 +96,8 @@
 		</div>
 
 		<h4>Bandpositionen</h4>
-			<div class="table-responsive">
-				<table class="table table-sm table-dark">
+		<div class="table-responsive">
+			<table class="table table-sm table-dark">
 				<tr>
 					<th scope="col">Instrument</th>
 					<th scope="col">Alter von</th>
@@ -135,22 +133,25 @@
 		</div>
 		<input class="btn btn-primary" type="submit" value="Speichern" />
 	</form>
-	<h4>Bandposition hinzufügen</h4>
-	<form method="post"
-		th:action="@{'/band/' + ${band.id} + '/newposition'}"
-		th:object="${Position}">
-		<div class="input-group">
-			<div class="input-group-prepend">
-				<input type="submit" class="selectbtn btn btn-outline-secondary" value="Hinzufügen"></input>
+	<div th:if="${band.id}">
+		<h4>Bandposition hinzufügen</h4>
+		<form method="post"
+			th:action="@{'/band/' + ${band.id} + '/newposition'}"
+			th:object="${Position}">
+			<div class="input-group">
+				<div class="input-group-prepend">
+					<input type="submit" class="selectbtn btn btn-outline-secondary"
+						value="Hinzufügen"></input>
+				</div>
+				<select class="custom-select" th:name="instrID" th:id="instrID">
+					<option selected>Bitte Instrument wählen...</option>
+					<option th:each="instrument : ${allInstruments}"
+						th:value="${instrument.id}" th:text="${instrument.name}">
+						Geige</option>
+				</select>
 			</div>
-			<select class="custom-select" th:name="instrID" th:id="instrID">
-				<option selected>Bitte Instrument wählen...</option>
-				<option th:each="instrument : ${allInstruments}"
-					th:value="${instrument.id}" th:text="${instrument.name}">
-					Geige</option>
-			</select>
-		</div>
-	</form>
+		</form>
+	</div>
 	<a class="btn btn-secondary" href="#" onclick="history.go(-1)">Go
 		Back</a>
 
