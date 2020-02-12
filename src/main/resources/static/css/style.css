@@ -82,7 +82,7 @@ h5 {
 }
 
 
-
+/* michael */
 
 .selectbtn {
     margin-top: 0em;
@@ -94,6 +94,21 @@ h5 {
 
 h4 {
 	margin-top: 1em;
+}
+
+.bandpositioncontrol {
+	min-width: 100%;
+}
+
+.bandpositioncontainer {
+	display: flex;
+	justify-content: space-around;
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+
+.bandpositioncard {
+	width: 18rem;
 }
 
 
