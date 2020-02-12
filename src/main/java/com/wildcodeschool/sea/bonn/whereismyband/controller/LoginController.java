@@ -1,12 +1,8 @@
 package com.wildcodeschool.sea.bonn.whereismyband.controller;
 
-import java.time.LocalDateTime;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-
-import com.wildcodeschool.sea.bonn.whereismyband.entity.Bandposition;
 
 @Controller
 public class LoginController {
@@ -17,7 +13,7 @@ public class LoginController {
 //	public String getLogin() {
 //		return "login";
 //	}
-	
+
 	@GetMapping("/logout")
 	public String getLogout() {
 		return "logout";
@@ -39,6 +35,7 @@ public class LoginController {
 //		if(db.compareTo(local) < 0 && db.compareTo(past) > 0) {
 //			System.out.println("Erfolg");
 //		}
+		
 		return "login";
 	}
 }

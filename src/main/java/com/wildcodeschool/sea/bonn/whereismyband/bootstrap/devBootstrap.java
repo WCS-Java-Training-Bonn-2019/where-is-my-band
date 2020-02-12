@@ -66,29 +66,29 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 		// Create Genders
 		Gender male = createGenderIfNotExisting("Mann");
 		Gender female = createGenderIfNotExisting("Frau");
-		Gender diverse = createGenderIfNotExisting("Divers");
+		createGenderIfNotExisting("Divers");
 
 		// Create Genres
 		Genre rock = createGenreIfNotExisting("Rock");
 		Genre pop = createGenreIfNotExisting("Pop");
 		Genre schlager = createGenreIfNotExisting("Schlager");
 		Genre oldies = createGenreIfNotExisting("Oldies");
-		Genre metal = createGenreIfNotExisting("Metal");
-		Genre jazz = createGenreIfNotExisting("Jazz");
-		Genre hiphop = createGenreIfNotExisting("HipHop");
-		Genre rap = createGenreIfNotExisting("Rap");
-		Genre klassik = createGenreIfNotExisting("Klassik");
+		createGenreIfNotExisting("Metal");
+		createGenreIfNotExisting("Jazz");
+		createGenreIfNotExisting("HipHop");
+		createGenreIfNotExisting("Rap");
+		createGenreIfNotExisting("Klassik");
 
 		// Create instruments
 		Instrument schlagzeug = createInstrumentIfNotExisting("Schlagzeug");
 		Instrument keyboard = createInstrumentIfNotExisting("Keyboard");
 		Instrument egitarre = createInstrumentIfNotExisting("E-Gitarre");
 		Instrument gesang = createInstrumentIfNotExisting("Gesang");
-		Instrument violine = createInstrumentIfNotExisting("Violine");
-		Instrument bass = createInstrumentIfNotExisting("Bass");
-		Instrument trompete = createInstrumentIfNotExisting("Trompete");
-		Instrument saxophon = createInstrumentIfNotExisting("Saxophon");
-		Instrument posaune = createInstrumentIfNotExisting("Posaune");
+		createInstrumentIfNotExisting("Violine");
+		createInstrumentIfNotExisting("Bass");
+		createInstrumentIfNotExisting("Trompete");
+		createInstrumentIfNotExisting("Saxophon");
+		createInstrumentIfNotExisting("Posaune");
 		
 		// Create lastCreatedDate
 		LocalDateTime now = LocalDateTime.now();
@@ -226,8 +226,8 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 			bandpos1.setBand(acdc);
 			bandpos1.setAgeFrom(20);
 			bandpos1.setAgeTo(30);
-			bandpos1.setState(PositionState.besetzt);
 			bandpos1.setLastCreated(now);
+			bandpos1.setState(PositionState.BESETZT);
 			bandpositionRepository.save(bandpos1);
 
 			// Create Position 2
@@ -236,8 +236,8 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 			bandpos2.setBand(acdc);
 			bandpos2.setAgeFrom(25);
 			bandpos2.setAgeTo(45);
-			bandpos2.setState(PositionState.offen);
 			bandpos2.setLastCreated(now);
+			bandpos2.setState(PositionState.OFFEN);
 			bandpositionRepository.save(bandpos2);		
 
 			// Create Position 3
@@ -246,8 +246,8 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 			bandpos3.setBand(acdc);
 			bandpos3.setAgeFrom(30);
 			bandpos3.setAgeTo(50);
-			bandpos3.setState(PositionState.offen);
 			bandpos3.setLastCreated(now);
+			bandpos3.setState(PositionState.OFFEN);
 			bandpositionRepository.save(bandpos3);
 
 			// Create  Position 4
@@ -256,8 +256,8 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 			bandpos4.setBand(acdc);
 			bandpos4.setAgeFrom(30);
 			bandpos4.setAgeTo(50);
-			bandpos4.setState(PositionState.offen);
 			bandpos4.setLastCreated(now);
+			bandpos4.setState(PositionState.OFFEN);
 			bandpositionRepository.save(bandpos4);
 
 
@@ -296,8 +296,9 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 			bandpos1.setBand(kkmusiker);
 			bandpos1.setAgeFrom(20);
 			bandpos1.setAgeTo(30);
-			bandpos1.setState(PositionState.besetzt);
 			bandpos1.setLastCreated(now);
+
+			bandpos1.setState(PositionState.BESETZT);
 			bandpositionRepository.save(bandpos1);
 
 			// Create Position 2
@@ -306,8 +307,8 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 			bandpos2.setBand(kkmusiker);
 			bandpos2.setAgeFrom(25);
 			bandpos2.setAgeTo(45);
-			bandpos2.setState(PositionState.offen);
 			bandpos2.setLastCreated(now);
+			bandpos2.setState(PositionState.OFFEN);
 			bandpositionRepository.save(bandpos2);		
 
 			// Create  Position 3
@@ -316,8 +317,8 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 			bandpos3.setBand(kkmusiker);
 			bandpos3.setAgeFrom(30);
 			bandpos3.setAgeTo(50);
-			bandpos3.setState(PositionState.offen);
 			bandpos3.setLastCreated(now);
+			bandpos3.setState(PositionState.OFFEN);
 			bandpositionRepository.save(bandpos3);
 
 
@@ -353,8 +354,8 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 			bandpos3.setBand(gmg);
 			bandpos3.setAgeFrom(30);
 			bandpos3.setAgeTo(50);
-			bandpos3.setState(PositionState.offen);
 			bandpos3.setLastCreated(now);
+			bandpos3.setState(PositionState.OFFEN);
 			bandpositionRepository.save(bandpos3);
 
 
