@@ -108,31 +108,36 @@
 		</div>
 		<div class="row">
 			<div class="form-group col">
-				<label>Email/Benutzername:</label> <input class="form-control"
-					type="email" placeholder="Email" required th:field="*{username}" />
+				<label>E-Mail/Benutzername:</label> <input class="form-control"
+					type="email" placeholder="E-Mail" required th:readonly="${isMusicianRegister} ? null : 'readonly'" th:field="*{username}" />
 				<small class="form-text"
-					th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Email
+					th:unless="${isMusicianRegister}">Der Benutzername kann leider nicht geändert werden</small>
+				<small class="form-text"
+					th:if="${#fields.hasErrors('username')}" th:errors="*{username}">E-Mail
 					Fehler</small>
 			</div>
 			<div class="form-group col">
-				<label>Email/Benutzername (wiederholt):</label> <input
-					class="form-control" type="email" placeholder="Email wiederholt"
-					th:required="${isMusicianRegister} ? 'required' : null" th:field="*{usernameRepeated}" /> <small
+				<label>E-Mail/Benutzername (wiederholt):</label> <input
+					class="form-control" type="email" placeholder="E-Mail wiederholt"
+					required th:readonly="${isMusicianRegister} ? null : 'readonly'" th:field="*{usernameRepeated}" /> 
+					<small class="form-text"
+					th:unless="${isMusicianRegister}">Der Benutzername kann leider nicht geändert werden</small>
+					<small
 					class="form-text"
 					th:if="${#fields.hasErrors('usernameRepeated')}"
-					th:errors="*{usernameRepeated}">Email Fehler</small>
+					th:errors="*{usernameRepeated}">E-Mail Fehler</small>
 			</div>
 		</div>
 		<div class="row">
 			<div class="form-group col">
-				<label>Passwort:</label> <input class="form-control" value = "***" type="password"
+				<label>Passwort:</label> <input class="form-control" type="password"
 					placeholder="Passwort" th:required="${isMusicianRegister} ? 'required' : null" th:field="*{password}" /> <small
 					class="form-text"
 					th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Passwort
 					Fehler</small>
 			</div>
 			<div class="form-group col">
-				<label>Passwort (wiederholt):</label> <input class="form-control" value = "***" 
+				<label>Passwort (wiederholt):</label> <input class="form-control" 
 					type="password" placeholder="Passwort wiederholt" th:required="${isMusicianRegister} ? 'required' : null"
 					th:field="*{passwordRepeated}" /> <small
 					class="form-text"
