@@ -15,10 +15,18 @@ a {
     color: #ffffff; 
     text-decoration: none;
 }
-  
+
 a:hover {
-    color: #ffffff; 
-    text-decoration: underline;
+    color: #ffffff;
+}
+
+img {
+    max-width:100%;
+    height:auto;
+}
+
+h5 {
+	text-decoration: underline;
 }
 
 .container-fluid {
@@ -26,46 +34,11 @@ a:hover {
     margin-bottom: 2em;
 }
 
-p {
-    width: 60%;
-}
-
 .main-area {
     margin-top: 5em;
     margin-bottom: 5em;
 }
 
-/*.form-control, label {
-    width: 40%;
-}*/
-
-/* .form-control {
-    /* height: 2em;
-    min-width: 20em;
-}*/
-
-.btn {
-    width: auto;
-    margin-top: 1em;
-}
-
-/* .card {
-	border: solid 1px;
-	border-color: white;
-	box-shadow: 3px 3px;
-	width: 40%;
-	color: white;
-	margin: 1.5em 1em;
-	background-color: rgba(255, 255, 255, 0.15);
-}*/
-
-h5 {
-	text-decoration: underline;
-}
-
-.form-check-inline .form-check-input {
-	margin-left: 0.3125rem;
-}
 /* Positionierung Login-Feld */
 .login {
 	display: flex;
@@ -80,17 +53,6 @@ h5 {
 	text-align: right;
 }
 
-
-/* michael */
-
-.selectbtn {
-    margin-top: 0em;
-}
-
-.deletebtn {
-    margin-top: 0em;
-}
-
 .bandpositioncontrol {
 	min-width: 100%;
 }
@@ -102,13 +64,12 @@ h5 {
 	flex-wrap: wrap;
 }
 
-
 .DescriptionCard {
 	background-color: transparent;
 	width: 15rem;
 	border: 1px solid white;
 	margin: 5px;
-	padding: 5px;
+	padding: 10px;
 }
 
 .ImageCard {
@@ -116,7 +77,7 @@ h5 {
 	width: 60%;
 	border: 1px solid white;
 	margin: 5px;
-	padding: 5px;
+	padding: 10px;
 }
 
 .searchResultCard {
@@ -127,13 +88,13 @@ h5 {
 	padding: 5px;
 }
 
-.TableInCard {
-	margin: 0.5rem;
+.searchResultCard a:hover {
+    color: #ffffff;
+    text-decoration: none;
 }
 
-img {
-    max-width:100%;
-    height:auto;
+.TableInCard {
+	margin: 0.5rem;
 }
 
 .GenreUpdateContainer {
