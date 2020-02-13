@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>Soundmachine Registration</title>
+<title>Soundmachine</title>
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 
@@ -26,7 +26,7 @@
 <body>
 	<header th:replace="index :: navigation_bar">Navigation</header>
 
-	<h3 th:text="${musician.firstName} + '\'s Profil'">Musiker Profil</h3>
+	<h3 th:text="${musician.firstName} + 's Profil'">Musiker Profil</h3>
 	<table>
 		<tr>
 			<td>Geschlecht:</td>
@@ -45,7 +45,7 @@
 			<td>
 			<img th:unless="${musician.image}" src="https://via.placeholder.com/728x300.png">
 			<img th:if="${musician.image}" src="../static/images/acdc_schriftzug.jpeg"
-				th:src="@{'/musician/' + ${musician.id} + '/image'}" height="300">
+				th:src="@{'/musician/image'}" height="300">
 			</td>
 		</tr>
 		<tr>
@@ -67,7 +67,7 @@
 			<td th:text="${musician.phone}">0228/181-0</td>
 		</tr>
 		<tr>
-			<td>Email/Benutzername:</td>
+			<td>E-Mail/Benutzername:</td>
 			<td th:text="${musician.username}">m@m.de</td>
 		</tr>
 
@@ -100,7 +100,12 @@
 		
 	</table>
 	
+		<form method="get" th:action="@{'/musician/edit'}">
+			<input class="btn btn-light" 	type="submit" value="Profil bearbeiten">
+		</form>
+
 	<a class="btn btn-secondary" th:href="'/band/new'">Neue Band anlegen</a>
+
 
 	<footer th:replace="index :: footer">Footer</footer>
 
