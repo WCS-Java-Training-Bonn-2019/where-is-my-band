@@ -46,24 +46,29 @@ public class RegistrationController {
 		this.passwordEncoder = passwordEncoder;
 	}
 
-	@GetMapping("/register")
-	public String getRegForm(Model model) {
 
+	@GetMapping("/register")
+	public String newMusicianGet(Model model) {
+		
 		model.addAttribute("allGenders", genderRepository.findAll());
 		model.addAttribute("allInstruments", instrumentRepository.findAll());
 		model.addAttribute("allGenres", genreRepository.findAll());
+	
+		model.addAttribute("isMusicianRegister", true);
+
 
 		// Create an empty RegistrationForm object
 		RegistrationForm regForm= new RegistrationForm();
-
+		
 		// add (empty) RegForm object to the view model
 		model.addAttribute("registrationForm", regForm);
-
-		return "registration";
+		
+		return "musicianupsert";
 	}
+	
 
 	@PostMapping("/register")
-	public String postRegForm( 
+	public String newMusicianPost( 
 			@Valid RegistrationForm regForm, 
 			BindingResult bindingResult, 
 			Model model) {
@@ -74,7 +79,8 @@ public class RegistrationController {
 			model.addAttribute("allGenders", genderRepository.findAll());
 			model.addAttribute("allInstruments", instrumentRepository.findAll());
 			model.addAttribute("allGenres", genreRepository.findAll());
-			return "registration";
+			model.addAttribute("isMusicianRegister", true);
+			return "musicianupsert";
 		}
 
 		// Prüfe, ob der Benutzername bereits existiert
@@ -112,4 +118,7 @@ public class RegistrationController {
 
 		return "index";
 	}
+	
+
+
 }
