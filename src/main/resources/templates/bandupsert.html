@@ -27,20 +27,21 @@
 <body>
 	<header th:replace="index :: navigation_bar">Navigation</header>
 
-	<h3 th:text="${band.id} ? 'Edit Band' : 'Create Band'">Band</h3>
-	<form method="post" th:action="@{'/band/' + ${band.id} + '/edit'}"
+	<h3 th:text="${band.id} ? 'Band pflegen' : 'Band anlegen'">Band</h3>
+	<form method="post" th:action="${band.id} ? @{'/band/' + ${band.id} + '/edit'} : @{'/band/new'}"
 		th:object="${band}">
-		<input name="owner" th:field="*{owner}" type="hidden" />
+		<input name="id" th:field="*{id}" type="hidden" /> <input
+			name="owner" th:field="*{owner}" type="hidden" />
 		<div class="row">
 			<div class="form-group col">
 				<a class="btn btn-default" href="#"
 					th:href="@{'/band/' + ${band.id} + '/uploadimage'}" role="button">
 					<img th:unless="${band.image}"
-						src="https://via.placeholder.com/728x200.png"
-						class="img-fluid float-left bandphoto">
-					<img th:if="${band.image}"
-						th:src="@{'/band/' + ${band.id} + '/bandimage'}"
-						class="img-fluid float-left bandphoto">
+					src="https://via.placeholder.com/728x200.png"
+					class="img-fluid float-left bandphoto"> <img
+					th:if="${band.image}"
+					th:src="@{'/band/' + ${band.id} + '/bandimage'}"
+					class="img-fluid float-left bandphoto">
 				</a>
 			</div>
 			<div class="form-group col"></div>
@@ -132,23 +133,25 @@
 				value="Speichern" />
 		</div>
 	</form>
-	<h4>Bandposition hinzufügen</h4>
-	<form method="post"
-		th:action="@{'/band/' + ${band.id} + '/newposition'}"
-		th:object="${Position}">
-		<div class="input-group">
-			<div class="input-group-prepend">
-				<input type="submit" class="selectbtn btn btn-outline-secondary"
-					value="Hinzufügen"></input>
+	<div th:if="${band.id}">
+		<h4>Bandposition hinzufügen</h4>
+		<form method="post"
+			th:action="@{'/band/' + ${band.id} + '/newbandposition'}"
+			th:object="${Position}">
+			<div class="input-group">
+				<div class="input-group-prepend">
+					<input type="submit" class="selectbtn btn btn-outline-secondary"
+						value="Hinzufügen"></input>
+				</div>
+				<select class="custom-select" th:name="instrID" th:id="instrID">
+					<option selected>Bitte Instrument wählen...</option>
+					<option th:each="instrument : ${allInstruments}"
+						th:value="${instrument.id}" th:text="${instrument.name}">
+						Geige</option>
+				</select>
 			</div>
-			<select class="custom-select" th:name="instrID" th:id="instrID">
-				<option selected>Bitte Instrument wählen...</option>
-				<option th:each="instrument : ${allInstruments}"
-					th:value="${instrument.id}" th:text="${instrument.name}">
-					Geige</option>
-			</select>
-		</div>
-	</form>
+		</form>
+	</div>
 	<a class="btn btn-secondary" href="#" onclick="history.go(-1)">Go
 		Back</a>
 
