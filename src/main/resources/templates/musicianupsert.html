@@ -1,8 +1,8 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-<title>Soundmachine Registration</title>
+<title>Soundmachine</title>
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 
@@ -28,14 +28,16 @@
 <body>
 	<header th:replace="index :: navigation_bar">Navigation</header>
 
-	<h3>Soundmachine Registration</h3>
-	<form method="post" th:action="@{/register}"
+
+	<!-- If musician is register-flag ist set, than register, otherwise create -->
+	<h3 th:text="${isMusicianRegister} ? 'Soundmachine Registration' : 'Musikerprofil bearbeiten'">Musician</h3>
+	<form method="post" th:action="${isMusicianRegister} ? @{/register}: @{/musician/edit}"
 		th:object="${registrationForm}" enctype="multipart/form-data">
 		<div class="form-group form-check form-check-inline">
 			<div th:each="gender : ${allGenders}">
 				<input class="form-check-input" type="radio" th:value="${gender.id}"
-					th:field="*{gender}" required /> <label class="form-check-label"
-					th:for="${#ids.prev('gender')}" th:text="${gender.name}">Divers</label>
+					th:field="*{gender}" required /> 
+					<label class="form-check-label"	th:for="${#ids.prev('gender')}" th:text="${gender.name}">Divers</label>
 				<small class="form-text"
 					th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}">Geschlecht
 					Fehler</small>
@@ -96,10 +98,9 @@
 		</div>
 		<div class="row">
 			<div class="form-group col">
-
-				<label>Wähle Bilddatei</label> 
-				<input class="form-control-file"
-					type="file" th:field="*{image}" required /> <small
+				<img th:unless="${isMusicianRegister}" 	th:src="@{'/musician/image'}" height="300">
+				<label>Wähle Bilddatei</label> <input class="form-control-file"
+					type="file" th:field="*{image}" th:required="${isMusicianRegister} ? 'required' : null" /> <small
 					class="form-text" th:if="${#fields.hasErrors('image')}"
 					th:errors="*{image}">Bild Fehler</small>
 
@@ -116,7 +117,7 @@
 			<div class="form-group col">
 				<label>Email/Benutzername (wiederholt):</label> <input
 					class="form-control" type="email" placeholder="Email wiederholt"
-					required th:field="*{usernameRepeated}" /> <small
+					th:required="${isMusicianRegister} ? 'required' : null" th:field="*{usernameRepeated}" /> <small
 					class="form-text"
 					th:if="${#fields.hasErrors('usernameRepeated')}"
 					th:errors="*{usernameRepeated}">Email Fehler</small>
@@ -124,15 +125,15 @@
 		</div>
 		<div class="row">
 			<div class="form-group col">
-				<label>Passwort:</label> <input class="form-control" type="password"
-					placeholder="Passwort" required th:field="*{password}" /> <small
+				<label>Passwort:</label> <input class="form-control" value = "***" type="password"
+					placeholder="Passwort" th:required="${isMusicianRegister} ? 'required' : null" th:field="*{password}" /> <small
 					class="form-text"
 					th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Passwort
 					Fehler</small>
 			</div>
 			<div class="form-group col">
-				<label>Passwort (wiederholt):</label> <input class="form-control"
-					type="password" placeholder="Passwort wiederholt" required
+				<label>Passwort (wiederholt):</label> <input class="form-control" value = "***" 
+					type="password" placeholder="Passwort wiederholt" th:required="${isMusicianRegister} ? 'required' : null"
 					th:field="*{passwordRepeated}" /> <small
 					class="form-text"
 					th:if="${#fields.hasErrors('passwordRepeated')}"
