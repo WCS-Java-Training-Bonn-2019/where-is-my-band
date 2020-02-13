@@ -98,10 +98,10 @@
 		th:object="${band}">
 		<div th:if="${band.owner.id == musician.id}">
 			<input name="ownerid" th:field="*{owner.id}" type="hidden">
-			<input class="btn btn-primary" type="submit" value="Edit">
+			<input class="btn btn-primary btnedit" type="submit" value="Edit">
 		</div>
 	</form>
-	<a class="btn btn-secondary" href="#" onclick="history.go(-1)">Go
+	<a class="btn btn-secondary btnback" href="#" onclick="history.go(-1)">Go
 		Back</a>
 	<footer th:replace="index :: footer">Footer</footer>
 </body>

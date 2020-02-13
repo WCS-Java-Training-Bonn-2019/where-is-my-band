@@ -102,3 +102,12 @@ h5 {
 	align-items: center;
 	flex-direction: column;
 }
+
+.btnback, .btnedit, .btnsave, .btndelete {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.btnsearch {
+	width: 10rem;
+}

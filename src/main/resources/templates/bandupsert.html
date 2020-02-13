@@ -129,12 +129,12 @@
 					<option th:each="state : ${positionStates}" th:value="${state}"
 						th:text="${state}">Besetzungstatus</option>
 				</select>
-				<a class="btn deletebtn btn-secondary"
+				<a class="btn deletebtn btn-secondary btndelete"
 					th:href="'/band/' + ${band.id} + '/deletebandposition/' + ${position.id}">Delete</a>
 			</div>
 		</div>
 		<div>
-			<input class="btn btn-primary float-none" type="submit"
+			<input class="btn btn-primary float-none btnsave" type="submit"
 				value="Speichern" />
 		</div>
 	</form>
@@ -157,7 +157,7 @@
 			</div>
 		</form>
 	</div>
-	<a class="btn btn-secondary" href="#" onclick="history.go(-1)">Go
+	<a class="btn btn-secondary btnback" href="#" onclick="history.go(-1)">Go
 		Back</a>
 
 	<footer th:replace="index :: footer"></footer>
