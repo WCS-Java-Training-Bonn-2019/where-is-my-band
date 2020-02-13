@@ -39,10 +39,8 @@ public class EditForm {
 	@NotBlank
 	private String usernameRepeated;
 	
-	//@NotBlank
 	private String password;
 
-	//@NotBlank
 	private String passwordRepeated;
 
 	@PhoneNumberConstraint(message = "Bitte eine gültige Telefonnummer eingeben!")
