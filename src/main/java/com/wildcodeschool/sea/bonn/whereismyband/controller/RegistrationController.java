@@ -22,7 +22,7 @@ import com.wildcodeschool.sea.bonn.whereismyband.repository.InstrumentRepository
 import com.wildcodeschool.sea.bonn.whereismyband.repository.MusicianRepository;
 
 @Controller
-public class RegistrationController {
+public class RegistrationController{
 
 
 	private final GenderRepository genderRepository;
@@ -89,7 +89,18 @@ public class RegistrationController {
 			model.addAttribute("message", "Der Benutzername \'"+ regForm.getUsername() + "\' existiert bereits in der Datenbank!");
 			return "soundmachineerror";
 		}
+
+		Address address = extractAddressFromRegForm(regForm);
+		Musician musician = extractMusicianFromRegForm(regForm, address);
 		
+		addressRepository.save(musician.getAddress());
+		musicianRepository.save(musician);
+
+		return "index";
+	}
+
+	private Musician extractMusicianFromRegForm(RegistrationForm regForm, Address address) {
+
 		Musician musician = new Musician();
 		musician.setFirstName(regForm.getFirstName());
 		musician.setLastName(regForm.getLastName());
@@ -97,28 +108,24 @@ public class RegistrationController {
 		if (regForm.getDescription() != null) {
 			musician.setDescription(regForm.getDescription());
 		}
-
+	
 		musician.setUsername(regForm.getUsername());
 		musician.setPassword(passwordEncoder.encode(regForm.getPassword()));
 		musician.setPhone(regForm.getPhone());
 		musician.setBirthday(regForm.getBirthday());
 		musician.setGender(regForm.getGender());
-
-		Address address = new Address();
-		address.setCity(regForm.getCity());
-		address.setPostCode(regForm.getPostCode());
 		musician.setAddress(address);
-		
 		musician.setFavoriteGenres(regForm.getGenres());
 		musician.setInstruments(regForm.getInstruments());
 		musician.setImage(regForm.getImage());
-		
-		addressRepository.save(musician.getAddress());
-		musicianRepository.save(musician);
-
-		return "index";
+		return musician;
 	}
-	
 
+	private Address extractAddressFromRegForm(RegistrationForm regForm) {
+		Address address = new Address();
+		address.setCity(regForm.getCity());
+		address.setPostCode(regForm.getPostCode());
+		return address;
+	}
 
 }

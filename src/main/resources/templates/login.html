@@ -1,8 +1,8 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<title>SoundMachine Musician File Upload</title>
+<title>Soundmachine Registration</title>
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 
@@ -21,26 +21,38 @@
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
 	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
 	crossorigin="anonymous"></script>
-
-<!-- zum lokalen Testen -->
-<!--  <link rel="stylesheet" href="../static/css/style.css"> -->
 <link rel="stylesheet" th:href="@{/css/style.css}">
-
+<link th:remove="all" rel="stylesheet" href="../static/css/style.css">
 </head>
+
 <body>
 	<header th:replace="index :: navigation_bar">Navigation</header>
-	<h3>Band Photo Upload</h3>
-	<form method="post"
-		th:action="@{'/band/' + ${bandid} + '/uploadimage'}"
-		enctype="multipart/form-data">
-		<div class="form-group">
-			<input class="form-control-file" 
-				id="imagefile" name="imagefile" type="file" />
-			<div>
-				<button type="submit" class="btn btn-primary">Upload</button>
-			</div>
+
+	<main>
+		<div class="container login">
+			<form class="form-signin" method="post" th:action="@{/login}">
+				<h2 class="form-signin-heading">Login</h2>
+				
+				<div th:if="${param.error}" class="alert alert-error">Invalid
+					username and password.</div>
+				<div th:if="${param.logout}" class="alert alert-success">You
+					have been logged out.</div>
+					
+				<p>
+					<label for="username" class="sr-only">Email</label> <input
+						type="text" id="username" name="username" class="form-control"
+						placeholder="Username" required autofocus>
+				</p>
+				<p>
+					<label for="password" class="sr-only">Password</label> <input
+						type="password" id="password" name="password" class="form-control"
+						placeholder="Password" required>
+				</p>
+				<button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+			</form>
 		</div>
-	</form>
+	</main>
 	<footer th:replace="index :: footer">Footer</footer>
+
 </body>
 </html>

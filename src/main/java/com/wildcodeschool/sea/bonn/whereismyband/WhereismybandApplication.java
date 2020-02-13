@@ -13,7 +13,6 @@ public class WhereismybandApplication {
 		SpringApplication.run(WhereismybandApplication.class, args);
 	}
 	
-	
 	@Bean
 	public PasswordEncoder getPasswordEncoder() {
 		return new BCryptPasswordEncoder();

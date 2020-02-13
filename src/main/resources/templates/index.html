@@ -24,8 +24,6 @@
 	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
 	crossorigin="anonymous"></script>
 
-<!-- zum lokalen Testen -->
-<!--  <link rel="stylesheet" href="../static/css/style.css"> -->
 <link rel="stylesheet" th:href="@{/css/style.css}">
 
 </head>
@@ -36,11 +34,6 @@
 	<!-- Navigationsleiste-->
 	<header th:fragment="navigation_bar">
 
-		<!-- hier muss noch eine Loesung für das active-Attribut her-->
-		<!-- <a class="nav-item nav-link active" href="#">Home<span class="sr-only">(current)</span></a> -->
-
-		<!-- User is logged in, TRUE has to be replaced by login-information from code  -->
-		<!-- important, "trennung" = login/register in the top right corner -->
 		<div th:if="${TRUE}"> 
 				<nav class="navbar navbar-expand-md navbar-dark bg-transparent">
 					<a class="navbar-brand" th:href="@{'/'}">SoundMachine</a>
@@ -96,10 +89,10 @@
 
 	<!-- Footer-->
 	<footer th:fragment="footer"
-		class="page-footer font-small pt-4 bg-transparent">
+		class="page-footer sticky-bottom font-small pt-4 bg-transparent">
 		<div class="container-fluid text-md-left">
 			<!-- nicht zentrieren bei kleinen Screens <div class="container-fluid text-center text-md-left"> -->
-			<div class="row">
+			<div class="row footer-space">
 				<!-- Auswahlliste links -->
 				<div class="col align-self-start">
 					<ul class="list-unstyled">
@@ -110,13 +103,12 @@
 				</div>
 				<hr class="clearfix w-100 d-md-none pb-3">
 				<!-- Texte rechts -->
-				<div class="col align-self-start">
+				<div class="col align-self-start right">
 					<ul class="list-unstyled">
 						<li><a href="#">Über uns</a></li>
 						<li>Projekt von Teilnehmern der <a
 							href="https://wildcodeschool.com/" target="_blank"> Wild Code
 								School</a><i class="far fa-copyright"></i> 2020
-							</p>
 						</li>
 					</ul>
 				</div>

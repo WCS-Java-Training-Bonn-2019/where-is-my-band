@@ -16,17 +16,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.wildcodeschool.sea.bonn.whereismyband.entity.Address;
 import com.wildcodeschool.sea.bonn.whereismyband.entity.EditForm;
 import com.wildcodeschool.sea.bonn.whereismyband.entity.Musician;
-import com.wildcodeschool.sea.bonn.whereismyband.entity.RegistrationForm;
 import com.wildcodeschool.sea.bonn.whereismyband.repository.AddressRepository;
 import com.wildcodeschool.sea.bonn.whereismyband.repository.GenderRepository;
 import com.wildcodeschool.sea.bonn.whereismyband.repository.GenreRepository;
@@ -72,7 +68,7 @@ public class MusicianController {
 
 		if (principal != null) {
 			Optional<Musician> musicianOptional = musicianRepository.findByUsername(principal.getName());
-
+			System.out.println("--- Der Username: " + principal.getName());
 			model.addAttribute("musician", musicianOptional.get());
 		}
 
@@ -148,7 +144,7 @@ public class MusicianController {
 	 * @param model
 	 * @return the musician detail page, if all went fine, otherwise the editing form again
 	 */
-	@PostMapping("/edit") // ToDo: Ist die Route richtig?
+	@PostMapping("/edit")
 	public String editMusicianPost(
 
 			@Valid EditForm editForm, BindingResult bindingResult, Principal principal, Model model) {

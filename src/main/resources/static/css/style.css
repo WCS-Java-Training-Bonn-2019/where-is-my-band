@@ -1,5 +1,4 @@
 body {
-   
     background: 
     url(../images/1078886V2.jpg) no-repeat,
     url(../images/1078886bg.jpg) repeat
@@ -9,6 +8,7 @@ body {
     color: #ffffff;
 
     font-family: 'Reem Kufi', sans-serif;
+    padding: 15px;
 }
 
 a {
@@ -67,7 +67,48 @@ h5 {
 .form-check-inline .form-check-input {
 	margin-left: 0.3125rem;
 }
+/* Positionierung Login-Feld */
+.login {
+	display: flex;
+	justify-content: center;
+	margin-top: 5%;
+	margin-bottom: 5%;
+	align-content: center;
+}
+
+/* Positionierung des rechten Footerbereichs auf der rechten Seite */
+.right {
+	text-align: right;
+}
 
 
+/* michael */
+
+.selectbtn {
+    margin-top: 0em;
+}
+
+.deletebtn {
+    margin-top: 0em;
+}
+
+h4 {
+	margin-top: 1em;
+}
+
+.bandpositioncontrol {
+	min-width: 100%;
+}
+
+.bandpositioncontainer {
+	display: flex;
+	justify-content: space-around;
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+
+.bandpositioncard {
+	width: 18rem;
+}
 
 
