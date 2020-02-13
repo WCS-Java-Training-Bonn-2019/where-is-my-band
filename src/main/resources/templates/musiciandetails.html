@@ -28,7 +28,7 @@
 
 	<h3 th:text="${musician.firstName} + 's Profil'">Musiker Profil</h3>
 	<div class="CardContainer">
-		<div class="card ImageCard">
+		<div class="card ImageCardMusician">
 			<img class="card-img-top" th:unless="${musician.image}"
 				src="https://via.placeholder.com/728x300.png">
 			<img class="card-img-top" th:if="${musician.image}"

@@ -34,7 +34,7 @@
 		<input name="id" th:field="*{id}" type="hidden" />
 		<input name="owner" th:field="*{owner}" type="hidden" />
 		<div class="CardContainer">
-			<div class="card ImageCard">
+			<div class="card ImageCardBand">
 				<a href="#" th:href="@{'/band/' + ${band.id} + '/uploadimage'}"
 					role="button">
 					<img class="card-img-top" th:unless="${band.image}"
