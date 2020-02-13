@@ -100,8 +100,8 @@
 				th:for="${#ids.prev('favoriteGenres')}" th:text="${genre.name}">Kuschelrock</label>
 		</div>
 
-		<h4>Bandpositionen</h4>
-		<div class="bandpositioncontainer">
+		<h4 th:if="${band.id}">Bandpositionen</h4>
+		<div th:if="${band.id}" class="bandpositioncontainer">
 			<div class="card bandpositioncard"
 				th:each="position, positionStat : *{bandPositions}">
 				<input name="${position.id}"
@@ -125,7 +125,7 @@
 						th:text="${state}">Besetzungstatus</option>
 				</select>
 				<a class="btn deletebtn btn-secondary"
-					th:href="'/band/' + ${band.id} + '/delete/' + ${position.id}">Delete</a>
+					th:href="'/band/' + ${band.id} + '/deletebandposition/' + ${position.id}">Delete</a>
 			</div>
 		</div>
 		<div>
