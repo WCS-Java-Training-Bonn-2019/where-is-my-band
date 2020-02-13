@@ -48,8 +48,9 @@
 		</div>
 		<div class="row">
 			<div class="form-group col">
-				<label th:for="*{name}">Name:</label> <input class="form-control"
-					type="text" placeholder="Bandname" required th:field="*{name}" />
+				<label th:for="*{name}">Name:</label>
+				<input class="form-control" type="text" placeholder="Bandname"
+					required th:field="*{name}" />
 				<small class="invalid-feedback" th:if="${#fields.hasErrors('name')}"
 					th:errors="*{name}">Bandnamensfehler</small>
 			</div>
@@ -64,23 +65,27 @@
 		</div>
 		<div class="row">
 			<div class="form-group col">
-				<label th:for="*{email}">Email:</label> <input class="form-control"
-					type="email" placeholder="Email" required th:field="*{email}" /> <small
-					class="invalid-feedback" th:if="${#fields.hasErrors('email')}"
-					th:errors="*{email}">Emailfehler</small> <label th:for="*{phone}">Phone:</label>
+				<label th:for="*{email}">Email:</label>
+				<input class="form-control" type="email" placeholder="Email"
+					required th:field="*{email}" />
+				<small class="invalid-feedback"
+					th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Emailfehler</small>
+				<label th:for="*{phone}">Phone:</label>
 				<input class="form-control" type="text" placeholder="Phone" required
-					th:field="*{phone}" /> <small class="invalid-feedback"
+					th:field="*{phone}" />
+				<small class="invalid-feedback"
 					th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">Telefonfehler</small>
 			</div>
 			<div class="form-group col">
-				<label th:for="*{address.postCode}">PLZ:</label> <input
-					class="form-control" type="text" placeholder="Postleitzahl"
-					required th:field="*{address.postCode}" /> <small
-					class="invalid-feedback"
+				<label th:for="*{address.postCode}">PLZ:</label>
+				<input class="form-control" type="text" placeholder="Postleitzahl"
+					required th:field="*{address.postCode}" />
+				<small class="invalid-feedback"
 					th:if="${#fields.hasErrors('address.postCode')}"
-					th:errors="*{address.postCode}">Telefonfehler</small> <label
-					th:for="*{address.city}">Stadt:</label> <input class="form-control"
-					type="text" placeholder="Stadt" required th:field="*{address.city}" />
+					th:errors="*{address.postCode}">Telefonfehler</small>
+				<label th:for="*{address.city}">Stadt:</label>
+				<input class="form-control" type="text" placeholder="Stadt" required
+					th:field="*{address.city}" />
 				<small class="invalid-feedback"
 					th:if="${#fields.hasErrors('address.city')}"
 					th:errors="*{address.city}">Stadtfehler</small>
@@ -90,48 +95,43 @@
 		<div class="form-check form-check-inline"
 			th:each="genre : ${allGenres}">
 			<input class="form-check-input" type="checkbox"
-				th:value="${genre.id}" th:field="*{favoriteGenres}" /> <label
-				class="form-check-label" th:for="${#ids.prev('favoriteGenres')}"
-				th:text="${genre.name}">Kuschelrock</label>
+				th:value="${genre.id}" th:field="*{favoriteGenres}" />
+			<label class="form-check-label"
+				th:for="${#ids.prev('favoriteGenres')}" th:text="${genre.name}">Kuschelrock</label>
 		</div>
 
 		<h4>Bandpositionen</h4>
-		<div class="table-responsive">
-			<table class="table table-sm table-dark">
-				<tr>
-					<th scope="col">Instrument</th>
-					<th scope="col">Alter von</th>
-					<th scope="col">Alter bis</th>
-					<th scope="col">Status</th>
-					<th scope="col">Löschen</th>
-				</tr>
-				<tr th:each="position, positionStat : *{bandPositions}">
-					<input name="${position.id}"
-						th:field="*{bandPositions[__${positionStat.index}__].id}"
-						type="hidden" />
-					<input name="${position.band.id}"
-						th:field="*{bandPositions[__${positionStat.index}__].band.id}"
-						type="hidden" />
-					<input name="${position.instrument.id}"
-						th:field="*{bandPositions[__${positionStat.index}__].instrument.id}"
-						type="hidden" />
-					<td><span th:text="${position.instrument.name} + ':'">Posaune:</span></td>
-					<td><input class="form-control" type="number"
-						th:field="*{bandPositions[__${positionStat.index}__].ageFrom}" /></td>
-					<td><input class="form-control" type="number"
-						th:field="*{bandPositions[__${positionStat.index}__].ageTo}" /></td>
-					<td><select class="custom-select"
-						th:field="*{bandPositions[__${positionStat.index}__].state}">
-							<option th:each="state : ${positionStates}" th:value="${state}"
-								th:text="${state}">Besetzungstatus</option>
-					</select></td>
-					<td><a class="btn deletebtn btn-secondary"
-						th:href="'/band/' + ${band.id} + '/deletebandposition/' + ${position.id}">Delete</a>
-					</td>
-				</tr>
-			</table>
+		<div class="bandpositioncontainer">
+			<div class="card bandpositioncard"
+				th:each="position, positionStat : *{bandPositions}">
+				<input name="${position.id}"
+					th:field="*{bandPositions[__${positionStat.index}__].id}"
+					type="hidden" />
+				<input name="${position.band.id}"
+					th:field="*{bandPositions[__${positionStat.index}__].band.id}"
+					type="hidden" />
+				<input name="${position.instrument.id}"
+					th:field="*{bandPositions[__${positionStat.index}__].instrument.id}"
+					type="hidden" />
+
+				<h5 class="card-header" th:text="${position.instrument.name}">Posaune</h5>
+				<input class="form-control bandpositioncontrol" type="number"
+					th:field="*{bandPositions[__${positionStat.index}__].ageFrom}" />
+				<input class="form-control bandpositioncontrol" type="number"
+					th:field="*{bandPositions[__${positionStat.index}__].ageTo}" />
+				<select class="custom-select"
+					th:field="*{bandPositions[__${positionStat.index}__].state}">
+					<option th:each="state : ${positionStates}" th:value="${state}"
+						th:text="${state}">Besetzungstatus</option>
+				</select>
+				<a class="btn deletebtn btn-secondary"
+					th:href="'/band/' + ${band.id} + '/delete/' + ${position.id}">Delete</a>
+			</div>
 		</div>
-		<input class="btn btn-primary" type="submit" value="Speichern" />
+		<div>
+			<input class="btn btn-primary float-none" type="submit"
+				value="Speichern" />
+		</div>
 	</form>
 	<div th:if="${band.id}">
 		<h4>Bandposition hinzufügen</h4>
