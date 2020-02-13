@@ -52,13 +52,13 @@
 					
 						<ul class="nav navbar-nav navbar-right">
 							<li class="nav-item">																										
-								<a class="nav-link" href="#" th:href="@{/login}" sec:authorize="!isAuthenticated()">Login</a>
-								<a class="nav-link" href="#" th:href="@{/logout}" sec:authorize="isAuthenticated()">Logout</a>
+								<a class="nav-link" href="#" th:href="@{/login}" sec:authorize="!isAuthenticated()">Anmelden</a>
+								<a class="nav-link" href="#" th:href="@{/logout}" sec:authorize="isAuthenticated()">Abmelden</a>
 							</li>
 						</ul>
 						<ul class="nav navbar-nav navbar-right">
 							<li class="nav-item">
-								<a class="nav-link" href="#" th:href="@{/register}" sec:authorize="!isAuthenticated()">Register</a>
+								<a class="nav-link" href="#" th:href="@{/register}" sec:authorize="!isAuthenticated()">Registrieren</a>
 							</li>
 						</ul>
 					</div>

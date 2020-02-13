@@ -30,11 +30,11 @@
 
 
 	<!-- If musician is register-flag ist set, than register, otherwise create -->
-	<h3 th:text="${isMusicianRegister} ? 'Soundmachine Registration' : 'Musikerprofil bearbeiten'">Musician</h3>
+	<h3 th:text="${isMusicianRegister} ? 'Soundmachine Registrierung' : 'Musikerprofil bearbeiten'">Musician</h3>
 	<form method="post" th:action="${isMusicianRegister} ? @{/register}: @{/musician/edit}"
 		th:object="${registrationForm}" enctype="multipart/form-data">
-		<div class="form-group form-check form-check-inline">
-			<div th:each="gender : ${allGenders}">
+		<div class="form-group">
+			<div class="form-check form-check-inline" th:each="gender : ${allGenders}">
 				<input class="form-check-input" type="radio" th:value="${gender.id}"
 					th:field="*{gender}" required /> 
 					<label class="form-check-label"	th:for="${#ids.prev('gender')}" th:text="${gender.name}">Divers</label>
@@ -164,7 +164,7 @@
 				</div>
 			</div>
 		</div>
-		<input class="btn btn-primary" type="submit" value="Speichern" />
+		<input class="btn btn-primary btnsave" type="submit" value="Speichern" />
 	</form>
 
 	<footer th:replace="index :: footer">Footer</footer>
