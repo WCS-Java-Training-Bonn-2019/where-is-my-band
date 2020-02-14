@@ -59,17 +59,17 @@
 
 				<div class="form-group">
 					<label class="col-form-label">Postleitzahl</label>
-					<input name="zipcode" type="text" class="form-control" id="zipcode"
+					<input name="zipcode" type="text" class="form-control width-50percent" id="zipcode"
 						placeholder="Postleitzahl" th:value="${enteredZipcode}">
 				</div>
 				<div class="form-group">
 					<label for="city">Stadt</label>
-					<input name="city" type="text" class="form-control" id="city"
+					<input name="city" type="text" class="form-control width-50percent" id="city"
 						placeholder="Stadt" th:value="${enteredCity}">
 				</div>
 				<div class="form-group">
 					<label for="instrument">Instrumente</label>
-					<select name="instrument" class="custom-select" id="instrument">
+					<select name="instrument" class="form-control width-50percent" id="instrument">
 						<option></option>
 						<option th:each="instrumentIterator : ${allInstruments}"
 							th:value="${instrumentIterator.name}"
@@ -79,7 +79,7 @@
 				</div>
 				<div class="form-group">
 					<label for="genre">Genres</label>
-					<select name="genre" class="custom-select" id="genre">
+					<select name="genre" class="form-control width-50percent" id="genre">
 						<option></option>
 						<option th:each="genreIterator : ${allGenres}"
 							th:value="${genreIterator.name}" th:text="${genreIterator.name}"

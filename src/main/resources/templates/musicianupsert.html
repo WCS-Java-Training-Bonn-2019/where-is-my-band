@@ -30,112 +30,125 @@
 
 
 	<!-- If musician is register-flag ist set, than register, otherwise create -->
-	<h3 th:text="${isMusicianRegister} ? 'Soundmachine Registrierung' : 'Musikerprofil bearbeiten'">Musician</h3>
-	<form method="post" th:action="${isMusicianRegister} ? @{/register}: @{/musician/edit}"
+	<h3
+		th:text="${isMusicianRegister} ? 'Soundmachine Registrierung' : 'Musikerprofil bearbeiten'">Musician</h3>
+	<form method="post"
+		th:action="${isMusicianRegister} ? @{/register}: @{/musician/edit}"
 		th:object="${registrationForm}" enctype="multipart/form-data">
 		<div class="form-group">
-			<div class="form-check form-check-inline" th:each="gender : ${allGenders}">
+			<div class="form-check form-check-inline"
+				th:each="gender : ${allGenders}">
 				<input class="form-check-input" type="radio" th:value="${gender.id}"
-					th:field="*{gender}" required /> 
-					<label class="form-check-label"	th:for="${#ids.prev('gender')}" th:text="${gender.name}">Divers</label>
-				<small class="form-text"
-					th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}">Geschlecht
-					Fehler</small>
+					th:field="*{gender}" required />
+				<label class="form-check-label" th:for="${#ids.prev('gender')}"
+					th:text="${gender.name}">Divers</label>
+				<small class="form-text" th:if="${#fields.hasErrors('gender')}"
+					th:errors="*{gender}">Geschlecht Fehler</small>
 			</div>
 		</div>
 		<div class="row">
 			<div class="form-group col">
-				<label>Vorname:</label> <input class="form-control" type="text"
-					placeholder="Vorname" th:field="*{firstName}" /> <small
-					class="form-text "
-					th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">Vorname
-					Fehler</small>
+				<label>Vorname:</label>
+				<input class="form-control width-50percent" type="text"
+					placeholder="Vorname" th:field="*{firstName}" />
+				<small class="form-text " th:if="${#fields.hasErrors('firstName')}"
+					th:errors="*{firstName}">Vorname Fehler</small>
 			</div>
 			<div class="form-group col">
-				<label>Nachname:</label> <input class="form-control" type="text"
-					placeholder="Nachname" required th:field="*{lastName}" /> <small
-					class="form-text"
-					th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Nachname
-					Fehler</small>
+				<label>Nachname:</label>
+				<input class="form-control width-50percent" type="text"
+					placeholder="Nachname" required th:field="*{lastName}" />
+				<small class="form-text" th:if="${#fields.hasErrors('lastName')}"
+					th:errors="*{lastName}">Nachname Fehler</small>
 			</div>
 		</div>
 		<div class="row">
 			<div class="form-group col">
-				<label>Geburtsdatum:</label> <input class="form-control" type="date"
-					required th:field="*{birthday}" /> <small
-					class="form-text"
-					th:if="${#fields.hasErrors('birthday')}" th:errors="*{birthday}">Geburtstag
-					Fehler</small>
+				<label>Geburtsdatum:</label>
+				<input class="form-control width-50percent" type="date" required
+					th:field="*{birthday}" />
+				<small class="form-text" th:if="${#fields.hasErrors('birthday')}"
+					th:errors="*{birthday}">Geburtstag Fehler</small>
 			</div>
 			<div class="form-group col">
-				<label>Telefon:</label> <input class="form-control" type="text"
-					placeholder="Phone" th:field="*{phone}" /> <small
-					class="form-text" th:if="${#fields.hasErrors('phone')}"
+				<label>Telefon:</label>
+				<input class="form-control width-50percent" type="text"
+					placeholder="Phone" th:field="*{phone}" />
+				<small class="form-text" th:if="${#fields.hasErrors('phone')}"
 					th:errors="*{phone}">Telefon Fehler</small>
 			</div>
 		</div>
 		<div class="row">
 			<div class="form-group col">
 				<label>Beschreibung:</label>
-				<textarea class="form-control" name="description" rows="5" cols="60"
+				<textarea class="form-control width-textarea" name="description" rows="5" cols="60"
 					th:field="*{description}">Mein Beschreibungstext</textarea>
 			</div>
 		</div>
 		<div class="row">
 			<div class="form-group col">
-				<label>PLZ:</label> <input class="form-control" type="text"
-					placeholder="Postleitzahl" required th:field="*{postCode}" /> <small
-					class="form-text"
-					th:if="${#fields.hasErrors('postCode')}" th:errors="*{postCode}">PLZ
-					Fehler</small>
+				<label>PLZ:</label>
+				<input class="form-control width-50percent" type="text" placeholder="Postleitzahl"
+					required th:field="*{postCode}" />
+				<small class="form-text" th:if="${#fields.hasErrors('postCode')}"
+					th:errors="*{postCode}">PLZ Fehler</small>
 			</div>
 			<div class="form-group col">
-				<label>Stadt:</label> <input class="form-control" type="text"
-					placeholder="Stadt" required th:field="*{city}" /> <small
-					class="form-text" th:if="${#fields.hasErrors('city')}"
+				<label>Stadt:</label>
+				<input class="form-control width-50percent" type="text" placeholder="Stadt" required
+					th:field="*{city}" />
+				<small class="form-text" th:if="${#fields.hasErrors('city')}"
 					th:errors="*{city}">Stadt Fehler</small>
 			</div>
 		</div>
 		<div class="row">
 			<div class="form-group col">
-				<img th:unless="${isMusicianRegister}" 	th:src="@{'/musician/image'}" height="300">
-				<label>Wähle Bilddatei</label> <input class="form-control-file"
-					type="file" th:field="*{image}" th:required="${isMusicianRegister} ? 'required' : null" /> <small
-					class="form-text" th:if="${#fields.hasErrors('image')}"
+				<img th:unless="${isMusicianRegister}" th:src="@{'/musician/image'}"
+					height="300">
+				<label>Wähle Bilddatei</label>
+				<input class="form-control-file" type="file" th:field="*{image}"
+					th:required="${isMusicianRegister} ? 'required' : null" />
+				<small class="form-text" th:if="${#fields.hasErrors('image')}"
 					th:errors="*{image}">Bild Fehler</small>
 
 			</div>
 		</div>
 		<div class="row">
 			<div class="form-group col">
-				<label>Email/Benutzername:</label> <input class="form-control"
-					type="email" placeholder="Email" required th:field="*{username}" />
-				<small class="form-text"
-					th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Email
-					Fehler</small>
+				<label>Email/Benutzername:</label>
+				<input class="form-control width-50percent" type="email" placeholder="Email"
+					required th:field="*{username}" />
+				<small class="form-text" th:if="${#fields.hasErrors('username')}"
+					th:errors="*{username}">Email Fehler</small>
 			</div>
 			<div class="form-group col">
-				<label>Email/Benutzername (wiederholt):</label> <input
-					class="form-control" type="email" placeholder="Email wiederholt"
-					th:required="${isMusicianRegister} ? 'required' : null" th:field="*{usernameRepeated}" /> <small
-					class="form-text"
+				<label>Email/Benutzername (wiederholt):</label>
+				<input class="form-control width-50percent" type="email"
+					placeholder="Email wiederholt"
+					th:required="${isMusicianRegister} ? 'required' : null"
+					th:field="*{usernameRepeated}" />
+				<small class="form-text"
 					th:if="${#fields.hasErrors('usernameRepeated')}"
 					th:errors="*{usernameRepeated}">Email Fehler</small>
 			</div>
 		</div>
 		<div class="row">
 			<div class="form-group col">
-				<label>Passwort:</label> <input class="form-control" value = "***" type="password"
-					placeholder="Passwort" th:required="${isMusicianRegister} ? 'required' : null" th:field="*{password}" /> <small
-					class="form-text"
-					th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Passwort
-					Fehler</small>
+				<label>Passwort:</label>
+				<input class="form-control width-50percent" value="***" type="password"
+					placeholder="Passwort"
+					th:required="${isMusicianRegister} ? 'required' : null"
+					th:field="*{password}" />
+				<small class="form-text" th:if="${#fields.hasErrors('password')}"
+					th:errors="*{password}">Passwort Fehler</small>
 			</div>
 			<div class="form-group col">
-				<label>Passwort (wiederholt):</label> <input class="form-control" value = "***" 
-					type="password" placeholder="Passwort wiederholt" th:required="${isMusicianRegister} ? 'required' : null"
-					th:field="*{passwordRepeated}" /> <small
-					class="form-text"
+				<label>Passwort (wiederholt):</label>
+				<input class="form-control width-50percent" value="***" type="password"
+					placeholder="Passwort wiederholt"
+					th:required="${isMusicianRegister} ? 'required' : null"
+					th:field="*{passwordRepeated}" />
+				<small class="form-text"
 					th:if="${#fields.hasErrors('passwordRepeated')}"
 					th:errors="*{passwordRepeated}">Passwort Fehler</small>
 			</div>
@@ -146,8 +159,8 @@
 				<h4>Genres</h4>
 				<div class="form-check" th:each="genre : ${allGenres}">
 					<input class="form-check-input" type="checkbox"
-						th:value="${genre.id}" th:field="*{genres}" /> <label
-						class="form-check-label" th:for="${#ids.prev('genres')}"
+						th:value="${genre.id}" th:field="*{genres}" />
+					<label class="form-check-label" th:for="${#ids.prev('genres')}"
 						th:text="${genre.name}">Kuschelrock</label>
 				</div>
 			</div>
@@ -155,10 +168,10 @@
 				<h4>Instrumente</h4>
 				<div class="form-check" th:each="instrument : ${allInstruments}">
 					<input class="form-check-input" type="checkbox"
-						th:value="${instrument.id}" th:field="*{instruments}" /> <label
-						class="form-check-label" th:for="${#ids.prev('instruments')}"
-						th:text="${instrument.name}">Schlagzeug</label> <small
-						class="form-text"
+						th:value="${instrument.id}" th:field="*{instruments}" />
+					<label class="form-check-label"
+						th:for="${#ids.prev('instruments')}" th:text="${instrument.name}">Schlagzeug</label>
+					<small class="form-text"
 						th:if="${#fields.hasErrors('instruments')}"
 						th:errors="*{instruments}">Instrumentenfehler</small>
 				</div>
