@@ -27,16 +27,14 @@
 	<header th:replace="index :: navigation_bar">Navigation</header>
 
 	<div class="CardContainer">
-		<div class="card ImageCard">
+		<div class="card ImageCardBand">
 			<img class="card-img-top" th:unless="${band.image}"
 				src="https://via.placeholder.com/728x300.png">
 			<img class="card-img-top" th:if="${band.image}"
 				src="../static/images/acdc_schriftzug.jpeg"
 				th:src="@{'/band/' + ${band.id} + '/bandimage'}" height="300">
 			<div class="card-body">
-				<h5 class="card-title">
-					<span th:text="${band.name}">Informationen zur Band</span>
-				</h5>
+				<h5 class="card-title" th:text="${band.name}">Informationen zur Band</h5>
 				<p class="card-text" th:text="${band.description}">Lorem ipsum
 					dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
 					tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
@@ -61,7 +59,7 @@
 						E-Gitarre</td>
 				</tr>
 				<tr>
-					<td>Email:</td>
+					<td>E-Mail:</td>
 					<td th:text="${band.email}">statisch@acdc.de</td>
 				</tr>
 				<tr>
@@ -76,7 +74,7 @@
 			</table>
 		</div>
 		<div class="card DescriptionCard">
-			<h4>Gespielte Musikrichtungen</h4>
+			<h4>Musikrichtungen</h4>
 			<ul>
 				<li th:each="genre : ${band.favoriteGenres}">
 					<span th:text="${genre.name}">Pop</span>
@@ -98,11 +96,10 @@
 		th:object="${band}">
 		<div th:if="${band.owner.id == musician.id}">
 			<input name="ownerid" th:field="*{owner.id}" type="hidden">
-			<input class="btn btn-primary" type="submit" value="Edit">
+			<input class="btn btn-primary btnedit" type="submit" value="Bearbeiten">
 		</div>
 	</form>
-	<a class="btn btn-secondary" href="#" onclick="history.go(-1)">Go
-		Back</a>
+	<a class="btn btn-secondary btnback" href="#" onclick="history.go(-1)">Zurück</a>
 	<footer th:replace="index :: footer">Footer</footer>
 </body>
 </html>

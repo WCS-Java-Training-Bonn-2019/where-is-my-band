@@ -1,6 +1,7 @@
 package com.wildcodeschool.sea.bonn.whereismyband.entity;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -119,5 +120,9 @@ public class Musician implements UserDetails {
 	@Override
 	public boolean isEnabled() {
 		return true;
+	}
+	
+	public int getAge() {
+		return Period.between(getBirthday(), LocalDate.now()).getYears();
 	}
 }

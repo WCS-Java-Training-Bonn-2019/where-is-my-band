@@ -1,6 +1,7 @@
 package com.wildcodeschool.sea.bonn.whereismyband.bootstrap;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -88,6 +89,9 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 		createInstrumentIfNotExisting("Trompete");
 		createInstrumentIfNotExisting("Saxophon");
 		createInstrumentIfNotExisting("Posaune");
+		
+		// Create lastCreatedDate
+		LocalDateTime now = LocalDateTime.now();
 		
 
 		boolean elkeExistedBefore = (! musicianRepository.findByFirstNameAndLastNameAndBirthday("Elke", "E-Gitarre", LocalDate.of(1994, 10, 03)).isEmpty());
@@ -197,6 +201,8 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 			// Start creation of band ACDC
 			// ***************************
 			Band acdc = createBandIfNotExisting("ACDC");
+			
+			
 
 			Address acdcAddress = createAdressIfNotExisting("Bonn", "53227");
 			acdc.setAddress(acdcAddress);

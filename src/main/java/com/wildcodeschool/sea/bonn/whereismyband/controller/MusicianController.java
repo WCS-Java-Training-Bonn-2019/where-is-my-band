@@ -24,6 +24,7 @@ import com.wildcodeschool.sea.bonn.whereismyband.entity.Address;
 import com.wildcodeschool.sea.bonn.whereismyband.entity.EditForm;
 import com.wildcodeschool.sea.bonn.whereismyband.entity.Musician;
 import com.wildcodeschool.sea.bonn.whereismyband.repository.AddressRepository;
+import com.wildcodeschool.sea.bonn.whereismyband.repository.BandRepository;
 import com.wildcodeschool.sea.bonn.whereismyband.repository.GenderRepository;
 import com.wildcodeschool.sea.bonn.whereismyband.repository.GenreRepository;
 import com.wildcodeschool.sea.bonn.whereismyband.repository.InstrumentRepository;
@@ -41,11 +42,14 @@ public class MusicianController {
 	private final AddressRepository addressRepository;
 	private final ImageService imageService;
 	private final PasswordEncoder passwordEncoder;
+	private final BandRepository bandRepository;
+
 
 	@Autowired
 	public MusicianController(GenderRepository genderRepository, MusicianRepository musicianRepository,
 			InstrumentRepository instrumentRepository, GenreRepository genreRepository,
-			AddressRepository addressRepository, ImageService imageService, PasswordEncoder passwordEncoder) {
+			AddressRepository addressRepository, ImageService imageService, PasswordEncoder passwordEncoder,
+			BandRepository bandRepository) {
 		super();
 		this.genderRepository = genderRepository;
 		this.musicianRepository = musicianRepository;
@@ -54,6 +58,7 @@ public class MusicianController {
 		this.addressRepository = addressRepository;
 		this.imageService = imageService;
 		this.passwordEncoder = passwordEncoder;
+		this.bandRepository = bandRepository;
 	}
 
 	/**
@@ -137,7 +142,7 @@ public class MusicianController {
 		boolean isMusicianRegister = false;
 		Musician musician = getMusicianLoggedInFromDB(principal);
 
-		// Wenn Validierungsregeln nicht erfüllt
+		// Wenn Validierungsregeln nicht erf<<<<<<< HEADüllt
 		if (bindingResult.hasErrors()) {
 			// Zeige das Formular mit entsprechenden Fehlermeldungen wieder an
 			model.addAttribute("allGenders", genderRepository.findAll());
@@ -225,6 +230,7 @@ public class MusicianController {
 		}
 	}
 	
+
 	@GetMapping("delete")
 	public String deleteMusician(@PathVariable Long id) {
 
