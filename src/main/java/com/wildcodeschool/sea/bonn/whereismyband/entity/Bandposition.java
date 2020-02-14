@@ -1,13 +1,18 @@
 package com.wildcodeschool.sea.bonn.whereismyband.entity;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -31,8 +36,11 @@ public class Bandposition {
 	@JoinColumn (name = "instrument_id")
 	private Instrument instrument;
 
+	@Enumerated(EnumType.STRING)
 	private PositionState state;
 	
-	private LocalDateTime lastCreated;
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+	@UpdateTimestamp
+	private LocalDate lastUpdated;
 	
 }

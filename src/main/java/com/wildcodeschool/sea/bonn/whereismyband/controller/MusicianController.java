@@ -4,6 +4,10 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.Principal;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletResponse;
@@ -20,8 +24,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.wildcodeschool.sea.bonn.whereismyband.entity.Band;
+import com.wildcodeschool.sea.bonn.whereismyband.entity.Bandposition;
+import com.wildcodeschool.sea.bonn.whereismyband.entity.Instrument;
 import com.wildcodeschool.sea.bonn.whereismyband.entity.Musician;
+import com.wildcodeschool.sea.bonn.whereismyband.entity.PositionState;
 import com.wildcodeschool.sea.bonn.whereismyband.repository.AddressRepository;
+import com.wildcodeschool.sea.bonn.whereismyband.repository.BandRepository;
+import com.wildcodeschool.sea.bonn.whereismyband.repository.BandpositionRepository;
 import com.wildcodeschool.sea.bonn.whereismyband.repository.GenderRepository;
 import com.wildcodeschool.sea.bonn.whereismyband.repository.GenreRepository;
 import com.wildcodeschool.sea.bonn.whereismyband.repository.InstrumentRepository;
@@ -40,12 +50,15 @@ public class MusicianController {
 	private final AddressRepository addressRepository;
 	private final ImageService imageService;
 	private final PasswordEncoder passwordEncoder;
+	private final BandRepository bandRepository;
 
 
+	
 	@Autowired
 	public MusicianController(GenderRepository genderRepository, MusicianRepository musicianRepository,
 			InstrumentRepository instrumentRepository, GenreRepository genreRepository,
-			AddressRepository addressRepository, ImageService imageService, PasswordEncoder passwordEncoder) {
+			AddressRepository addressRepository, ImageService imageService, PasswordEncoder passwordEncoder,
+			BandRepository bandRepository) {
 		super();
 		this.genderRepository = genderRepository;
 		this.musicianRepository = musicianRepository;
@@ -54,6 +67,7 @@ public class MusicianController {
 		this.addressRepository = addressRepository;
 		this.imageService = imageService;
 		this.passwordEncoder = passwordEncoder;
+		this.bandRepository = bandRepository;
 	}
 
 	@GetMapping("")
@@ -63,6 +77,7 @@ public class MusicianController {
 			Optional<Musician> musicianOptional = musicianRepository.findByUsername(principal.getName());
 
 			model.addAttribute("musician", musicianOptional.get());
+			
 		}
 
 		return "index";
@@ -155,5 +170,17 @@ public class MusicianController {
 			InputStream is = new ByteArrayInputStream(musician.getImage());
 			IOUtils.copy(is, response.getOutputStream());
 		}
+	}
+	
+	private Musician assertValidUser(Principal principal) {
+		Optional<Musician> userOptional = musicianRepository.findByUsername(principal.getName());
+
+		// musician matching the principal was found in DB
+		if (!userOptional.isPresent()) {
+			throw new IllegalArgumentException("Angemeldeter Benutzer wurde nicht in der Datenbank gefunden");
+		}
+
+		Musician musicianLoggedIn = userOptional.get();
+		return musicianLoggedIn;
 	}
 }
