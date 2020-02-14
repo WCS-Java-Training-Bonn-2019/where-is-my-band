@@ -7,5 +7,6 @@ import com.wildcodeschool.sea.bonn.whereismyband.entity.Bandposition;
 
 @Repository
 public interface BandpositionRepository extends JpaRepository<Bandposition, Long>{
-
+	
+	
 }

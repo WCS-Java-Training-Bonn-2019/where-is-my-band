@@ -111,6 +111,17 @@ h5 {
 	padding: 5px;
 }
 
+/* Marcel */
+.frageStellung {
+	font-weight: bold;
+	margin-top: 3em;
+}
+
+.sichtbarkeit {
+	font-size: 1.25em;
+}
+/* Marcel Ende */
+
 .ImageCard {
 	background-color: transparent;
 	width: 60%;
