@@ -1,5 +1,4 @@
 body {
-   
     background: 
     url(../images/1078886V2.jpg) no-repeat,
     url(../images/1078886bg.jpg) repeat
@@ -9,25 +8,46 @@ body {
     color: #ffffff;
 
     font-family: 'Reem Kufi', sans-serif;
+    padding: 15px;
 }
 
 a {
     color: #ffffff; 
     text-decoration: none;
 }
-  
+
 a:hover {
-    color: #ffffff; 
-    text-decoration: underline;
+    color: #ffffff;
 }
 
-.container-fluid {
-    margin-top: 2em;
-    margin-bottom: 2em;
+img {
+    max-width:100%;
+    height: auto;
 }
 
-p {
-    width: 60%;
+h5 {
+	text-decoration: underline;
+}
+
+.soundmachinenavbar {
+	font-size: 2rem;
+}
+
+.soundmachinenbrand {
+	font-size: 2.5rem;
+	padding: 8px;
+}
+
+.width-50percent {
+	width: 50%;
+}
+
+.width-25percent {
+	width: 25%;
+}
+
+.width-textarea {
+	width: 24.5%;
 }
 
 .main-area {
@@ -35,16 +55,95 @@ p {
     margin-bottom: 5em;
 }
 
-.form-control, label {
-    width: 40%;
+/* Positionierung Login-Feld */
+.login {
+	display: flex;
+	justify-content: center;
+	margin-top: 5%;
+	margin-bottom: 5%;
+	align-content: center;
 }
 
-.form-control {
-    /* height: 2em; */
-    min-width: 20em;
+/* Positionierung des rechten Footerbereichs auf der rechten Seite */
+.right {
+	text-align: right;
 }
 
-.btn {
-    width: 5em;
-    margin-top: 1em;
+.bandpositioncontrol {
+	min-width: 100%;
+}
+
+.CardContainer {
+	display: flex;
+	justify-content: space-around;
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+
+.DescriptionCard {
+	background-color: transparent;
+	width: 15rem;
+	border: 1px solid white;
+	margin: 10px;
+	padding: 10px;
+}
+
+/* Marcel */
+.frageStellung {
+	font-weight: bold;
+	margin-top: 3em;
+}
+
+.sichtbarkeit {
+	font-size: 1.25em;
+	width: 60%;
+}
+/* Marcel Ende */
+
+.ImageCardBand {
+	background-color: transparent;
+	width: 60%;
+	border: 1px solid white;
+	margin: 10px;
+	padding: 10px;
+}
+
+.ImageCardMusician {
+	background-color: transparent;
+	width: 30%;
+	border: 1px solid white;
+	margin: 10px;
+	padding: 10px;
+}
+
+.searchResultCard {
+	background-color: transparent;
+	width: 25rem;
+	border: 1px solid white;
+	margin: 10px;
+	padding: 5px;
+}
+
+.searchResultCard a:hover {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.TableInCard {
+	margin: 0.5rem;
+}
+
+.GenreUpdateContainer {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+}
+
+.btnback, .btnedit, .btnsave, .btndelete, .btnupload {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.btnsearch {
+	width: 10rem;
 }

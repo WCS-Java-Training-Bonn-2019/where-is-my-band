@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+<meta charset="UTF-8">
+<title>SoundMachine</title>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+<link
+	href="https://fonts.googleapis.com/css?family=Allerta+Stencil%7CJosefin+Sans%7CReem+Kufi&display=swap"
+	rel="stylesheet">
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+	integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+	crossorigin="anonymous"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+	integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+	crossorigin="anonymous"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+	crossorigin="anonymous"></script>
+
+
+<!-- zum lokalen Testen -->
+<!--  <link rel="stylesheet" href="../static/css/style.css"> -->
+<link rel="stylesheet" th:href="@{/css/style.css}">
+
+</head>
+
+
+<body>
+	<!-- Navigationsleiste-->
+
+	<header th:replace="index :: navigation_bar"></header>
+
+
+
+	<!-- Hauptbereich -->
+	<main>
+		<div class="container-fluid">
+			<h3>Suche nach offenen Bandpositionen</h3>
+			<form action="#" th:action="@{'/search/'}" method="get">
+
+				<!--  Keine Wahlmöglichkeit für Positions - er werden nur Bands mit offenen Positionen gesucht
+                <div class="form-group">
+                    <label>Positions</label>
+                    <select class="form-control" id="showBand">
+                        <option>All</option>
+                        <option>Only open positions</option>
+                    </select>
+                    <small id="positionsHelpBlock" class="form-text">
+                        Show all bands or only bands with open positions.
+                    </small>
+                </div>
+                -->
+
+				<div class="form-group">
+					<label class="col-form-label">Postleitzahl</label>
+					<input name="zipcode" type="text" class="form-control width-50percent" id="zipcode"
+						placeholder="Postleitzahl" th:value="${enteredZipcode}">
+				</div>
+				<div class="form-group">
+					<label for="city">Stadt</label>
+					<input name="city" type="text" class="form-control width-50percent" id="city"
+						placeholder="Stadt" th:value="${enteredCity}">
+				</div>
+				<div class="form-group">
+					<label for="instrument">Instrumente</label>
+					<select name="instrument" class="form-control width-50percent" id="instrument">
+						<option></option>
+						<option th:each="instrumentIterator : ${allInstruments}"
+							th:value="${instrumentIterator.name}"
+							th:text="${instrumentIterator.name}"
+							th:selected="${instrumentIterator.name==selectedInstrument}"></option>
+					</select>
+				</div>
+				<div class="form-group">
+					<label for="genre">Genres</label>
+					<select name="genre" class="form-control width-50percent" id="genre">
+						<option></option>
+						<option th:each="genreIterator : ${allGenres}"
+							th:value="${genreIterator.name}" th:text="${genreIterator.name}"
+							th:selected="${genreIterator.name==selectedGenre}"></option>
+
+					</select>
+				</div>
+				<button type="submit" class="btn btn-primary btnsearch">Suchen</button>
+			</form>
+		</div>
+	</main>
+
+	<!--  Generische Anlage der Trefferliste in From von Bootstrap-Cards -->
+
+	<div class="CardContainer">
+		<div class="card searchResultCard" th:each="band : ${bands}">
+			<a th:href="@{'/band/' + ${band.id} + '/view'}">
+				<img class="card-img-top" th:if="${band.image}"
+					th:src="@{'/band/' + ${band.id} + '/bandimage'}" alt="...">
+				<img class="card-img-top" th:unless="${band.image}"
+					src="https://via.placeholder.com/728x300.png" alt="...">
+				<div class="card-body">
+					<h4 class="card-title" th:text="${band.name}">ACDC</h4>
+					<p class="card-text"
+						th:text="${band.address.postCode} + ' ' + ${band.address.city}"></p>
+					<h5>Bandpositionen:</h5>
+					<div class="card-text">
+						<span th:each="position, posStat : ${band.bandPositions}"
+							th:text="${posStat.last} ? ${position.instrument.name} + ' (' + ${position.state} + ')' : ${position.instrument.name} + ' (' + ${position.state} + '), '">
+							Genre</span>
+					</div>
+					<h5>Genre: </h5>
+					<div class="card-text">
+						<span th:each="genre, genreStat : ${band.favoriteGenres}">
+							<span
+								th:text="${genreStat.last} ? ${genre.name} : ${genre.name} + ', '">Folklore</span>
+						</span>
+					</div>
+				</div>
+			</a>
+		</div>
+	</div>
+
+	<footer th:replace="index :: footer"></footer>
+
+
+</body>
+
+</html>

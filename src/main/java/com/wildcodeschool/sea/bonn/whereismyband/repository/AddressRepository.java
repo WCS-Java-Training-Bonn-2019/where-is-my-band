@@ -11,6 +11,6 @@ import com.wildcodeschool.sea.bonn.whereismyband.entity.Address;
 @Repository
 public interface AddressRepository extends JpaRepository<Address, Long> {
 	
-	Optional<Address> findByCityAndPostCode(String city, Integer postCode);
+	Optional<Address> findByCityAndPostCode(String city, String postCode);
 
 }
