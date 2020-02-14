@@ -35,21 +35,21 @@ p {
     margin-bottom: 5em;
 }
 
-.form-control, label {
+/*.form-control, label {
     width: 40%;
-}
+}*/
 
-.form-control {
-    /* height: 2em; */
+/* .form-control {
+    /* height: 2em;
     min-width: 20em;
-}
+}*/
 
 .btn {
     width: auto;
     margin-top: 1em;
 }
 
-.card {
+/* .card {
 	border: solid 1px;
 	border-color: white;
 	box-shadow: 3px 3px;
@@ -57,10 +57,9 @@ p {
 	color: white;
 	margin: 1.5em 1em;
 	background-color: rgba(255, 255, 255, 0.15);
-}
+}*/
 
 h5 {
-	text-align: center;
 	text-decoration: underline;
 }
 
@@ -82,7 +81,7 @@ h5 {
 }
 
 
-
+/* michael */
 
 .selectbtn {
     margin-top: 0em;
@@ -92,10 +91,27 @@ h5 {
     margin-top: 0em;
 }
 
-h4 {
-	margin-top: 1em;
+.bandpositioncontrol {
+	min-width: 100%;
 }
 
+.CardContainer {
+	display: flex;
+	justify-content: space-around;
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+
+
+.DescriptionCard {
+	background-color: transparent;
+	width: 15rem;
+	border: 1px solid white;
+	margin: 5px;
+	padding: 5px;
+}
+
+/* Marcel */
 .frageStellung {
 	font-weight: bold;
 	margin-top: 3em;
@@ -104,5 +120,35 @@ h4 {
 .sichtbarkeit {
 	font-size: 1.25em;
 }
+/* Marcel Ende */
 
+.ImageCard {
+	background-color: transparent;
+	width: 60%;
+	border: 1px solid white;
+	margin: 5px;
+	padding: 5px;
+}
 
+.searchResultCard {
+	background-color: transparent;
+	width: 25rem;
+	border: 1px solid white;
+	margin: 5px;
+	padding: 5px;
+}
+
+.TableInCard {
+	margin: 0.5rem;
+}
+
+img {
+    max-width:100%;
+    height:auto;
+}
+
+.GenreUpdateContainer {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+}

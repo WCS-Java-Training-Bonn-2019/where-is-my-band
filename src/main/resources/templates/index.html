@@ -24,8 +24,6 @@
 	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
 	crossorigin="anonymous"></script>
 
-<!-- zum lokalen Testen -->
-<!--  <link rel="stylesheet" href="../static/css/style.css"> -->
 <link rel="stylesheet" th:href="@{/css/style.css}">
 
 </head>
@@ -50,11 +48,11 @@
 						<div class="navbar-nav float-right text-right pr-3">
 
 							<a class="nav-item nav-link" sec:authorize="isAuthenticated()" th:href="@{/search}">Bandsuche</a> 
-							<a class="nav-item nav-link" sec:authorize="isAuthenticated()" th:href="@{'/musician/' + ${musician.id} + '/view'}"><span th:text="${musician.firstName} + '\'s Profil'">Stefan's Profil</span></a>
+							<a class="nav-item nav-link" sec:authorize="isAuthenticated()" th:href="@{'/musician/view'}"><span th:text="${musician.firstName} + 's Profil'">Stefans Profil</span></a>
 						</div>
 					
 						<ul class="nav navbar-nav navbar-right">
-							<li class="nav-item">
+							<li class="nav-item">																										
 								<a class="nav-link" href="#" th:href="@{/login}" sec:authorize="!isAuthenticated()">Login</a>
 								<a class="nav-link" href="#" th:href="@{/logout}" sec:authorize="isAuthenticated()">Logout</a>
 							</li>
@@ -67,7 +65,6 @@
 					</div>
 				</nav>
 		</div>
-
 	</header>
 <hr>
 
