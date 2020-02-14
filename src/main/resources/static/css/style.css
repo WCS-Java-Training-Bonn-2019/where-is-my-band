@@ -15,19 +15,39 @@ a {
     color: #ffffff; 
     text-decoration: none;
 }
-  
+
 a:hover {
-    color: #ffffff; 
-    text-decoration: underline;
+    color: #ffffff;
 }
 
-.container-fluid {
-    margin-top: 2em;
-    margin-bottom: 2em;
+img {
+    max-width:100%;
+    height: auto;
 }
 
-p {
-    width: 60%;
+h5 {
+	text-decoration: underline;
+}
+
+.soundmachinenavbar {
+	font-size: 2rem;
+}
+
+.soundmachinenbrand {
+	font-size: 2.5rem;
+	padding: 8px;
+}
+
+.width-50percent {
+	width: 50%;
+}
+
+.width-25percent {
+	width: 25%;
+}
+
+.width-textarea {
+	width: 24.5%;
 }
 
 .main-area {
@@ -35,37 +55,6 @@ p {
     margin-bottom: 5em;
 }
 
-/*.form-control, label {
-    width: 40%;
-}*/
-
-/* .form-control {
-    /* height: 2em;
-    min-width: 20em;
-}*/
-
-.btn {
-    width: auto;
-    margin-top: 1em;
-}
-
-/* .card {
-	border: solid 1px;
-	border-color: white;
-	box-shadow: 3px 3px;
-	width: 40%;
-	color: white;
-	margin: 1.5em 1em;
-	background-color: rgba(255, 255, 255, 0.15);
-}*/
-
-h5 {
-	text-decoration: underline;
-}
-
-.form-check-inline .form-check-input {
-	margin-left: 0.3125rem;
-}
 /* Positionierung Login-Feld */
 .login {
 	display: flex;
@@ -80,17 +69,6 @@ h5 {
 	text-align: right;
 }
 
-
-/* michael */
-
-.selectbtn {
-    margin-top: 0em;
-}
-
-.deletebtn {
-    margin-top: 0em;
-}
-
 .bandpositioncontrol {
 	min-width: 100%;
 }
@@ -102,13 +80,12 @@ h5 {
 	flex-wrap: wrap;
 }
 
-
 .DescriptionCard {
 	background-color: transparent;
 	width: 15rem;
 	border: 1px solid white;
-	margin: 5px;
-	padding: 5px;
+	margin: 10px;
+	padding: 10px;
 }
 
 /* Marcel */
@@ -119,36 +96,54 @@ h5 {
 
 .sichtbarkeit {
 	font-size: 1.25em;
+	width: 60%;
 }
 /* Marcel Ende */
 
-.ImageCard {
+.ImageCardBand {
 	background-color: transparent;
 	width: 60%;
 	border: 1px solid white;
-	margin: 5px;
-	padding: 5px;
+	margin: 10px;
+	padding: 10px;
+}
+
+.ImageCardMusician {
+	background-color: transparent;
+	width: 30%;
+	border: 1px solid white;
+	margin: 10px;
+	padding: 10px;
 }
 
 .searchResultCard {
 	background-color: transparent;
 	width: 25rem;
 	border: 1px solid white;
-	margin: 5px;
+	margin: 10px;
 	padding: 5px;
+}
+
+.searchResultCard a:hover {
+    color: #ffffff;
+    text-decoration: none;
 }
 
 .TableInCard {
 	margin: 0.5rem;
 }
 
-img {
-    max-width:100%;
-    height:auto;
-}
-
 .GenreUpdateContainer {
 	display: flex;
 	align-items: center;
 	flex-direction: column;
+}
+
+.btnback, .btnedit, .btnsave, .btndelete, .btnupload {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.btnsearch {
+	width: 10rem;
 }

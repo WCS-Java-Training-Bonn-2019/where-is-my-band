@@ -36,8 +36,8 @@
 	
 
 		<div th:if="${TRUE}"> 
-				<nav class="navbar navbar-expand-md navbar-dark bg-transparent">
-					<a class="navbar-brand" th:href="@{'/'}">SoundMachine</a>
+				<nav class="navbar navbar-expand-md navbar-dark bg-transparent soundmachinenavbar">
+					<a class="navbar-brand soundmachinenbrand" th:href="@{'/'}">SoundMachine</a>
 					<button class="navbar-toggler" type="button" data-toggle="collapse"
 						data-target="#navbarSupportedContent"
 						aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -53,13 +53,13 @@
 					
 						<ul class="nav navbar-nav navbar-right">
 							<li class="nav-item">																										
-								<a class="nav-link" href="#" th:href="@{/login}" sec:authorize="!isAuthenticated()">Login</a>
-								<a class="nav-link" href="#" th:href="@{/logout}" sec:authorize="isAuthenticated()">Logout</a>
+								<a class="nav-link" href="#" th:href="@{/login}" sec:authorize="!isAuthenticated()">Anmelden</a>
+								<a class="nav-link" href="#" th:href="@{/logout}" sec:authorize="isAuthenticated()">Abmelden</a>
 							</li>
 						</ul>
 						<ul class="nav navbar-nav navbar-right">
 							<li class="nav-item">
-								<a class="nav-link" href="#" th:href="@{/register}" sec:authorize="!isAuthenticated()">Register</a>
+								<a class="nav-link" href="#" th:href="@{/register}" sec:authorize="!isAuthenticated()">Registrieren</a>
 							</li>
 						</ul>
 					</div>

@@ -34,9 +34,9 @@
 		<input name="id" th:field="*{id}" type="hidden" />
 		<input name="owner" th:field="*{owner}" type="hidden" />
 		<div class="CardContainer">
-			<div class="card ImageCard">
-				<a href="#" th:href="@{'/band/' + ${band.id} + '/uploadimage'}"
-					role="button">
+			<div class="card ImageCardBand">
+				<a th:if="${band.id}" href="#"
+					th:href="@{'/band/' + ${band.id} + '/uploadimage'}" role="button">
 					<img class="card-img-top" th:unless="${band.image}"
 						src="https://via.placeholder.com/728x200.png">
 					<img class="card-img-top" th:if="${band.image}"
@@ -94,11 +94,12 @@
 					<table>
 						<tr th:each="genre : ${allGenres}">
 							<td>
-								<input type="checkbox"
-									th:value="${genre.id}" th:field="*{favoriteGenres}" />
+								<input type="checkbox" th:value="${genre.id}"
+									th:field="*{favoriteGenres}" />
 							</td>
 							<td>
-								<label th:for="${#ids.prev('favoriteGenres')}" th:text="${genre.name}">Kuschelrock</label>
+								<label th:for="${#ids.prev('favoriteGenres')}"
+									th:text="${genre.name}">Kuschelrock</label>
 							</td>
 						</tr>
 					</table>
@@ -129,12 +130,12 @@
 					<option th:each="state : ${positionStates}" th:value="${state}"
 						th:text="${state}">Besetzungstatus</option>
 				</select>
-				<a class="btn deletebtn btn-secondary"
-					th:href="'/band/' + ${band.id} + '/deletebandposition/' + ${position.id}">Delete</a>
+				<a class="btn deletebtn btn-secondary btndelete"
+					th:href="'/band/' + ${band.id} + '/deletebandposition/' + ${position.id}">Löschen</a>
 			</div>
 		</div>
 		<div>
-			<input class="btn btn-primary float-none" type="submit"
+			<input class="btn btn-primary float-none btnsave" type="submit"
 				value="Speichern" />
 		</div>
 	</form>
@@ -145,20 +146,21 @@
 			th:object="${Position}">
 			<div class="input-group">
 				<div class="input-group-prepend">
-					<input type="submit" class="selectbtn btn btn-outline-secondary"
+					<input type="submit" class="selectbtn btn btn-primary"
 						value="Hinzufügen"></input>
 				</div>
-				<select class="custom-select" th:name="instrID" th:id="instrID">
-					<option selected>Bitte Instrument wählen...</option>
-					<option th:each="instrument : ${allInstruments}"
-						th:value="${instrument.id}" th:text="${instrument.name}">
-						Geige</option>
-				</select>
+				<div class="width-25percent">
+					<select class="custom-select" th:name="instrID" th:id="instrID">
+						<option selected>Bitte Instrument wählen...</option>
+						<option th:each="instrument : ${allInstruments}"
+							th:value="${instrument.id}" th:text="${instrument.name}">
+							Geige</option>
+					</select>
+				</div>
 			</div>
 		</form>
 	</div>
-	<a class="btn btn-secondary" href="#" onclick="history.go(-1)">Go
-		Back</a>
+	<a class="btn btn-secondary btnback" href="#" onclick="history.go(-1)">Zurück</a>
 
 	<footer th:replace="index :: footer"></footer>
 
