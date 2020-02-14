@@ -32,7 +32,6 @@ import com.wildcodeschool.sea.bonn.whereismyband.repository.MusicianRepository;
 import com.wildcodeschool.sea.bonn.whereismyband.services.ImageService;
 
 @Controller
-//@RequestMapping(value = { "/musician/{id}/", "/musician/", "/" })
 @RequestMapping(value = { "/musician/", "/" })
 public class MusicianController {
 
@@ -70,12 +69,9 @@ public class MusicianController {
 	 */
 	@GetMapping("")
 	public String getIndex(Model model, Principal principal) {
-
 		if (principal != null) {
-			Optional<Musician> musicianOptional = musicianRepository.findByUsername(principal.getName());
-			System.out.println("--- Der Username: " + principal.getName());
-			model.addAttribute("musician", musicianOptional.get());
-			
+			Musician musician = getMusicianLoggedInFromDB(principal);
+			model.addAttribute("musician", musician);
 		}
 
 		return "index";
@@ -99,19 +95,7 @@ public class MusicianController {
 	public String editMusicianGet(Model model, Principal principal) {
 
 		boolean isMusicianRegister = false;
-		Musician musician = null;
-
-		// bin ich eingeloggt?
-		if (principal != null) {
-			Optional<Musician> musicianOptional = musicianRepository.findByUsername(principal.getName());
-			if (musicianOptional.isPresent()) {
-				musician = musicianOptional.get();
-			}
-		}
-
-		if (musician == null) {
-			throw new RuntimeException("Musiker nicht gefunden!");
-		}
+		Musician musician = getMusicianLoggedInFromDB(principal);
 
 		model.addAttribute("allGenders", genderRepository.findAll());
 		model.addAttribute("allInstruments", instrumentRepository.findAll());
@@ -122,11 +106,11 @@ public class MusicianController {
 
 		EditForm editForm = new EditForm();
 		
-		//editForm mit Musikerdaten vorbelegen
+		//prefill editForm with musician's data
 		editForm.setFirstName(musician.getFirstName());
 		editForm.setLastName(musician.getLastName());
 		editForm.setDescription(musician.getDescription());
-		editForm.setImage(musician.getImage());
+		//editForm.setImage(musician.getImage());
 		editForm.setUsername(musician.getUsername());
 		editForm.setUsernameRepeated(musician.getUsername());
 		editForm.setPhone(musician.getPhone());
@@ -156,19 +140,7 @@ public class MusicianController {
 			@Valid EditForm editForm, BindingResult bindingResult, Principal principal, Model model) {
 
 		boolean isMusicianRegister = false;
-		Musician musician = null;
-
-		// bin ich eingeloggt?
-		if (principal != null) {
-			Optional<Musician> musicianOptional = musicianRepository.findByUsername(principal.getName());
-			if (musicianOptional.isPresent()) {
-				musician = musicianOptional.get();
-			}
-		}
-
-		if (musician == null) {
-			throw new RuntimeException("Musiker nicht gefunden!");
-		}
+		Musician musician = getMusicianLoggedInFromDB(principal);
 
 		// Wenn Validierungsregeln nicht erf<<<<<<< HEADüllt
 		if (bindingResult.hasErrors()) {
@@ -178,18 +150,9 @@ public class MusicianController {
 			model.addAttribute("allGenres", genreRepository.findAll());
 			model.addAttribute("isMusicianRegister", isMusicianRegister);
 			model.addAttribute("musician", musician);
+			model.addAttribute("registrationForm", editForm);
 			return "musicianupsert";
 		}
-
-//		darf Benutzername geändert werden?
-//		if (principal == null) {
-//			// Prüfe, ob der Benutzername bereits existiert
-//			Optional<Musician> musicianOptionalFromDB = musicianRepository.findByUsername(editForm.getUsername());
-//			if (musicianOptionalFromDB.isPresent()) {
-//				model.addAttribute("message", "Der Benutzername \'"+ editForm.getUsername() + "\' existiert bereits in der Datenbank!");
-//				return "soundmachineerror";
-//			}
-//		} 
 
 		musician.setFirstName(editForm.getFirstName());
 		musician.setLastName(editForm.getLastName());
@@ -198,10 +161,11 @@ public class MusicianController {
 			musician.setDescription(editForm.getDescription());
 		}
 
-		musician.setUsername(editForm.getUsername());
-		if (!editForm.getPassword().equals("")) {
+
+		if (!editForm.getPassword().isEmpty()) {
 			musician.setPassword(passwordEncoder.encode(editForm.getPassword()));
 		}
+		
 		musician.setPhone(editForm.getPhone());
 		musician.setBirthday(editForm.getBirthday());
 		musician.setGender(editForm.getGender());
@@ -213,8 +177,11 @@ public class MusicianController {
 
 		musician.setFavoriteGenres(editForm.getGenres());
 		musician.setInstruments(editForm.getInstruments());
-		musician.setImage(editForm.getImage());
-
+		
+		if (editForm.getImage().length != 0) {
+			musician.setImage(editForm.getImage());
+		}
+		
 		addressRepository.save(musician.getAddress());
 		musicianRepository.save(musician);
 
@@ -223,22 +190,14 @@ public class MusicianController {
 
 
 	/**
+	 * Returns the Userdetail-Page
 	 * @param model
 	 * @param principal
-	 * @return
+	 * @return the Userdetail-Page
 	 */
 	@GetMapping("view")
 	public String viewMusician(Model model, Principal principal) {
-
-		if (principal != null) {
-			Optional<Musician> musicianOptional = musicianRepository.findByUsername(principal.getName());
-
-			if (musicianOptional.isPresent()) {
-				model.addAttribute("musician", musicianOptional.get());
-			} else {
-				throw new RuntimeException("Musiker nicht gefunden!");
-			}
-		}
+		model.addAttribute("musician", getMusicianLoggedInFromDB(principal));
 
 		return "musiciandetails";
 	}
@@ -259,7 +218,7 @@ public class MusicianController {
 		// if musician was found and image exists
 		if (musicianOptional.isPresent() && musicianOptional.get().getImage() != null) {
 
-			// get image from Optional
+			// get musician from Optional
 			Musician musician = musicianOptional.get();
 
 			// set result type to http response
@@ -278,5 +237,21 @@ public class MusicianController {
 		musicianRepository.deleteById(id);
 
 		return "redirect:list";
+	}
+	
+	/**
+	 * Returns the musician object found by the username of the loggedin user
+	 * @param principal
+	 * @return The musician found in DB by userName
+	 */
+	private Musician getMusicianLoggedInFromDB(Principal principal) {
+		Optional<Musician> musicianOptional = musicianRepository.findByUsername(principal.getName());
+
+		if (!musicianOptional.isPresent()) {
+			throw new IllegalArgumentException("Angemeldeter Benutzer wurde nicht in der Datenbank gefunden.");
+		}
+
+		Musician musicianLoggedIn = musicianOptional.get();
+		return musicianLoggedIn;
 	}
 }

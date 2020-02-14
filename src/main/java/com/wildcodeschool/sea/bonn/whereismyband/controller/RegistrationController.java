@@ -80,6 +80,7 @@ public class RegistrationController{
 			model.addAttribute("allInstruments", instrumentRepository.findAll());
 			model.addAttribute("allGenres", genreRepository.findAll());
 			model.addAttribute("isMusicianRegister", true);
+			model.addAttribute("registrationForm", regForm);
 			return "musicianupsert";
 		}
 
