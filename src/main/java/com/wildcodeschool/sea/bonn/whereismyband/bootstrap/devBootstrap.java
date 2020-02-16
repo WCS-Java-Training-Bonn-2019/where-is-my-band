@@ -1,5 +1,7 @@
 package com.wildcodeschool.sea.bonn.whereismyband.bootstrap;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -9,6 +11,8 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+
+import javax.imageio.ImageIO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
@@ -94,10 +98,10 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 		createInstrumentIfNotExisting("Trompete");
 		createInstrumentIfNotExisting("Saxophon");
 		createInstrumentIfNotExisting("Posaune");
-		
+
 		// Create lastCreatedDate
 		LocalDateTime now = LocalDateTime.now();
-		
+
 
 		boolean elkeExistedBefore = (! musicianRepository.findByFirstNameAndLastNameAndBirthday("Elke", "E-Gitarre", LocalDate.of(1994, 10, 03)).isEmpty());
 		Musician elke;
@@ -114,12 +118,12 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 
 			Address elkesAddress = createAdressIfNotExisting("Bonn", "53227");
 			elke.setAddress(elkesAddress);
-			
+
 			elke.setDescription("Hallo, ich bin Elke und spiele E-Gitarre. Musik ist meine große Leidenschaft!");
 
-			byte[] elkesImage = readFileFromFileSystem("Elke.jpg");
+			byte[] elkesImage = readImageFromFileSystem("Elke.jpg");
 			elke.setImage(elkesImage);
-			
+
 			// Prepare HashSet favoriteGenres
 			HashSet<Genre> elkesGenres = new HashSet<>();
 			elkesGenres.add(oldies);
@@ -140,7 +144,7 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 
 			// Update Instruments
 			elke.setInstruments(elkesInstruments);
-			
+
 			// Save changes in repositories
 			instrumentRepository.save(egitarre);
 			genreRepository.save(oldies);
@@ -167,13 +171,13 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 
 			Address stefansAddress = createAdressIfNotExisting("Sankt Augustin", "53757");
 			stefan.setAddress(stefansAddress);
-			
+
 			stefan.setDescription("Hallo, ich bin Stefan, spiele Schlagzeug seit 6 Jahren und spiele unregelmäßig in einem Musikverein!");
 
 			// read image from file system
-			byte [] stefansImage = readFileFromFileSystem("Stefan.jpg");
+			byte [] stefansImage = readImageFromFileSystem("Stefan.jpg");
 			stefan.setImage(stefansImage);
-			
+
 			// Prepare HashSet favoriteGenres
 			HashSet<Genre> stefansGenres = new HashSet<>();
 			stefansGenres.add(rock);
@@ -223,9 +227,9 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 			musicianRepository.save(elke);
 
 			// read image from file system
-			byte [] acdcImage = readFileFromFileSystem("acdc_jung.jpg");
+			byte [] acdcImage = readImageFromFileSystem("acdc_jung.jpg");
 			acdc.setImage(acdcImage);
-			
+
 			// Add favorite genres
 			acdc.getFavoriteGenres().add(rock);
 			rock.getBands().add(acdc);
@@ -273,18 +277,21 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 			// Creation of band ACDC finished
 			// ******************************
 		};
-		
+
 		// Noch 2 Mock-Bands zum Testen der Suche-Funktionalität:
 		// Band Kölner Karnevalsmusiker
 		// if Kölner Karnevalsmusiker does not exist
-		if (! bandRepository.findByName("Kölner Karnevalsmusiker").isPresent()) {
+		if (! bandRepository.findByName("Paveier").isPresent()) {
 
 			// Start creation of band Kölner Karnevalsmusiker
 			// ***************************
-			Band kkmusiker = createBandIfNotExisting("Kölner Karnevalsmusiker");
+			Band kkmusiker = createBandIfNotExisting("Paveier");
 
-			Address kkmusikerAddress = createAdressIfNotExisting("Köln", "51111");
+			Address kkmusikerAddress = createAdressIfNotExisting("Bergisch Gladbach", "51429");
 			kkmusiker.setAddress(kkmusikerAddress);
+			
+			byte[] kkmusikerImage = readImageFromFileSystem("paveier_2019.jpg");
+			kkmusiker.setImage(kkmusikerImage);
 
 			// set band owner elke
 			kkmusiker.setOwner(elke);
@@ -329,7 +336,7 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 			// Creation of band Kölner Kernevalsmusiker finished
 			// ******************************
 		};
-		
+
 		// if De Tampentrekker does not exist
 		if (! bandRepository.findByName("De Tampentrekker").isPresent()) {
 
@@ -337,15 +344,15 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 			// ***************************
 			Band dtt = createBandIfNotExisting("De Tampentrekker");
 
-			Address gmgAddress = createAdressIfNotExisting("Göttingen", "37073");
+			Address gmgAddress = createAdressIfNotExisting("Hamburg", "21109");
 			dtt.setAddress(gmgAddress);
 
 			// set band owner elke
 			dtt.setOwner(elke);
 			elke.getBands().add(dtt);
 			musicianRepository.save(elke);
-			
-			byte[] deTampentrekkerImage = readFileFromFileSystem("DeTampentrekker.JPG");
+
+			byte[] deTampentrekkerImage = readImageFromFileSystem("DeTampentrekker.JPG");
 			dtt.setImage(deTampentrekkerImage);
 
 			// Add favorite genres
@@ -366,32 +373,39 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 			// Creation of band Göttinger Männergesangsverein finished
 			// ******************************
 		};
-		
+
 	}
 
-	private byte[] readFileFromFileSystem(String filename) {
-		
+	private byte[] readImageFromFileSystem(String filename) {
+
 		// set path from project root directory to image folder
 		String pathFromProjectToImageFolder = "src/main/resources/static/images/";
-		
-//		String workingDir = System.getProperty("user.dir");
-//		System.out.println("Working-Directory: " + workingDir);
-		
-		// read image file into an input stream
+
+		// read image file into a buffered image
 		File file = new File(pathFromProjectToImageFolder + filename);
-		FileInputStream fis = null;
+		BufferedImage bImage;
 		try {
-			fis = new FileInputStream(file);
-		} catch (FileNotFoundException e) {
-			throw new RuntimeException("Error trying to access file: " 
-							+ pathFromProjectToImageFolder + filename);
+			bImage = ImageIO.read(file);
+		} catch (IOException e) {
+			throw new RuntimeException("Error accessing file: " 
+					+ pathFromProjectToImageFolder + filename);
 		}
 
+		// if not an known image type
+		if (bImage.getType() == BufferedImage.TYPE_CUSTOM) {
+			throw new RuntimeException("Not a known image type: " 
+					+ pathFromProjectToImageFolder + filename);
+		}
+
+		// convert BufferedImage via ByteArrayOutputStream to byte[]
 		byte[] imageByteArray = null;
+		ByteArrayOutputStream bos = new ByteArrayOutputStream(); 
 		try {
-			imageByteArray = StreamUtils.copyToByteArray(fis);
+			ImageIO.write(bImage, "jpg", bos );
+			imageByteArray = bos.toByteArray();
+			bos.close();
 		} catch (IOException e) {
-			throw new RuntimeException("Error trying to copy file input stream into byte array: " 
+			throw new RuntimeException("Error trying to access file: " 
 					+ pathFromProjectToImageFolder + filename);
 		}
 		return imageByteArray;
