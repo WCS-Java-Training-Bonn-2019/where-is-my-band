@@ -1,5 +1,6 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html class="h-100" lang="en"
+	xmlns:th="http://www.thymeleaf.org">
 
 <head>
 <title>Band Editor</title>
@@ -24,144 +25,149 @@
 <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 
-<body>
+<body class="container d-flex flex-column h-100">
 	<header th:replace="index :: navigation_bar">Navigation</header>
+	<main role="main" class="flex-shrink-0">
+		<div class="container">
 
-	<h3 th:text="${band.id} ? 'Band pflegen' : 'Band anlegen'">Band</h3>
-	<form method="post"
-		th:action="${band.id} ? @{'/band/' + ${band.id} + '/edit'} : @{'/band/new'}"
-		th:object="${band}">
-		<input name="id" th:field="*{id}" type="hidden" />
-		<input name="owner" th:field="*{owner}" type="hidden" />
-		<div class="CardContainer">
-			<div class="card ImageCardBand">
-				<a th:if="${band.id}" href="#"
-					th:href="@{'/band/' + ${band.id} + '/uploadimage'}" role="button">
-					<img class="card-img-top" th:unless="${band.image}"
-						src="https://via.placeholder.com/728x200.png">
-					<img class="card-img-top" th:if="${band.image}"
-						th:src="@{'/band/' + ${band.id} + '/bandimage'}">
-				</a>
-				<div class="card-body">
-					<label th:for="*{name}">Name:</label>
-					<input class="form-control" type="text" placeholder="Bandname"
-						required th:field="*{name}" />
-					<small class="invalid-feedback"
-						th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Bandnamensfehler</small>
-				</div>
-				<div class="card-body">
-					<label th:for="*{description}">Beschreibung:</label>
-					<textarea class="form-control" rows="5" cols="50"
-						th:field="*{description}">Eine Beschreibung der Band!</textarea>
-					<small class="invalid-feedback"
-						th:if="${#fields.hasErrors('description')}"
-						th:errors="*{description}">Beschreibungsfehler</small>
-				</div>
+			<h3 th:text="${band.id} ? 'Band pflegen' : 'Band anlegen'">Band</h3>
+			<form method="post"
+				th:action="${band.id} ? @{'/band/' + ${band.id} + '/edit'} : @{'/band/new'}"
+				th:object="${band}">
+				<input name="id" th:field="*{id}" type="hidden" />
+				<input name="owner" th:field="*{owner}" type="hidden" />
+				<div class="CardContainer">
+					<div class="card ImageCardBand">
+						<a th:if="${band.id}" href="#"
+							th:href="@{'/band/' + ${band.id} + '/uploadimage'}" role="button">
+							<img class="card-img-top" th:unless="${band.image}"
+								src="https://via.placeholder.com/728x200.png">
+							<img class="card-img-top" th:if="${band.image}"
+								th:src="@{'/band/' + ${band.id} + '/bandimage'}">
+						</a>
+						<div class="card-body">
+							<label th:for="*{name}">Name:</label>
+							<input class="form-control" type="text" placeholder="Bandname"
+								required th:field="*{name}" />
+							<small class="invalid-feedback"
+								th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Bandnamensfehler</small>
+						</div>
+						<div class="card-body">
+							<label th:for="*{description}">Beschreibung:</label>
+							<textarea class="form-control" rows="5" cols="50"
+								th:field="*{description}">Eine Beschreibung der Band!</textarea>
+							<small class="invalid-feedback"
+								th:if="${#fields.hasErrors('description')}"
+								th:errors="*{description}">Beschreibungsfehler</small>
+						</div>
 
+					</div>
+				</div>
+				<div class="CardContainer">
+					<div class="card description-card">
+						<div class="form-group">
+							<label th:for="*{email}">Email:</label>
+							<input class="form-control" type="email" placeholder="Email"
+								required th:field="*{email}" />
+							<small class="invalid-feedback"
+								th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Emailfehler</small>
+							<label th:for="*{phone}">Phone:</label>
+							<input class="form-control" type="text" placeholder="Phone"
+								required th:field="*{phone}" />
+							<small class="invalid-feedback"
+								th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">Telefonfehler</small>
+							<label th:for="*{address.postCode}">PLZ:</label>
+							<input class="form-control" type="text"
+								placeholder="Postleitzahl" required
+								th:field="*{address.postCode}" />
+							<small class="invalid-feedback"
+								th:if="${#fields.hasErrors('address.postCode')}"
+								th:errors="*{address.postCode}">Telefonfehler</small>
+							<label th:for="*{address.city}">Stadt:</label>
+							<input class="form-control" type="text" placeholder="Stadt"
+								required th:field="*{address.city}" />
+							<small class="invalid-feedback"
+								th:if="${#fields.hasErrors('address.city')}"
+								th:errors="*{address.city}">Stadtfehler</small>
+						</div>
+					</div>
+
+					<div class="card description-card">
+						<div class="GenreUpdateContainer">
+							<h4>Genres</h4>
+							<table>
+								<tr th:each="genre : ${allGenres}">
+									<td>
+										<input type="checkbox" th:value="${genre.id}"
+											th:field="*{favoriteGenres}" />
+									</td>
+									<td>
+										<label th:for="${#ids.prev('favoriteGenres')}"
+											th:text="${genre.name}">Kuschelrock</label>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div>
+				<h4 th:if="${band.id}">Bandpositionen</h4>
+				<div th:if="${band.id}" class="CardContainer">
+					<div class="card description-card"
+						th:each="position, positionStat : *{bandPositions}">
+						<input name="${position.id}"
+							th:field="*{bandPositions[__${positionStat.index}__].id}"
+							type="hidden" />
+						<input name="${position.band.id}"
+							th:field="*{bandPositions[__${positionStat.index}__].band.id}"
+							type="hidden" />
+						<input name="${position.instrument.id}"
+							th:field="*{bandPositions[__${positionStat.index}__].instrument.id}"
+							type="hidden" />
+
+						<h5 class="card-header" th:text="${position.instrument.name}">Posaune</h5>
+						<input class="form-control bandpositioncontrol" type="number"
+							th:field="*{bandPositions[__${positionStat.index}__].ageFrom}" />
+						<input class="form-control bandpositioncontrol" type="number"
+							th:field="*{bandPositions[__${positionStat.index}__].ageTo}" />
+						<select class="custom-select"
+							th:field="*{bandPositions[__${positionStat.index}__].state}">
+							<option th:each="state : ${positionStates}" th:value="${state}"
+								th:text="${state}">Besetzungstatus</option>
+						</select>
+						<a class="btn deletebtn btn-secondary btndelete"
+							th:href="'/band/' + ${band.id} + '/deletebandposition/' + ${position.id}">Löschen</a>
+					</div>
+				</div>
+				<div>
+					<input class="btn btn-primary float-none btnsave" type="submit"
+						value="Speichern" />
+				</div>
+			</form>
+			<div th:if="${band.id}">
+				<h4>Bandposition hinzufügen</h4>
+				<form method="post"
+					th:action="@{'/band/' + ${band.id} + '/newbandposition'}"
+					th:object="${Position}">
+					<div class="input-group">
+						<div class="input-group-prepend">
+							<input type="submit" class="selectbtn btn btn-primary"
+								value="Hinzufügen"></input>
+						</div>
+						<div class="width-25percent">
+							<select class="custom-select" th:name="instrID" th:id="instrID">
+								<option selected>Bitte Instrument wählen...</option>
+								<option th:each="instrument : ${allInstruments}"
+									th:value="${instrument.id}" th:text="${instrument.name}">
+									Geige</option>
+							</select>
+						</div>
+					</div>
+				</form>
 			</div>
+			<a class="btn btn-secondary btnback" href="#"
+				onclick="history.go(-1)">Zurück</a>
 		</div>
-		<div class="CardContainer">
-			<div class="card DescriptionCard">
-				<div class="form-group">
-					<label th:for="*{email}">Email:</label>
-					<input class="form-control" type="email" placeholder="Email"
-						required th:field="*{email}" />
-					<small class="invalid-feedback"
-						th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Emailfehler</small>
-					<label th:for="*{phone}">Phone:</label>
-					<input class="form-control" type="text" placeholder="Phone"
-						required th:field="*{phone}" />
-					<small class="invalid-feedback"
-						th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">Telefonfehler</small>
-					<label th:for="*{address.postCode}">PLZ:</label>
-					<input class="form-control" type="text" placeholder="Postleitzahl"
-						required th:field="*{address.postCode}" />
-					<small class="invalid-feedback"
-						th:if="${#fields.hasErrors('address.postCode')}"
-						th:errors="*{address.postCode}">Telefonfehler</small>
-					<label th:for="*{address.city}">Stadt:</label>
-					<input class="form-control" type="text" placeholder="Stadt"
-						required th:field="*{address.city}" />
-					<small class="invalid-feedback"
-						th:if="${#fields.hasErrors('address.city')}"
-						th:errors="*{address.city}">Stadtfehler</small>
-				</div>
-			</div>
-
-			<div class="card DescriptionCard">
-				<div class="GenreUpdateContainer">
-					<h4>Genres</h4>
-					<table>
-						<tr th:each="genre : ${allGenres}">
-							<td>
-								<input type="checkbox" th:value="${genre.id}"
-									th:field="*{favoriteGenres}" />
-							</td>
-							<td>
-								<label th:for="${#ids.prev('favoriteGenres')}"
-									th:text="${genre.name}">Kuschelrock</label>
-							</td>
-						</tr>
-					</table>
-				</div>
-			</div>
-		</div>
-		<h4 th:if="${band.id}">Bandpositionen</h4>
-		<div th:if="${band.id}" class="CardContainer">
-			<div class="card DescriptionCard"
-				th:each="position, positionStat : *{bandPositions}">
-				<input name="${position.id}"
-					th:field="*{bandPositions[__${positionStat.index}__].id}"
-					type="hidden" />
-				<input name="${position.band.id}"
-					th:field="*{bandPositions[__${positionStat.index}__].band.id}"
-					type="hidden" />
-				<input name="${position.instrument.id}"
-					th:field="*{bandPositions[__${positionStat.index}__].instrument.id}"
-					type="hidden" />
-
-				<h5 class="card-header" th:text="${position.instrument.name}">Posaune</h5>
-				<input class="form-control bandpositioncontrol" type="number"
-					th:field="*{bandPositions[__${positionStat.index}__].ageFrom}" />
-				<input class="form-control bandpositioncontrol" type="number"
-					th:field="*{bandPositions[__${positionStat.index}__].ageTo}" />
-				<select class="custom-select"
-					th:field="*{bandPositions[__${positionStat.index}__].state}">
-					<option th:each="state : ${positionStates}" th:value="${state}"
-						th:text="${state}">Besetzungstatus</option>
-				</select>
-				<a class="btn deletebtn btn-secondary btndelete"
-					th:href="'/band/' + ${band.id} + '/deletebandposition/' + ${position.id}">Löschen</a>
-			</div>
-		</div>
-		<div>
-			<input class="btn btn-primary float-none btnsave" type="submit"
-				value="Speichern" />
-		</div>
-	</form>
-	<div th:if="${band.id}">
-		<h4>Bandposition hinzufügen</h4>
-		<form method="post"
-			th:action="@{'/band/' + ${band.id} + '/newbandposition'}"
-			th:object="${Position}">
-			<div class="input-group">
-				<div class="input-group-prepend">
-					<input type="submit" class="selectbtn btn btn-primary"
-						value="Hinzufügen"></input>
-				</div>
-				<div class="width-25percent">
-					<select class="custom-select" th:name="instrID" th:id="instrID">
-						<option selected>Bitte Instrument wählen...</option>
-						<option th:each="instrument : ${allInstruments}"
-							th:value="${instrument.id}" th:text="${instrument.name}">
-							Geige</option>
-					</select>
-				</div>
-			</div>
-		</form>
-	</div>
-	<a class="btn btn-secondary btnback" href="#" onclick="history.go(-1)">Zurück</a>
-
+	</main>
 	<footer th:replace="index :: footer"></footer>
 
 </body>

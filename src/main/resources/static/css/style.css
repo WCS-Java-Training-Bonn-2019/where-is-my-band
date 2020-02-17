@@ -1,41 +1,49 @@
 body {
-    background: 
-    url(../images/1078886V2.jpg) no-repeat,
-    url(../images/1078886bg.jpg) repeat
-    ;
-    background-size: 100%;
-    
-    color: #ffffff;
-
-    font-family: 'Reem Kufi', sans-serif;
-    padding: 15px;
+	background: url(../images/1078886V2.jpg) no-repeat,
+		url(../images/1078886bg.jpg) repeat;
+	background-size: 100%;
+	color: #ffffff;
+	font-family: 'Reem Kufi', sans-serif;
+	font-size: 1.3rem;
+	padding: 15px;
 }
 
 a {
-    color: #ffffff; 
-    text-decoration: none;
+	color: #ffffff;
+	text-decoration: none;
 }
 
 a:hover {
-    color: #ffffff;
+	color: #ffffff;
 }
 
 img {
-    max-width:100%;
-    height: auto;
+	max-width: 100%;
+	height: auto;
 }
 
 h5 {
 	text-decoration: underline;
 }
 
-.soundmachinenavbar {
-	font-size: 2rem;
+/* Start: aus Bootstrap für sticky footer with navbar */
+main>.container {
+	padding: 15px 15px 0;
+}
+
+.footer>.container {
+	padding-right: 15px;
+	padding-left: 15px;
+}
+
+/* Ende: aus Bootstrap für sticky footer with navbar */
+
+.soundmachine-navbar {
+	font-size: 1.5rem;
 }
 
 .soundmachinenbrand {
 	font-size: 2.5rem;
-	padding: 8px;
 }
 
 .width-50percent {
@@ -50,11 +58,6 @@ h5 {
 	width: 24.5%;
 }
 
-.main-area {
-    margin-top: 5em;
-    margin-bottom: 5em;
-}
-
 /* Positionierung Login-Feld */
 .login {
 	display: flex;
@@ -65,9 +68,6 @@ h5 {
 }
 
 /* Positionierung des rechten Footerbereichs auf der rechten Seite */
-.right {
-	text-align: right;
-}
 
 .bandpositioncontrol {
 	min-width: 100%;
@@ -78,11 +78,12 @@ h5 {
 	justify-content: space-around;
 	flex-direction: row;
 	flex-wrap: wrap;
+	margin-top: 40px;
 }
 
-.DescriptionCard {
+.description-card {
 	background-color: transparent;
-	width: 15rem;
+	min-width: 15rem;
 	border: 1px solid white;
 	margin: 10px;
 	padding: 10px;
@@ -94,12 +95,7 @@ h5 {
 	margin-top: 3em;
 }
 
-.sichtbarkeit {
-	font-size: 1.25em;
-	width: 60%;
-}
 /* Marcel Ende */
-
 .ImageCardBand {
 	background-color: transparent;
 	width: 60%;
@@ -125,8 +121,8 @@ h5 {
 }
 
 .searchResultCard a:hover {
-    color: #ffffff;
-    text-decoration: none;
+	color: #ffffff;
+	text-decoration: none;
 }
 
 .TableInCard {
