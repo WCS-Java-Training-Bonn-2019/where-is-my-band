@@ -16,7 +16,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -24,12 +23,10 @@ import com.wildcodeschool.sea.bonn.whereismyband.entity.Address;
 import com.wildcodeschool.sea.bonn.whereismyband.entity.EditForm;
 import com.wildcodeschool.sea.bonn.whereismyband.entity.Musician;
 import com.wildcodeschool.sea.bonn.whereismyband.repository.AddressRepository;
-import com.wildcodeschool.sea.bonn.whereismyband.repository.BandRepository;
 import com.wildcodeschool.sea.bonn.whereismyband.repository.GenderRepository;
 import com.wildcodeschool.sea.bonn.whereismyband.repository.GenreRepository;
 import com.wildcodeschool.sea.bonn.whereismyband.repository.InstrumentRepository;
 import com.wildcodeschool.sea.bonn.whereismyband.repository.MusicianRepository;
-import com.wildcodeschool.sea.bonn.whereismyband.services.ImageService;
 
 @Controller
 @RequestMapping(value = { "/musician/", "/" })
@@ -40,25 +37,21 @@ public class MusicianController {
 	private final InstrumentRepository instrumentRepository;
 	private final GenreRepository genreRepository;
 	private final AddressRepository addressRepository;
-	private final ImageService imageService;
 	private final PasswordEncoder passwordEncoder;
-	private final BandRepository bandRepository;
+
 
 
 	@Autowired
 	public MusicianController(GenderRepository genderRepository, MusicianRepository musicianRepository,
 			InstrumentRepository instrumentRepository, GenreRepository genreRepository,
-			AddressRepository addressRepository, ImageService imageService, PasswordEncoder passwordEncoder,
-			BandRepository bandRepository) {
+			AddressRepository addressRepository, PasswordEncoder passwordEncoder) {
 		super();
 		this.genderRepository = genderRepository;
 		this.musicianRepository = musicianRepository;
 		this.instrumentRepository = instrumentRepository;
 		this.genreRepository = genreRepository;
 		this.addressRepository = addressRepository;
-		this.imageService = imageService;
 		this.passwordEncoder = passwordEncoder;
-		this.bandRepository = bandRepository;
 	}
 
 	/**
@@ -75,14 +68,6 @@ public class MusicianController {
 		}
 
 		return "index";
-	}
-
-	@GetMapping("list")
-	public String getAll(Model model) {
-
-		model.addAttribute("musicians", musicianRepository.findAll());
-
-		return "musicians";
 	}
 
 	/**
@@ -110,7 +95,6 @@ public class MusicianController {
 		editForm.setFirstName(musician.getFirstName());
 		editForm.setLastName(musician.getLastName());
 		editForm.setDescription(musician.getDescription());
-		//editForm.setImage(musician.getImage());
 		editForm.setUsername(musician.getUsername());
 		editForm.setUsernameRepeated(musician.getUsername());
 		editForm.setPhone(musician.getPhone());
@@ -122,7 +106,7 @@ public class MusicianController {
 		editForm.setInstruments(musician.getInstruments());
 		model.addAttribute("registrationForm", editForm);
 
-		return "musicianupsert";
+		return "Musician/musicianupsert";
 	}
 
 	/**
@@ -142,7 +126,7 @@ public class MusicianController {
 		boolean isMusicianRegister = false;
 		Musician musician = getMusicianLoggedInFromDB(principal);
 
-		// Wenn Validierungsregeln nicht erf<<<<<<< HEADüllt
+		// Wenn Validierungsregeln nicht erfüllt
 		if (bindingResult.hasErrors()) {
 			// Zeige das Formular mit entsprechenden Fehlermeldungen wieder an
 			model.addAttribute("allGenders", genderRepository.findAll());
@@ -151,7 +135,7 @@ public class MusicianController {
 			model.addAttribute("isMusicianRegister", isMusicianRegister);
 			model.addAttribute("musician", musician);
 			model.addAttribute("registrationForm", editForm);
-			return "musicianupsert";
+			return "Musician/musicianupsert";
 		}
 
 		musician.setFirstName(editForm.getFirstName());
@@ -199,7 +183,7 @@ public class MusicianController {
 	public String viewMusician(Model model, Principal principal) {
 		model.addAttribute("musician", getMusicianLoggedInFromDB(principal));
 
-		return "musiciandetails";
+		return "Musician/musiciandetails";
 	}
 
 	
@@ -230,14 +214,6 @@ public class MusicianController {
 		}
 	}
 	
-
-	@GetMapping("delete")
-	public String deleteMusician(@PathVariable Long id) {
-
-		musicianRepository.deleteById(id);
-
-		return "redirect:list";
-	}
 	
 	/**
 	 * Returns the musician object found by the username of the loggedin user

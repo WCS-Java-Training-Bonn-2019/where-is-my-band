@@ -33,8 +33,8 @@
 		th:object="${band}">
 		<input name="id" th:field="*{id}" type="hidden" />
 		<input name="owner" th:field="*{owner}" type="hidden" />
-		<div class="CardContainer">
-			<div class="card ImageCardBand">
+		<div class="cardcontainer">
+			<div class="card imagecard-band">
 				<a th:if="${band.id}" href="#"
 					th:href="@{'/band/' + ${band.id} + '/uploadimage'}" role="button">
 					<img class="card-img-top" th:unless="${band.image}"
@@ -60,8 +60,8 @@
 
 			</div>
 		</div>
-		<div class="CardContainer">
-			<div class="card DescriptionCard">
+		<div class="cardcontainer">
+			<div class="card descriptioncard">
 				<div class="form-group">
 					<label th:for="*{email}">Email:</label>
 					<input class="form-control" type="email" placeholder="Email"
@@ -88,8 +88,8 @@
 				</div>
 			</div>
 
-			<div class="card DescriptionCard">
-				<div class="GenreUpdateContainer">
+			<div class="card descriptioncard">
+				<div class="genreupdatecontainer">
 					<h4>Genres</h4>
 					<table>
 						<tr th:each="genre : ${allGenres}">
@@ -107,8 +107,8 @@
 			</div>
 		</div>
 		<h4 th:if="${band.id}">Bandpositionen</h4>
-		<div th:if="${band.id}" class="CardContainer">
-			<div class="card DescriptionCard"
+		<div th:if="${band.id}" class="cardcontainer">
+			<div class="card descriptioncard"
 				th:each="position, positionStat : *{bandPositions}">
 				<input name="${position.id}"
 					th:field="*{bandPositions[__${positionStat.index}__].id}"

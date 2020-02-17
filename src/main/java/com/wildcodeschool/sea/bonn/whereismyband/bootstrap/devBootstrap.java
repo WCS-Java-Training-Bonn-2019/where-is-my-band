@@ -3,11 +3,8 @@ package com.wildcodeschool.sea.bonn.whereismyband.bootstrap;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -19,7 +16,6 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StreamUtils;
 
 import com.wildcodeschool.sea.bonn.whereismyband.entity.Address;
 import com.wildcodeschool.sea.bonn.whereismyband.entity.Band;
@@ -98,9 +94,6 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 		createInstrumentIfNotExisting("Trompete");
 		createInstrumentIfNotExisting("Saxophon");
 		createInstrumentIfNotExisting("Posaune");
-
-		// Create lastCreatedDate
-		LocalDateTime now = LocalDateTime.now();
 
 
 		boolean elkeExistedBefore = (! musicianRepository.findByFirstNameAndLastNameAndBirthday("Elke", "E-Gitarre", LocalDate.of(1994, 10, 03)).isEmpty());

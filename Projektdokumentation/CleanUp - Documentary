@@ -1,0 +1,89 @@
+CleanUp:
+
+Step1: Warnings-Handling
+
+    Step1.1: devBootstrap.java
+        -   deleted "LocalDateTime new" attribute and declaration
+        -   organizied Imports
+
+    Step1.2: MusicianController.java
+        -   deleted unused implementations (ImageService, Bandrepository)
+        -   organizied Imports
+
+    Step1.3: Address.java
+        -   organizied Imports
+
+    Step1.4: MusicianRepository.java
+        -   organizied Imports
+
+    Step1.5: CompareDatesTest.java
+        -   deleted unused File
+
+    Step1.6: Compile Warning JDK 1.8 used with JRE 11 implementation
+        -   configured Project for JRE 11 usage
+        
+    Step1.7: Build Path Warning missing Execution Environment
+        -   changed BuildPath from JRE 1.8 to JRE 11
+
+Step2: CleanUp unused Files
+
+    Step2.1: GenreController.java
+        -   deleted File
+
+    Step2.2: InstrumentsController.java
+        -   deleted File
+
+    Step2.3: AdminUserDetails.java
+        - deleted File
+        - deleted Package "user"
+        - cleaned up UserDeatailsServiceImpl.java
+            - deleted all relations to AdminUserDetails
+        - cleaned up application.properties
+            -  deleted all relations to AdminUserDetails
+
+    Step2.4: deleted Templates
+        -   bands.html deleted
+        -   genre.html deleted
+        -   genres.html deleted
+        -   instrument.html deleted
+        -   instruments.html deleted
+
+Step3: organizied Templates in specified folders
+
+    Step3.1: created Band folder
+        -   moved all band-templates to Band folder
+        -   updated all routes in Band- / Searchcontroller 
+
+    Step3.2: created Musician folder
+        -   moved all musician-templates to Musician folder
+        -   updated all routes in Musiciancontroller 
+
+Step4: delete usused Code
+
+    Step4.1: MusicianController
+        -   deleted route "/list/"
+        -   deleted route "/delete/"
+
+Step5: cleaned up "resources" folder
+
+    Step5.1: cleaned up CSS
+        -   renamed classes to lowercase
+        -   added commentaries Marcel
+        -   missing commentaries Michael's 
+
+    Step5.2: cleaned up html
+        -   renamed classes in index.html
+        -   renamed classes in musiciandetails.html
+        -   renamed classes in bandsearch.html
+        -   renamed classes in banddetails.html
+        -   renamed classes in bandupsert.html
+        -   deleted unused code in bandsearch.html
+        -   deleted unused code in imageuploadform.html
+
+Step6: cleaned up unused code from Java-Files
+
+    Step6.1: added Annotations 
+        -   added Annotation to GenreRepository
+        -   deleted unused query from Bandrepository
+        -   deleted unused setImage-command from MusicianController
+

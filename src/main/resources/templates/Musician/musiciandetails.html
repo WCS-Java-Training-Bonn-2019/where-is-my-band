@@ -27,8 +27,8 @@
 	<header th:replace="index :: navigation_bar">Navigation</header>
 
 	<h3 th:text="${musician.firstName} + 's Profil'">Musiker Profil</h3>
-	<div class="CardContainer">
-		<div class="card ImageCardMusician">
+	<div class="cardcontainer">
+		<div class="card imagecard-musician">
 			<img class="card-img-top" th:unless="${musician.image}"
 				src="https://via.placeholder.com/728x300.png">
 			<img class="card-img-top" th:if="${musician.image}"
@@ -54,10 +54,10 @@
 			</div>
 		</div>
 	</div>
-	<div class="CardContainer">
-		<div class="card DescriptionCard">
+	<div class="cardcontainer">
+		<div class="card descriptioncard">
 			<h4>Persönliche Daten</h4>
-			<table class="TableInCard">
+			<table class="tableincard">
 				<tr>
 					<td>Alter:</td>
 					<td th:text="${musician.age}">47</td>
@@ -78,7 +78,7 @@
 				</tr>
 			</table>
 		</div>
-		<div class="card DescriptionCard">
+		<div class="card descriptioncard">
 			<h4>Musikrichtungen</h4>
 			<ul>
 				<li th:each="genre, genreStat : ${musician.favoriteGenres}"
@@ -86,7 +86,7 @@
 				</li>
 			</ul>
 		</div>
-		<div class="card DescriptionCard">
+		<div class="card descriptioncard">
 			<h4>Instrumente</h4>
 			<ul>
 				<li th:each="instrument, instrStat : ${musician.instruments}"
@@ -94,7 +94,7 @@
 				</li>
 			</ul>
 		</div>
-		<div class="card DescriptionCard">
+		<div class="card descriptioncard">
 			<h4>Meine Bands</h4>
 			<ul>
 				<li th:each="band, bandStat : ${musician.bands}">

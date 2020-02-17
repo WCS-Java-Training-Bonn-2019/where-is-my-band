@@ -24,8 +24,6 @@
 	crossorigin="anonymous"></script>
 
 
-<!-- zum lokalen Testen -->
-<!--  <link rel="stylesheet" href="../static/css/style.css"> -->
 <link rel="stylesheet" th:href="@{/css/style.css}">
 
 </head>
@@ -43,19 +41,6 @@
 		<div class="container-fluid">
 			<h3>Suche nach offenen Bandpositionen</h3>
 			<form action="#" th:action="@{'/search/'}" method="get">
-
-				<!--  Keine Wahlmöglichkeit für Positions - er werden nur Bands mit offenen Positionen gesucht
-                <div class="form-group">
-                    <label>Positions</label>
-                    <select class="form-control" id="showBand">
-                        <option>All</option>
-                        <option>Only open positions</option>
-                    </select>
-                    <small id="positionsHelpBlock" class="form-text">
-                        Show all bands or only bands with open positions.
-                    </small>
-                </div>
-                -->
 
 				<div class="form-group">
 					<label class="col-form-label">Postleitzahl</label>
@@ -94,8 +79,8 @@
 
 	<!--  Generische Anlage der Trefferliste in From von Bootstrap-Cards -->
 
-	<div class="CardContainer">
-		<div class="card searchResultCard" th:each="band : ${bands}">
+	<div class="cardcontainer">
+		<div class="card searchresultcard" th:each="band : ${bands}">
 			<a th:href="@{'/band/' + ${band.id} + '/view'}">
 				<img class="card-img-top" th:if="${band.image}"
 					th:src="@{'/band/' + ${band.id} + '/bandimage'}" alt="...">
