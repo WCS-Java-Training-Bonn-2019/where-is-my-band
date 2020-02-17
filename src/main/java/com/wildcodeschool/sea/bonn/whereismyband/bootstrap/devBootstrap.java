@@ -1,16 +1,25 @@
 package com.wildcodeschool.sea.bonn.whereismyband.bootstrap;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
+import javax.imageio.ImageIO;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StreamUtils;
 
 import com.wildcodeschool.sea.bonn.whereismyband.entity.Address;
 import com.wildcodeschool.sea.bonn.whereismyband.entity.Band;
@@ -89,10 +98,10 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 		createInstrumentIfNotExisting("Trompete");
 		createInstrumentIfNotExisting("Saxophon");
 		createInstrumentIfNotExisting("Posaune");
-		
+
 		// Create lastCreatedDate
 		LocalDateTime now = LocalDateTime.now();
-		
+
 
 		boolean elkeExistedBefore = (! musicianRepository.findByFirstNameAndLastNameAndBirthday("Elke", "E-Gitarre", LocalDate.of(1994, 10, 03)).isEmpty());
 		Musician elke;
@@ -109,8 +118,11 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 
 			Address elkesAddress = createAdressIfNotExisting("Bonn", "53227");
 			elke.setAddress(elkesAddress);
-			
+
 			elke.setDescription("Hallo, ich bin Elke und spiele E-Gitarre. Musik ist meine große Leidenschaft!");
+
+			byte[] elkesImage = readImageFromFileSystem("Elke.jpg");
+			elke.setImage(elkesImage);
 
 			// Prepare HashSet favoriteGenres
 			HashSet<Genre> elkesGenres = new HashSet<>();
@@ -132,7 +144,7 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 
 			// Update Instruments
 			elke.setInstruments(elkesInstruments);
-			
+
 			// Save changes in repositories
 			instrumentRepository.save(egitarre);
 			genreRepository.save(oldies);
@@ -159,8 +171,12 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 
 			Address stefansAddress = createAdressIfNotExisting("Sankt Augustin", "53757");
 			stefan.setAddress(stefansAddress);
-			
+
 			stefan.setDescription("Hallo, ich bin Stefan, spiele Schlagzeug seit 6 Jahren und spiele unregelmäßig in einem Musikverein!");
+
+			// read image from file system
+			byte [] stefansImage = readImageFromFileSystem("Stefan.jpg");
+			stefan.setImage(stefansImage);
 
 			// Prepare HashSet favoriteGenres
 			HashSet<Genre> stefansGenres = new HashSet<>();
@@ -201,8 +217,6 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 			// Start creation of band ACDC
 			// ***************************
 			Band acdc = createBandIfNotExisting("ACDC");
-			
-			
 
 			Address acdcAddress = createAdressIfNotExisting("Bonn", "53227");
 			acdc.setAddress(acdcAddress);
@@ -211,6 +225,10 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 			acdc.setOwner(elke);
 			elke.getBands().add(acdc);
 			musicianRepository.save(elke);
+
+			// read image from file system
+			byte [] acdcImage = readImageFromFileSystem("acdc_jung.jpg");
+			acdc.setImage(acdcImage);
 
 			// Add favorite genres
 			acdc.getFavoriteGenres().add(rock);
@@ -256,22 +274,24 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 			bandpos4.setState(PositionState.OFFEN);
 			bandpositionRepository.save(bandpos4);
 
-
 			// Creation of band ACDC finished
 			// ******************************
 		};
-		
+
 		// Noch 2 Mock-Bands zum Testen der Suche-Funktionalität:
 		// Band Kölner Karnevalsmusiker
 		// if Kölner Karnevalsmusiker does not exist
-		if (! bandRepository.findByName("Kölner Karnevalsmusiker").isPresent()) {
+		if (! bandRepository.findByName("Paveier").isPresent()) {
 
 			// Start creation of band Kölner Karnevalsmusiker
 			// ***************************
-			Band kkmusiker = createBandIfNotExisting("Kölner Karnevalsmusiker");
+			Band kkmusiker = createBandIfNotExisting("Paveier");
 
-			Address kkmusikerAddress = createAdressIfNotExisting("Köln", "51111");
+			Address kkmusikerAddress = createAdressIfNotExisting("Bergisch Gladbach", "51429");
 			kkmusiker.setAddress(kkmusikerAddress);
+			
+			byte[] kkmusikerImage = readImageFromFileSystem("paveier_2019.jpg");
+			kkmusiker.setImage(kkmusikerImage);
 
 			// set band owner elke
 			kkmusiker.setOwner(elke);
@@ -313,48 +333,82 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 			bandpos3.setState(PositionState.OFFEN);
 			bandpositionRepository.save(bandpos3);
 
-
 			// Creation of band Kölner Kernevalsmusiker finished
 			// ******************************
 		};
-		
-		// if Göttinger Männergesangsverein  does not exist
-		if (! bandRepository.findByName("Göttinger Männergesangsverein").isPresent()) {
+
+		// if De Tampentrekker does not exist
+		if (! bandRepository.findByName("De Tampentrekker").isPresent()) {
 
 			// Start creation of band Göttinger Männergesangsverein
 			// ***************************
-			Band gmg = createBandIfNotExisting("Göttinger Männergesangsverein");
+			Band dtt = createBandIfNotExisting("De Tampentrekker");
 
-			Address gmgAddress = createAdressIfNotExisting("Göttingen", "37073");
-			gmg.setAddress(gmgAddress);
+			Address gmgAddress = createAdressIfNotExisting("Hamburg", "21109");
+			dtt.setAddress(gmgAddress);
 
 			// set band owner elke
-			gmg.setOwner(elke);
-			elke.getBands().add(gmg);
+			dtt.setOwner(elke);
+			elke.getBands().add(dtt);
 			musicianRepository.save(elke);
 
-			// Add favorite genres
-			gmg.getFavoriteGenres().add(schlager);
-			schlager.getBands().add(gmg);
+			byte[] deTampentrekkerImage = readImageFromFileSystem("DeTampentrekker.JPG");
+			dtt.setImage(deTampentrekkerImage);
 
-			bandRepository.save(gmg);
-	
+			// Add favorite genres
+			dtt.getFavoriteGenres().add(schlager);
+			schlager.getBands().add(dtt);
+
+			bandRepository.save(dtt);
 
 			// Create  Position 1
 			Bandposition bandpos3 = new Bandposition();
 			bandpos3.setInstrument(gesang);
-			bandpos3.setBand(gmg);
+			bandpos3.setBand(dtt);
 			bandpos3.setAgeFrom(30);
 			bandpos3.setAgeTo(50);
 			bandpos3.setState(PositionState.OFFEN);
 			bandpositionRepository.save(bandpos3);
 
-
 			// Creation of band Göttinger Männergesangsverein finished
 			// ******************************
 		};
-		
-		
+
+	}
+
+	private byte[] readImageFromFileSystem(String filename) {
+
+		// set path from project root directory to image folder
+		String pathFromProjectToImageFolder = "src/main/resources/static/images/";
+
+		// read image file into a buffered image
+		File file = new File(pathFromProjectToImageFolder + filename);
+		BufferedImage bImage;
+		try {
+			bImage = ImageIO.read(file);
+		} catch (IOException e) {
+			throw new RuntimeException("Error accessing file: " 
+					+ pathFromProjectToImageFolder + filename);
+		}
+
+		// if not an known image type
+		if (bImage.getType() == BufferedImage.TYPE_CUSTOM) {
+			throw new RuntimeException("Not a known image type: " 
+					+ pathFromProjectToImageFolder + filename);
+		}
+
+		// convert BufferedImage via ByteArrayOutputStream to byte[]
+		byte[] imageByteArray = null;
+		ByteArrayOutputStream bos = new ByteArrayOutputStream(); 
+		try {
+			ImageIO.write(bImage, "jpg", bos );
+			imageByteArray = bos.toByteArray();
+			bos.close();
+		} catch (IOException e) {
+			throw new RuntimeException("Error trying to access file: " 
+					+ pathFromProjectToImageFolder + filename);
+		}
+		return imageByteArray;
 	}
 
 
@@ -443,7 +497,7 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 			Band band = new Band();
 			band.setName(name);
 			band.setEmail("info@acdc.com");
-			band.setDescription("ACDC ist eine Super Band!");
+			band.setDescription(name + " sind eine super Band!");
 			band.setPhone("0228/181-0");
 			bandRepository.save(band);
 			return band;
