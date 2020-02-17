@@ -29,12 +29,12 @@
 	<header th:replace="index :: navigation_bar">Navigation</header>
 
 
-	<!-- If musician is register-flag ist set, than register, otherwise create -->
+	<!-- If musician register-flag is set, than register, otherwise create -->
 	<h3
 		th:text="${isMusicianRegister} ? 'Soundmachine Registrierung' : 'Musikerprofil bearbeiten'">Musician</h3>
 	<form method="post"
 		th:action="${isMusicianRegister} ? @{/register}: @{/musician/edit}"
-		th:object="${registrationForm}" enctype="multipart/form-data">
+		th:object="${musicianForm}" enctype="multipart/form-data">
 		<div class="form-group">
 			<div class="form-check form-check-inline"
 				th:each="gender : ${allGenders}">

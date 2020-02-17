@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.wildcodeschool.sea.bonn.whereismyband.entity.Address;
@@ -61,7 +62,7 @@ public class RegistrationController{
 		RegistrationForm regForm= new RegistrationForm();
 		
 		// add (empty) RegForm object to the view model
-		model.addAttribute("registrationForm", regForm);
+		model.addAttribute("musicianForm", regForm);
 		
 		return "musicianupsert";
 	}
@@ -69,7 +70,7 @@ public class RegistrationController{
 
 	@PostMapping("/register")
 	public String newMusicianPost( 
-			@Valid RegistrationForm regForm, 
+			@Valid @ModelAttribute("musicianForm") RegistrationForm regForm, 
 			BindingResult bindingResult, 
 			Model model) {
 
@@ -80,7 +81,6 @@ public class RegistrationController{
 			model.addAttribute("allInstruments", instrumentRepository.findAll());
 			model.addAttribute("allGenres", genreRepository.findAll());
 			model.addAttribute("isMusicianRegister", true);
-			model.addAttribute("registrationForm", regForm);
 			return "musicianupsert";
 		}
 

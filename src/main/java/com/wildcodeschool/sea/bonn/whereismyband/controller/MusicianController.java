@@ -16,7 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -77,13 +77,6 @@ public class MusicianController {
 		return "index";
 	}
 
-	@GetMapping("list")
-	public String getAll(Model model) {
-
-		model.addAttribute("musicians", musicianRepository.findAll());
-
-		return "musicians";
-	}
 
 	/**
 	 * Controller which returns the editing form for a musician
@@ -110,7 +103,6 @@ public class MusicianController {
 		editForm.setFirstName(musician.getFirstName());
 		editForm.setLastName(musician.getLastName());
 		editForm.setDescription(musician.getDescription());
-		//editForm.setImage(musician.getImage());
 		editForm.setUsername(musician.getUsername());
 		editForm.setUsernameRepeated(musician.getUsername());
 		editForm.setPhone(musician.getPhone());
@@ -120,14 +112,13 @@ public class MusicianController {
 		editForm.setCity(musician.getAddress().getCity());
 		editForm.setGenres(musician.getFavoriteGenres());
 		editForm.setInstruments(musician.getInstruments());
-		model.addAttribute("registrationForm", editForm);
+		model.addAttribute("musicianForm", editForm);
 
 		return "musicianupsert";
 	}
 
 	/**
 	 * Controller which processes the editing form for a musician
-	 * ToDo: Route checken, darf der Benutzername geändert werden, Passwort (alt) eingeben
 	 * @param editForm
 	 * @param bindingResult
 	 * @param principal
@@ -135,22 +126,26 @@ public class MusicianController {
 	 * @return the musician detail page, if all went fine, otherwise the editing form again
 	 */
 	@PostMapping("/edit")
+	// Dem "form backing bean" muss hier explizit mit "@ModelAttribute" ein Namen gegeben werden, da der th:object-Tag im Template nicht auf den Klassennamen referenziert (hier "EditForm")
+	// http://forum.thymeleaf.org/Fields-object-functions-Spring-td3302513.html
 	public String editMusicianPost(
-
-			@Valid EditForm editForm, BindingResult bindingResult, Principal principal, Model model) {
+			@Valid @ModelAttribute("musicianForm") EditForm editForm, 
+			BindingResult bindingResult, 
+			Principal principal, 
+			Model model) {
 
 		boolean isMusicianRegister = false;
 		Musician musician = getMusicianLoggedInFromDB(principal);
 
-		// Wenn Validierungsregeln nicht erf<<<<<<< HEADüllt
+		// Wenn Validierungsregeln nicht erfüllt, zeige das Formular mit entsprechenden Fehlermeldungen wieder an.
+		// Die Form wird automatisch über die form backing bean gefüllt
+		// https://www.baeldung.com/spring-mvc-form-tutorial
 		if (bindingResult.hasErrors()) {
-			// Zeige das Formular mit entsprechenden Fehlermeldungen wieder an
 			model.addAttribute("allGenders", genderRepository.findAll());
 			model.addAttribute("allInstruments", instrumentRepository.findAll());
 			model.addAttribute("allGenres", genreRepository.findAll());
 			model.addAttribute("isMusicianRegister", isMusicianRegister);
 			model.addAttribute("musician", musician);
-			model.addAttribute("registrationForm", editForm);
 			return "musicianupsert";
 		}
 
@@ -230,14 +225,6 @@ public class MusicianController {
 		}
 	}
 	
-
-	@GetMapping("delete")
-	public String deleteMusician(@PathVariable Long id) {
-
-		musicianRepository.deleteById(id);
-
-		return "redirect:list";
-	}
 	
 	/**
 	 * Returns the musician object found by the username of the loggedin user
