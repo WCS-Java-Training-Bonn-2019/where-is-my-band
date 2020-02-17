@@ -24,12 +24,10 @@ import com.wildcodeschool.sea.bonn.whereismyband.entity.Address;
 import com.wildcodeschool.sea.bonn.whereismyband.entity.EditForm;
 import com.wildcodeschool.sea.bonn.whereismyband.entity.Musician;
 import com.wildcodeschool.sea.bonn.whereismyband.repository.AddressRepository;
-import com.wildcodeschool.sea.bonn.whereismyband.repository.BandRepository;
 import com.wildcodeschool.sea.bonn.whereismyband.repository.GenderRepository;
 import com.wildcodeschool.sea.bonn.whereismyband.repository.GenreRepository;
 import com.wildcodeschool.sea.bonn.whereismyband.repository.InstrumentRepository;
 import com.wildcodeschool.sea.bonn.whereismyband.repository.MusicianRepository;
-import com.wildcodeschool.sea.bonn.whereismyband.services.ImageService;
 
 @Controller
 @RequestMapping(value = { "/musician/", "/" })
@@ -40,25 +38,20 @@ public class MusicianController {
 	private final InstrumentRepository instrumentRepository;
 	private final GenreRepository genreRepository;
 	private final AddressRepository addressRepository;
-	private final ImageService imageService;
 	private final PasswordEncoder passwordEncoder;
-	private final BandRepository bandRepository;
 
 
 	@Autowired
 	public MusicianController(GenderRepository genderRepository, MusicianRepository musicianRepository,
 			InstrumentRepository instrumentRepository, GenreRepository genreRepository,
-			AddressRepository addressRepository, ImageService imageService, PasswordEncoder passwordEncoder,
-			BandRepository bandRepository) {
+			AddressRepository addressRepository, PasswordEncoder passwordEncoder) {
 		super();
 		this.genderRepository = genderRepository;
 		this.musicianRepository = musicianRepository;
 		this.instrumentRepository = instrumentRepository;
 		this.genreRepository = genreRepository;
 		this.addressRepository = addressRepository;
-		this.imageService = imageService;
 		this.passwordEncoder = passwordEncoder;
-		this.bandRepository = bandRepository;
 	}
 
 	/**
@@ -149,33 +142,7 @@ public class MusicianController {
 			return "musicianupsert";
 		}
 
-		musician.setFirstName(editForm.getFirstName());
-		musician.setLastName(editForm.getLastName());
-
-		if (editForm.getDescription() != null) {
-			musician.setDescription(editForm.getDescription());
-		}
-
-
-		if (!editForm.getPassword().isEmpty()) {
-			musician.setPassword(passwordEncoder.encode(editForm.getPassword()));
-		}
-		
-		musician.setPhone(editForm.getPhone());
-		musician.setBirthday(editForm.getBirthday());
-		musician.setGender(editForm.getGender());
-
-		Address address = new Address();
-		address.setCity(editForm.getCity());
-		address.setPostCode(editForm.getPostCode());
-		musician.setAddress(address);
-
-		musician.setFavoriteGenres(editForm.getGenres());
-		musician.setInstruments(editForm.getInstruments());
-		
-		if (editForm.getImage().length != 0) {
-			musician.setImage(editForm.getImage());
-		}
+		updateMusicianFromEditForm(editForm, musician);
 		
 		addressRepository.save(musician.getAddress());
 		musicianRepository.save(musician);
@@ -183,9 +150,7 @@ public class MusicianController {
 		return "redirect:view";
 	}
 
-
 	/**
-	 * Returns the Userdetail-Page
 	 * @param model
 	 * @param principal
 	 * @return the Userdetail-Page
@@ -240,5 +205,40 @@ public class MusicianController {
 
 		Musician musicianLoggedIn = musicianOptional.get();
 		return musicianLoggedIn;
+	}
+	
+
+	/**
+	 * @param editForm The form backing bean with updated musician's data
+	 * @param musician The musician with changed musician data
+	 */
+	private void updateMusicianFromEditForm(EditForm editForm, Musician musician) {
+		musician.setFirstName(editForm.getFirstName());
+		musician.setLastName(editForm.getLastName());
+	
+		if (editForm.getDescription() != null) {
+			musician.setDescription(editForm.getDescription());
+		}
+	
+	
+		if (!editForm.getPassword().isEmpty()) {
+			musician.setPassword(passwordEncoder.encode(editForm.getPassword()));
+		}
+		
+		musician.setPhone(editForm.getPhone());
+		musician.setBirthday(editForm.getBirthday());
+		musician.setGender(editForm.getGender());
+	
+		Address address = new Address();
+		address.setCity(editForm.getCity());
+		address.setPostCode(editForm.getPostCode());
+		musician.setAddress(address);
+	
+		musician.setFavoriteGenres(editForm.getGenres());
+		musician.setInstruments(editForm.getInstruments());
+		
+		if (editForm.getImage().length != 0) {
+			musician.setImage(editForm.getImage());
+		}
 	}
 }
