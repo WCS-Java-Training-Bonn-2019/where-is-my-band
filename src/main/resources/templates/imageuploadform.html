@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html class="h-100" lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <title>SoundMachine Musician File Upload</title>
@@ -27,20 +27,24 @@
 <link rel="stylesheet" th:href="@{/css/style.css}">
 
 </head>
-<body>
+<body class="container d-flex flex-column h-100">
 	<header th:replace="index :: navigation_bar">Navigation</header>
-	<h3>Band Photo Upload</h3>
-	<form method="post"
-		th:action="@{'/band/' + ${bandid} + '/uploadimage'}"
-		enctype="multipart/form-data">
-		<div class="form-group">
-			<input class="form-control-file" 
-				id="imagefile" name="imagefile" type="file" />
-			<div>
-				<button type="submit" class="btn btn-primary btnupload">Upload</button>
-			</div>
+	<main role="main" class="flex-shrink-0">
+		<div class="container">
+			<h3>Band Photo Upload</h3>
+			<form method="post"
+				th:action="@{'/band/' + ${bandid} + '/uploadimage'}"
+				enctype="multipart/form-data">
+				<div class="form-group">
+					<input class="form-control-file" id="imagefile" name="imagefile"
+						type="file" />
+					<div>
+						<button type="submit" class="btn btn-primary btnupload">Upload</button>
+					</div>
+				</div>
+			</form>
 		</div>
-	</form>
+	</main>
 	<footer th:replace="index :: footer">Footer</footer>
 </body>
 </html>
