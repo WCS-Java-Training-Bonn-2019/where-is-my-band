@@ -71,15 +71,15 @@ public class BandController {
 		Musician musicianLoggedIn = null;
 
 		try {
-			musicianLoggedIn = assertValidUser(principal);	
+			musicianLoggedIn = getMusicianLoggedInFromDB(principal);	
 			band = createOrRetrieveBand(bandid, musicianLoggedIn);
 		} catch (Throwable t) {
+			// if musician or band could not be read from DB
 			model.addAttribute("message", t.getMessage());
 			return "soundmachineerror";
 		}
 
-		// add band to the view model
-		initializeBandFormModel(model, band, musicianLoggedIn);
+		addBandAndMusicianToViewModel(model, band, musicianLoggedIn);
 		return "bandupsert";
 	}
 
@@ -88,34 +88,32 @@ public class BandController {
 			Model model,
 			Principal principal,
 			@ModelAttribute Band band, 
-			@PathVariable Long id) {
+			@PathVariable(name="id") Long bandId) {
 
 		Musician musicianLoggedIn = null;
 		Band bandFromDB =null;
 
 		try {
-			musicianLoggedIn = assertValidUser(principal);
-			bandFromDB = createOrRetrieveBand(id, musicianLoggedIn);
+			musicianLoggedIn = getMusicianLoggedInFromDB(principal);
+			bandFromDB = createOrRetrieveBand(bandId, musicianLoggedIn);
 		} catch (Throwable t) {
+			// if musician or band could not be read from DB
 			model.addAttribute("message", t.getMessage());
 			return "soundmachineerror";
 		}
 
-		// DB contains an image for this band
+		// if DB contains an image for band posted already
 		if (bandFromDB.getImage() != null) {
-			// set image of band to the one stored n the DB
+			// set image of band to the one stored in the DB
 			band.setImage(bandFromDB.getImage());
 		}
 
-		// save band.address in DB
+		// save all entities in DB
 		addressRepository.save(band.getAddress());
-		// save band.bandpositions in DB
 		bandPositionsRepository.saveAll(band.getBandPositions());
-		// save band attributes in DB
 		bandRepository.save(band);
 
-		model.addAttribute(band);
-		model.addAttribute("musician", musicianLoggedIn);
+		addBandAndMusicianToViewModel(model, band, musicianLoggedIn);
 
 		return "redirect:/band/" + band.getId() + "/view";
 	}
@@ -129,15 +127,16 @@ public class BandController {
 		Musician musicianLoggedIn = null;
 
 		try {
-			musicianLoggedIn = assertValidUser(principal);	
+			musicianLoggedIn = getMusicianLoggedInFromDB(principal);	
 			band = createOrRetrieveBand(null, musicianLoggedIn);
 		} catch (Throwable t) {
+			// if musician or band could not be read from DB
 			model.addAttribute("message", t.getMessage());
 			return "soundmachineerror";
 		}
 
 		// add band to the view model (either empty)
-		initializeBandFormModel(model, band, musicianLoggedIn);
+		addBandAndMusicianToViewModel(model, band, musicianLoggedIn);
 		return "bandupsert";
 	}
 
@@ -151,8 +150,9 @@ public class BandController {
 		Musician musicianLoggedIn = null;
 
 		try {
-			musicianLoggedIn = assertValidUser(principal);	
+			musicianLoggedIn = getMusicianLoggedInFromDB(principal);	
 		} catch (Throwable t) {
+			// if musician could not be read from DB
 			model.addAttribute("message", t.getMessage());
 			return "soundmachineerror";
 		}
@@ -160,17 +160,12 @@ public class BandController {
 		// set owner to the musician currently logged in
 		band.setOwner(musicianLoggedIn);
 
-		// save band.address in DB
+		// save entities in DB
 		addressRepository.save(band.getAddress());
-
-		// save band.bandpositions in DB
 		bandPositionsRepository.saveAll(band.getBandPositions());
-
-		// save band attributes in DB
 		bandRepository.save(band);
 
-		model.addAttribute(band);
-		model.addAttribute("musician", musicianLoggedIn);
+		addBandAndMusicianToViewModel(model, band, musicianLoggedIn);
 
 		return "redirect:/band/" + band.getId() + "/view";
 	}
@@ -187,9 +182,10 @@ public class BandController {
 		Musician musicianLoggedIn = null;
 
 		try {
-			musicianLoggedIn = assertValidUser(principal);	
+			musicianLoggedIn = getMusicianLoggedInFromDB(principal);	
 			band = createOrRetrieveBand(bandID, musicianLoggedIn);
 		} catch (Throwable t) {
+			// if musician or band could not be read from DB
 			model.addAttribute("message", t.getMessage());
 			return "soundmachineerror";
 		}
@@ -221,40 +217,39 @@ public class BandController {
 	public String deleteBandposition(
 			Model model,
 			Principal principal,
-			@PathVariable(name = "id") Long id, 
+			@PathVariable(name = "id") Long bandId, 
 			@PathVariable(name = "posID") Long posID) {
 
 		try {
-			assertValidUser(principal);	
+			getMusicianLoggedInFromDB(principal);	
 		} catch (Throwable t) {
+			// if musician could not be read from DB
 			model.addAttribute("message", t.getMessage());
 			return "soundmachineerror";
 		}
 
 		bandPositionsRepository.deleteById(posID);
-		return "redirect:/band/" + id + "/edit";
+		return "redirect:/band/" + bandId + "/edit";
 	}
 
 	@GetMapping("{id}/view")
 	public String viewBand(
 			Model model, 
 			Principal principal,
-			@PathVariable Long id) {
+			@PathVariable(name = "id") Long id) {
 
 		Band band = null;
 		Musician musicianLoggedIn = null;
 
 		try {
-			musicianLoggedIn = assertValidUser(principal);	
+			musicianLoggedIn = getMusicianLoggedInFromDB(principal);	
 			band = createOrRetrieveBand(id, musicianLoggedIn);
 		} catch (Throwable t) {
 			model.addAttribute("message", t.getMessage());
 			return "soundmachineerror";
 		}
 
-		// add band and current musician to the view model
-		model.addAttribute("band", band);
-		model.addAttribute("musician", musicianLoggedIn);
+		addBandAndMusicianToViewModel(model, band, musicianLoggedIn);
 
 		return "banddetails";
 	}
@@ -263,18 +258,19 @@ public class BandController {
 	public String uploadImageGet(
 			Model model, 
 			Principal principal,
-			@PathVariable Long id) {
+			@PathVariable(name = "id") Long bandId) {
 
 		Musician musicianLoggedIn = null;
 
 		try {
-			musicianLoggedIn = assertValidUser(principal);	
+			musicianLoggedIn = getMusicianLoggedInFromDB(principal);	
 		} catch (Throwable t) {
+			// if musician could not be read from DB
 			model.addAttribute("message", t.getMessage());
 			return "soundmachineerror";
 		}
 
-		model.addAttribute("bandid", id.toString());
+		model.addAttribute("bandid", bandId.toString());
 		model.addAttribute("musician", musicianLoggedIn);
 
 		return "imageuploadform";
@@ -284,29 +280,30 @@ public class BandController {
 	public String uploadImagePost(
 			Model model,
 			Principal principal,
-			@PathVariable Long id, 
+			@PathVariable(name = "id") Long bandId, 
 			@RequestParam("imagefile") MultipartFile file) {
 
 		try {
-			assertValidUser(principal);	
+			getMusicianLoggedInFromDB(principal);	
 		} catch (Throwable t) {
+			// if musician could not be read from DB
 			model.addAttribute("message", t.getMessage());
 			return "soundmachineerror";
 		}
 
-		imageService.saveImageFileBand(id, file);
-		return "redirect:/band/" + id + "/view";
+		imageService.saveImageFileBand(bandId, file);
+		return "redirect:/band/" + bandId + "/view";
 	}
 
 	// Via this route, the image can be retrieved for display via an HTML image
 	// element <img ...>
 	@GetMapping("{id}/bandimage")
 	public void renderImageFromDB(
-			@PathVariable String id, 
+			@PathVariable(name="id") String bandId, 
 			HttpServletResponse response) throws IOException {
 
 		// retrieve band from DB
-		Optional<Band> bandOptional = bandRepository.findById(Long.valueOf(id));
+		Optional<Band> bandOptional = bandRepository.findById(Long.valueOf(bandId));
 
 		// if band was found and image exists
 		if (bandOptional.isPresent() && bandOptional.get().getImage() != null) {
@@ -323,14 +320,21 @@ public class BandController {
 		}
 	}
 
-	private Band createOrRetrieveBand(Long bandid, Musician musicianLoggedIn) {
+	/**
+	 * Creates a band in bandRepository with the owner passed, if bandId was not passed. 
+	 * Otherwise the band is read from bandRepository.
+	 * @param bandId Band to be read
+	 * @param owner owner to be set for a newly created band
+	 * @return Band object (created or read from DB)
+	 */
+	private Band createOrRetrieveBand(Long bandId, Musician owner) {
 		Band band = null;
 
 		// if a an existing band shall be updated
-		if (bandid != null) {
+		if (bandId != null) {
 
 			// read band from database
-			Optional<Band> optionalBand = bandRepository.findById(bandid);
+			Optional<Band> optionalBand = bandRepository.findById(bandId);
 
 			// if band could not be retrieved
 			if (!optionalBand.isPresent()) {
@@ -345,14 +349,19 @@ public class BandController {
 			band = new Band();
 
 			// Owner will be the musician logged in
-			band.setOwner(musicianLoggedIn);
+			band.setOwner(owner);
 			band.setAddress(new Address());
 
 		}
 		return band;
 	}
 
-	private Musician assertValidUser(Principal principal) {
+	/**
+	 * Reads the musician from musicianRepository, which matches the principal passed.
+	 * @param principal
+	 * @return Musician object retrieved from DB, "null" if not found
+	 */
+	private Musician getMusicianLoggedInFromDB(Principal principal) {
 		Optional<Musician> userOptional = musicianRepository.findByUsername(principal.getName());
 
 		// musician matching the principal was found in DB
@@ -364,7 +373,7 @@ public class BandController {
 		return musicianLoggedIn;
 	}
 
-	private void initializeBandFormModel(Model model, Band band, Musician musicianLoggedIn) {
+	private void addBandAndMusicianToViewModel(Model model, Band band, Musician musicianLoggedIn) {
 		model.addAttribute("band", band);
 		model.addAttribute("allGenres", genreRepository.findAll());
 		model.addAttribute("positionStates", PositionState.values());
