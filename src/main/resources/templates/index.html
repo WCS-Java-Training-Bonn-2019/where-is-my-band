@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html class="h-100" xmlns:th="http://www.thymeleaf.org"
-	lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security5">
+<html class="h-100" xmlns:th="http://www.thymeleaf.org" lang="en"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security5">
 
 <head>
 <meta charset="UTF-8">
@@ -65,6 +65,7 @@
 							sec:authorize="!isAuthenticated()">Registrieren</a>
 					</li>
 				</ul>
+
 			</div>
 		</nav>
 	</header>
@@ -78,8 +79,8 @@
 				<span th:text="${musician.firstName}">Stefan</span>
 				!
 			</h3>
-			<h3 sec:authorize="!isAuthenticated()">Willkommen
-				bei Soundmachine!</h3>
+			<h3 sec:authorize="!isAuthenticated()">Willkommen bei
+				Soundmachine!</h3>
 
 
 			<p class="fragestellung">Du bist auf Bandsuche und hast noch
@@ -100,7 +101,6 @@
 	</main>
 
 	<!-- Footer-->
-
 	<footer th:fragment="footer" class="footer mt-auto py-3">
 		<div class="container">
 
