@@ -1,5 +1,6 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html class="h-100" lang="en"
+	xmlns:th="http://www.thymeleaf.org">
 <head>
 <title>Soundmachine</title>
 <link rel="stylesheet"
@@ -23,8 +24,11 @@
 <link rel="stylesheet" th:href="@{/css/style.css}">
 <link th:remove="all" rel="stylesheet" href="../static/css/style.css">
 </head>
-<body>
+<body class="container d-flex flex-column h-100">
+
 	<header th:replace="index :: navigation_bar">Navigation</header>
+	<main role="main" class="flex-shrink-0">
+		<div class="container">
 
 	<h3 th:text="${musician.firstName} + 's Profil'">Musiker Profil</h3>
 	<div class="cardcontainer">
@@ -39,21 +43,11 @@
 					th:text="${musician.firstName} + ' ' 
 							+ ${musician.lastName} 
 							+ ' (' + ${musician.gender.name} + ')'">
-					Michael Krill (Herr)</h5>
-				<p class="card-text" th:text="${musician.description}">Lorem
-					ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
-					eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed
-					diam voluptua. At vero eos et accusam et justo duo dolores et ea
-					rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
-					ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
-					sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore
-					et dolore magna aliquyam erat, sed diam voluptua. At vero eos et
-					accusam et justo duo dolores et ea rebum. Stet clita kasd
-					gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-				</p>
+							Michael Krill (Herr)</h5>
+						<p class="card-text" th:text="${musician.description}"></p>
+					</div>
+				</div>
 			</div>
-		</div>
-	</div>
 	<div class="cardcontainer">
 		<div class="card descriptioncard">
 			<h4>Persönliche Daten</h4>
@@ -102,20 +96,20 @@
 						<span
 							th:text="not ${bandStat.last} ? ${band.name} + ', ' : ${band.name}">Trio</span>
 					</a>
-					</span>
 				</li>
 			</ul>
 		</div>
 	</div>
 
-	<form method="get" th:action="@{'/musician/edit'}">
-		<input class="btn btn-primary btnedit" type="submit"
-			value="Bearbeiten">
-	</form>
+			<form method="get" th:action="@{'/musician/edit'}">
+				<input class="btn btn-primary btnedit" type="submit"
+					value="Bearbeiten">
+			</form>
 
-	<a class="btn btn-secondary" th:href="'/band/new'">Neue Band
-		anlegen</a>
-
+			<a class="btn btn-secondary" th:href="'/band/new'">Neue Band
+				anlegen</a>
+		</div>
+	</main>
 
 	<footer th:replace="index :: footer">Footer</footer>
 </body>

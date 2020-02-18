@@ -1,5 +1,6 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html class="h-100" lang="en"
+	xmlns:th="http://www.thymeleaf.org">
 
 <head>
 <title>Soundmachine Registration</title>
@@ -25,28 +26,28 @@
 <link th:remove="all" rel="stylesheet" href="../static/css/style.css">
 </head>
 
-<body>
+<body class="container d-flex flex-column h-100">
 	<header th:replace="index :: navigation_bar">Navigation</header>
 
-	<main>
+	<main role="main" class="flex-shrink-0">
 		<div class="container login">
 			<form class="form-signin" method="post" th:action="@{/login}">
 				<h2 class="form-signin-heading">Login</h2>
-				
+
 				<div th:if="${param.error}" class="alert alert-error">Invalid
 					username and password.</div>
 				<div th:if="${param.logout}" class="alert alert-success">You
 					have been logged out.</div>
-					
+
 				<p>
-					<label for="username" class="sr-only">Email</label> <input
-						type="text" id="username" name="username" class="form-control"
-						placeholder="Username" required autofocus>
+					<label for="username" class="sr-only">Email</label>
+					<input type="text" id="username" name="username"
+						class="form-control" placeholder="Username" required autofocus>
 				</p>
 				<p>
-					<label for="password" class="sr-only">Password</label> <input
-						type="password" id="password" name="password" class="form-control"
-						placeholder="Password" required>
+					<label for="password" class="sr-only">Password</label>
+					<input type="password" id="password" name="password"
+						class="form-control" placeholder="Password" required>
 				</p>
 				<button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
 			</form>

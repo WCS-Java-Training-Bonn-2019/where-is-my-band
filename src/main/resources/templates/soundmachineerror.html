@@ -1,5 +1,6 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html class="h-100" lang="en"
+	xmlns:th="http://www.thymeleaf.org">
 
 <head>
 <title>Soundmachine Registration</title>
@@ -25,13 +26,19 @@
 <link th:remove="all" rel="stylesheet" href="../static/css/style.css">
 </head>
 
-<body>
+<body class="container d-flex flex-column h-100">
+
 	<header th:replace="index :: navigation_bar">Navigation</header>
+	<main role="main" class="flex-shrink-0">
+		<div class="container">
 
-	<h3>Soundmachine Fehlermeldung</h3>
+			<h3>Soundmachine Fehlermeldung</h3>
 
-	<h4 th:text="${message}">Fehlermeldung</h4>
-	<a class="btn btn-primary" href="#" onclick="history.go(-1)">Go Back</a>
+			<h4 th:text="${message}">Fehlermeldung</h4>
+			<a class="btn btn-primary" href="#" onclick="history.go(-1)">Go
+				Back</a>
+		</div>
+	</main>
 	<footer th:replace="index :: footer">Footer</footer>
 
 </body>

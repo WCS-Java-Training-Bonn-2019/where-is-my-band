@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html class="h-100" xmlns:th="http://www.thymeleaf.org" lang="en">
 
 <head>
 <meta charset="UTF-8">
@@ -29,16 +29,14 @@
 </head>
 
 
-<body>
+<body class="container d-flex flex-column h-100">
 	<!-- Navigationsleiste-->
 
 	<header th:replace="index :: navigation_bar"></header>
 
-
-
 	<!-- Hauptbereich -->
-	<main>
-		<div class="container-fluid">
+	<main role="main" class="flex-shrink-0">
+		<div class="container">
 			<h3>Suche nach offenen Bandpositionen</h3>
 			<form action="#" th:action="@{'/search/'}" method="get">
 

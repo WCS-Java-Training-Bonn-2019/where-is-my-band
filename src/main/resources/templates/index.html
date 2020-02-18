@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en"
-	xmlns:sec="http://www.thymeleaf.org/extras/spring-security5">
+<html class="h-100" xmlns:th="http://www.thymeleaf.org"
+	lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security5">
 
 <head>
 <meta charset="UTF-8">
@@ -28,92 +28,112 @@
 
 </head>
 
-
-<body>
+<body class="container d-flex flex-column h-100">
 
 	<!-- Navigationsleiste-->
 	<header th:fragment="navigation_bar">
-	
-
-		<div th:if="${TRUE}"> 
-				<nav class="navbar navbar-expand-md navbar-dark bg-transparent soundmachinenavbar">
-					<a class="navbar-brand soundmachinenbrand" th:href="@{'/'}">SoundMachine</a>
-					<button class="navbar-toggler" type="button" data-toggle="collapse"
-						data-target="#navbarSupportedContent"
-						aria-controls="navbarSupportedContent" aria-expanded="false"
-						aria-label="Toggle navigation">
-						<span class="navbar-toggler-icon"></span>
-					</button>
-					<div class="collapse navbar-collapse" id="navbarSupportedContent">
-						<div class="navbar-nav float-right text-right pr-3">
-
-							<a class="nav-item nav-link" sec:authorize="isAuthenticated()" th:href="@{/search}">Bandsuche</a> 
-							<a class="nav-item nav-link" sec:authorize="isAuthenticated()" th:href="@{'/musician/view'}"><span th:text="${musician.firstName} + 's Profil'">Stefans Profil</span></a>
-						</div>
-					
-						<ul class="nav navbar-nav navbar-right">
-							<li class="nav-item">																										
-								<a class="nav-link" href="#" th:href="@{/login}" sec:authorize="!isAuthenticated()">Anmelden</a>
-								<a class="nav-link" href="#" th:href="@{/logout}" sec:authorize="isAuthenticated()">Abmelden</a>
-							</li>
-						</ul>
-						<ul class="nav navbar-nav navbar-right">
-							<li class="nav-item">
-								<a class="nav-link" href="#" th:href="@{/register}" sec:authorize="!isAuthenticated()">Registrieren</a>
-							</li>
-						</ul>
-					</div>
-				</nav>
-		</div>
+		<nav
+			class="navbar navbar-expand-md navbar-dark bg-transparent soundmachine-navbar">
+			<a class="navbar-brand soundmachinenbrand" th:href="@{'/'}">SoundMachine</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse"
+				data-target="#navbarSupportedContent"
+				aria-controls="navbarSupportedContent" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item">
+						<a class="nav-link" sec:authorize="isAuthenticated()"
+							th:href="@{/search}">Bandsuche</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" sec:authorize="isAuthenticated()"
+							th:href="@{'/musician/view'}">
+							<span th:text="${musician.firstName} + 's Profil'">Stefans
+								Profil</span>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#" th:href="@{/login}"
+							sec:authorize="!isAuthenticated()">Anmelden</a>
+						<a class="nav-link" href="#" th:href="@{/logout}"
+							sec:authorize="isAuthenticated()">Abmelden</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#" th:href="@{/register}"
+							sec:authorize="!isAuthenticated()">Registrieren</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
 	</header>
-<hr>
 
 	<!-- Hauptbereich -->
-	<main>
-		<div class="main-area">
-			<div class="container-fluid">
-				<h2 sec:authorize="isAuthenticated()">Willkommen <span th:text="${musician.firstName}">Stefan</span>!</h2>
-				<h2 sec:authorize="!isAuthenticated()">Willkommen bei Soundmachine!</h2>
-				
-			
-				<p class="fragestellung sichtbarkeit"> Du bist auf Bandsuche und hast noch nichts passendes gefunden? </p>
-				
-				<p class="sichtbarkeit">	
-					<span style="font-weight: bold">Wir</span> bieten dir ein Kleinanzeigenportal rund ums Musikmachen.
-				</p>
-				<p class="sichtbarkeit">
-					Du kennst es sicher auch. Auf der Suche nach passenden Mitmusikern durchforstest du das Internet nach passenden Anzeigen. 
-					Manchmal findest du etwas und musst dafür bezahlen, um den Inserenten kontaktieren zu können. 
-					Oder du findest ein tolle Portal, aber es gibt keine Inserate aus deiner Region. Bei SoundMachine gibt es unzählige aktive Anzeigen aus allen Bereichen. 
-					Keine Anzeige ist dabei älter als ein paar Wochen. 
-				</p>
-			</div>
+
+	<main role="main" class="flex-shrink-0">
+		<div class="container">
+			<h3 sec:authorize="isAuthenticated()">
+				Willkommen
+				<span th:text="${musician.firstName}">Stefan</span>
+				!
+			</h3>
+			<h3 sec:authorize="!isAuthenticated()">Willkommen
+				bei Soundmachine!</h3>
+
+
+			<p class="fragestellung">Du bist auf Bandsuche und hast noch
+				nichts passendes gefunden?</p>
+
+			<p>
+				<span style="font-weight: bold">Wir</span>
+				bieten dir ein Kleinanzeigenportal rund ums Musikmachen.
+			</p>
+			<p>Du kennst es sicher auch. Auf der Suche nach passenden
+				Mitmusikern durchforstest du das Internet nach passenden Anzeigen.
+				Manchmal findest du etwas und musst dafür bezahlen, um den
+				Inserenten kontaktieren zu können. Oder du findest ein tolle Portal,
+				aber es gibt keine Inserate aus deiner Region. Bei SoundMachine gibt
+				es unzählige aktive Anzeigen aus allen Bereichen. Keine Anzeige ist
+				dabei älter als ein paar Wochen.</p>
 		</div>
 	</main>
 
 	<!-- Footer-->
-	<hr>
-	<footer th:fragment="footer"
-		class="page-footer sticky-bottom font-small pt-4 bg-transparent">
-		<div class="container-fluid text-md-left">
-			<!-- nicht zentrieren bei kleinen Screens <div class="container-fluid text-center text-md-left"> -->
+
+	<footer th:fragment="footer" class="footer mt-auto py-3">
+		<div class="container">
+
 			<div class="row">
 				<!-- Auswahlliste links -->
 				<div class="col align-self-start">
 					<ul class="list-unstyled">
-						<li><a href="#">Home</a></li>
-						<li><a href="#">FAQ</a></li>
-						<li><a href="#">Contact</a></li>
+						<li>
+							<a href="#">Home</a>
+						</li>
+						<li>
+							<a href="#">FAQ</a>
+						</li>
+						<li>
+							<a href="#">Contact</a>
+						</li>
 					</ul>
 				</div>
+
 				<hr class="clearfix w-100 d-md-none pb-3">
 				<!-- Texte rechts -->
 				<div class="col align-self-start new-footer-right">
+
 					<ul class="list-unstyled">
-						<li><a href="#">Über uns</a></li>
-						<li>Projekt von Teilnehmern der <a
-							href="https://wildcodeschool.com/" target="_blank"> Wild Code
-								School</a><i class="far fa-copyright"></i> 2020
+						<li>
+							<a href="#">Über uns</a>
+						</li>
+						<li>
+							Projekt von Teilnehmern der
+							<a href="https://wildcodeschool.com/" target="_blank"> Wild
+								Code School</a>
+							<i class="far fa-copyright"></i>
+							2020
 						</li>
 					</ul>
 				</div>
