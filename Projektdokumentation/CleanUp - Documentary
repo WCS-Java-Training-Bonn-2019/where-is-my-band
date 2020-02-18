@@ -87,3 +87,5 @@ Step6: cleaned up unused code from Java-Files
         -   deleted unused query from Bandrepository
         -   deleted unused setImage-command from MusicianController
 
+Step7: cleaned up merge conflicts
+
