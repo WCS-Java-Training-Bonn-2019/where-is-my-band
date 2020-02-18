@@ -40,7 +40,6 @@ public class MusicianController {
 	private final AddressRepository addressRepository;
 	private final PasswordEncoder passwordEncoder;
 
-
 	@Autowired
 	public MusicianController(GenderRepository genderRepository, MusicianRepository musicianRepository,
 			InstrumentRepository instrumentRepository, GenreRepository genreRepository,
@@ -69,7 +68,6 @@ public class MusicianController {
 
 		return "index";
 	}
-
 
 	/**
 	 * Controller which returns the editing form for a musician
@@ -107,7 +105,7 @@ public class MusicianController {
 		editForm.setInstruments(musician.getInstruments());
 		model.addAttribute("musicianForm", editForm);
 
-		return "musicianupsert";
+		return "Musician/musicianupsert";
 	}
 
 	/**
@@ -139,7 +137,8 @@ public class MusicianController {
 			model.addAttribute("allGenres", genreRepository.findAll());
 			model.addAttribute("isMusicianRegister", isMusicianRegister);
 			model.addAttribute("musician", musician);
-			return "musicianupsert";
+			model.addAttribute("registrationForm", editForm);
+			return "Musician/musicianupsert";
 		}
 
 		updateMusicianFromEditForm(editForm, musician);
@@ -159,7 +158,7 @@ public class MusicianController {
 	public String viewMusician(Model model, Principal principal) {
 		model.addAttribute("musician", getMusicianLoggedInFromDB(principal));
 
-		return "musiciandetails";
+		return "Musician/musiciandetails";
 	}
 
 	

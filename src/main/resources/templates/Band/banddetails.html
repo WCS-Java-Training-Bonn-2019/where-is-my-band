@@ -1,6 +1,7 @@
 <!doctype html>
 <html class="h-100" lang="en" xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security5">
+
 <head>
 <title>Band Information</title>
 <link rel="stylesheet"
@@ -23,14 +24,15 @@
 	crossorigin="anonymous"></script>
 <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
+
 <body class="container d-flex flex-column h-100">
 	<div class="content-area">
 		<header th:replace="index :: navigation_bar">Navigation</header>
 		<main role="main" class="flex-shrink-0">
 			<div class="container">
 
-				<div class="CardContainer">
-					<div class="card ImageCardBand">
+				<div class="cardcontainer">
+					<div class="card imagecard-band">
 						<img class="card-img-top" th:unless="${band.image}"
 							src="https://via.placeholder.com/728x300.png">
 						<img class="card-img-top" th:if="${band.image}"
@@ -52,52 +54,53 @@
 								Lorem ipsum dolor sit amet.</p>
 						</div>
 					</div>
+					<div class="cardcontainer nowidth">
+						<div class="card descriptioncard">
+							<h4>Kontaktdaten</h4>
+							<table class="tableincard">
+								<tr>
+									<td>Ansprechpartner:</td>
+									<td
+										th:text="${band.owner.firstName} + ' ' + ${band.owner.lastName}">Elke
+										E-Gitarre</td>
+								</tr>
+								<tr>
+									<td>E-Mail:</td>
+									<td th:text="${band.email}">statisch@acdc.de</td>
+								</tr>
+								<tr>
+									<td>Telefon:</td>
+									<td th:text="${band.phone}">0228/181-0</td>
+								</tr>
+								<tr>
+									<td>Standort:</td>
+									<td
+										th:text="${band.address.postCode} + ' ' + ${band.address.city}">12345
+										Entenhausen</td>
+								</tr>
+							</table>
+						</div>
+						<div class="card descriptioncard">
+							<h4>Musikrichtungen</h4>
+							<ul>
+								<li th:each="genre : ${band.favoriteGenres}">
+									<span th:text="${genre.name}">Pop</span>
+								</li>
+							</ul>
+						</div>
+						<div class="card descriptioncard">
+							<h4>Positionen der Band</h4>
+							<ul>
+								<li th:each="position : ${band.bandPositions}">
+									<span
+										th:text="${position.instrument.name}+' ('+${position.state}+')'">Posaune
+										(offen)</span>
+								</li>
+							</ul>
+						</div>
+					</div>
 				</div>
-				<div class="CardContainer nowidth">
-					<div class="card description-card">
-						<h4>Kontaktdaten</h4>
-						<table class="TableInCard">
-							<tr>
-								<td>Ansprechpartner:</td>
-								<td
-									th:text="${band.owner.firstName} + ' ' + ${band.owner.lastName}">Elke
-									E-Gitarre</td>
-							</tr>
-							<tr>
-								<td>E-Mail:</td>
-								<td th:text="${band.email}">statisch@acdc.de</td>
-							</tr>
-							<tr>
-								<td>Telefon:</td>
-								<td th:text="${band.phone}">0228/181-0</td>
-							</tr>
-							<tr>
-								<td>Standort:</td>
-								<td
-									th:text="${band.address.postCode} + ' ' + ${band.address.city}">12345
-									Entenhausen</td>
-							</tr>
-						</table>
-					</div>
-					<div class="card description-card">
-						<h4>Musikrichtungen</h4>
-						<ul>
-							<li th:each="genre : ${band.favoriteGenres}">
-								<span th:text="${genre.name}">Pop</span>
-							</li>
-						</ul>
-					</div>
-					<div class="card description-card">
-						<h4>Positionen der Band</h4>
-						<ul>
-							<li th:each="position : ${band.bandPositions}">
-								<span
-									th:text="${position.instrument.name}+' ('+${position.state}+')'">Posaune
-									(offen)</span>
-							</li>
-						</ul>
-					</div>
-				</div>
+
 				<form method="get" th:action="@{'/band/' + ${band.id} + '/edit'}"
 					th:object="${band}">
 					<div th:if="${band.owner.id == musician.id}">
@@ -109,8 +112,8 @@
 				<a class="btn btn-secondary btnback" href="#"
 					onclick="history.go(-1)">Zurück</a>
 			</div>
-		</main>
-		<footer th:replace="index :: footer">Footer</footer>
-	</div>
+	</main>
+	<footer th:replace="index :: footer">Footer</footer>
 </body>
+
 </html>

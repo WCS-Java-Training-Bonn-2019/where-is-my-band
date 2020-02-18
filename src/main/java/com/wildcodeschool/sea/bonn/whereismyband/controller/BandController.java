@@ -80,7 +80,7 @@ public class BandController {
 		}
 
 		addBandAndMusicianToViewModel(model, band, musicianLoggedIn);
-		return "bandupsert";
+		return "Band/bandupsert";
 	}
 
 	@PostMapping("{id}/edit")
@@ -137,7 +137,7 @@ public class BandController {
 
 		// add band to the view model (either empty)
 		addBandAndMusicianToViewModel(model, band, musicianLoggedIn);
-		return "bandupsert";
+		return "Band/bandupsert";
 	}
 
 
@@ -251,7 +251,7 @@ public class BandController {
 
 		addBandAndMusicianToViewModel(model, band, musicianLoggedIn);
 
-		return "banddetails";
+		return "Band/banddetails";
 	}
 
 	@GetMapping("{id}/uploadimage")
