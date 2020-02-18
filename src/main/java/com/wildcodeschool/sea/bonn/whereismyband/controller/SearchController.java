@@ -124,7 +124,7 @@ public class SearchController {
 		model.addAttribute("selectedInstrument", instrument);
 		model.addAttribute("selectedGenre", genre);
 
-		return "bandsearch";
+		return "Band/bandsearch";
 	}
 
 	@GetMapping("/search/list/open")
@@ -133,7 +133,7 @@ public class SearchController {
 		model.addAttribute("bands", bandRepository.findDistinctByBandPositionsState(PositionState.OFFEN));
 		model.addAttribute("instruments", instrumentRepository.findAll());
 		model.addAttribute("genres", genreRepository.findAll());
-		return "bandsearch";
+		return "Band/bandsearch";
 	}
 
 	@GetMapping("/search/list/all")
@@ -142,7 +142,7 @@ public class SearchController {
 		model.addAttribute("bands", bandRepository.findAll());
 		model.addAttribute("instruments", instrumentRepository.findAll());
 		model.addAttribute("genres", genreRepository.findAll());
-		return "bandsearch";
+		return "Band/bandsearch";
 	}
 
 }

@@ -16,8 +16,6 @@ public interface BandRepository extends JpaRepository<Band, Long>{
 
 	public Optional<Band> findByName(String name);
 	public List<Band> findDistinctByBandPositionsState(PositionState state);
-	
-	//public List<Band> findDistinctByBandPositionsStateAndBandPositionsInstrumentName(PositionState state, String[] instruments);
 	public List<Band> findDistinctByBandPositionsStateAndAddressPostCodeStartingWithAndAddressCityAndBandPositionsInstrumentNameAndFavoriteGenresName(PositionState state, String postCode, String city, String instrument, String name);
 	public List<Band> findDistinctByBandPositionsStateAndAddressPostCodeStartingWithAndAddressCityAndBandPositionsInstrumentName(PositionState state, String postCode, String city, String instrument);
 	public List<Band> findDistinctByBandPositionsStateAndAddressPostCodeStartingWithAndAddressCityAndFavoriteGenresName(PositionState state, String postCode, String city, String name);

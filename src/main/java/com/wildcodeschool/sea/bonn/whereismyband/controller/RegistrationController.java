@@ -64,7 +64,7 @@ public class RegistrationController{
 		// add (empty) RegForm object to the view model
 		model.addAttribute("musicianForm", regForm);
 		
-		return "musicianupsert";
+		return "Musician/musicianupsert";
 	}
 	
 
@@ -81,7 +81,9 @@ public class RegistrationController{
 			model.addAttribute("allInstruments", instrumentRepository.findAll());
 			model.addAttribute("allGenres", genreRepository.findAll());
 			model.addAttribute("isMusicianRegister", true);
-			return "musicianupsert";
+			model.addAttribute("registrationForm", regForm);
+			return "Musician/musicianupsert";
+
 		}
 
 		// Prüfe, ob der Benutzername bereits existiert
