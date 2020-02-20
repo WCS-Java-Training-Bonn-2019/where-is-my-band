@@ -75,26 +75,26 @@
 		<div class="card descriptioncard">
 			<h4>Musikrichtungen</h4>
 			<ul>
-				<li th:each="genre, genreStat : ${musician.favoriteGenres}"
-					th:text="not ${genreStat.last} ? ${genre.name} + ', ' : ${genre.name}">Pop
+				<li th:each="genre : ${musician.favoriteGenres}"
+					th:text="${genre.name}">Pop
 				</li>
 			</ul>
 		</div>
 		<div class="card descriptioncard">
 			<h4>Instrumente</h4>
 			<ul>
-				<li th:each="instrument, instrStat : ${musician.instruments}"
-					th:text="not ${instrStat.last} ? ${instrument.name} + ', ' : ${instrument.name}">Piano
+				<li th:each="instrument : ${musician.instruments}"
+					th:text="${instrument.name}">Piano
 				</li>
 			</ul>
 		</div>
 		<div class="card descriptioncard">
 			<h4>Meine Bands</h4>
 			<ul>
-				<li th:each="band, bandStat : ${musician.bands}">
+				<li th:each="band : ${musician.bands}">
 					<a th:href="@{'/band/' + ${band.id} + '/view'}">
 						<span
-							th:text="not ${bandStat.last} ? ${band.name} + ', ' : ${band.name}">Trio</span>
+							th:text="${band.name}">Trio</span>
 					</a>
 				</li>
 			</ul>
