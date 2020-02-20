@@ -81,6 +81,7 @@ public class BandController {
 			return "soundmachineerror";
 		}
 		
+		// if the logged-in musician is not the band owner
 		if (!band.getOwner().equals(musicianLoggedIn)) {
 			model.addAttribute("musician", musicianLoggedIn);
 			model.addAttribute("message", "Sie können nur Ihre eigenen Bands bearbeiten.");
@@ -110,6 +111,7 @@ public class BandController {
 			return "soundmachineerror";
 		}
 		
+		// if the logged-in musician is not the band owner
 		if (!bandFromDB.getOwner().equals(musicianLoggedIn)) {
 			model.addAttribute("musician", musicianLoggedIn);
 			model.addAttribute("message", "Sie können nur Ihre eigenen Bands bearbeiten.");
@@ -286,6 +288,7 @@ public class BandController {
 			return "soundmachineerror";
 		}
 		
+		// if the logged-in musician is not the band owner
 		if (!bandFromDB.getOwner().equals(musicianLoggedIn)) {
 			model.addAttribute("musician", musicianLoggedIn);
 			model.addAttribute("message", "Sie können nur Ihre eigenen Bands bearbeiten.");
@@ -318,12 +321,14 @@ public class BandController {
 			return "soundmachineerror";
 		}
 		
+		// if the logged-in musician is not the band owner
 		if (!bandFromDB.getOwner().equals(musicianLoggedIn)) {
 			model.addAttribute("musician", musicianLoggedIn);
 			model.addAttribute("message", "Sie können nur Ihre eigenen Bands bearbeiten.");
 			return "soundmachineerror";
 		}
 		
+		// save the image only, if one has been uploaded
 		if (!file.isEmpty()) {
 			imageService.saveImageFileBand(bandId, file);
 		}
