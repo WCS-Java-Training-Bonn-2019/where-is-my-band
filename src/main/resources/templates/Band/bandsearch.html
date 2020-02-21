@@ -37,8 +37,18 @@
 	<!-- Hauptbereich -->
 	<main role="main" class="flex-shrink-0">
 		<div class="container">
-			<h3>Suche nach offenen Bandpositionen</h3>
-			<form action="#" th:action="@{'/search/'}" method="get">
+			<h3>Suche nach Bandpositionen</h3>
+			<form action="#" th:action="@{'/search/'}" method="post">
+
+				<div class="form-group">
+					<label for="positionState">Besetzungsstatus</label>
+					<select name="positionState" class="form-control width-50percent">
+						<option th:each="state : ${allPositionStates}"
+							th:value="${state}"
+							th:text="${state}"
+							th:selected="${state==selectedState}">OFFEN</option>
+					</select>
+				</div>
 
 				<div class="form-group">
 					<label class="col-form-label">Postleitzahl</label>

@@ -21,6 +21,11 @@
 
 	<dependencies>
 
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+		</dependency>
+		
 		<!-- https://mvnrepository.com/artifact/commons-beanutils/commons-beanutils -->
 		<!-- KrillMi => used for FieldMatch constraint validation -->
 		<dependency>
