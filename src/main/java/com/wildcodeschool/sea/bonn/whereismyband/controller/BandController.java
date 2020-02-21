@@ -61,6 +61,8 @@ public class BandController {
 		this.instrumentRepository = instrumentRepository;
 	}
 
+	
+	
 	@GetMapping("{id}/edit")
 	public String editBandGet(
 			Model model, 
@@ -76,6 +78,13 @@ public class BandController {
 		} catch (Throwable t) {
 			// if musician or band could not be read from DB
 			model.addAttribute("message", t.getMessage());
+			return "soundmachineerror";
+		}
+		
+		// if the logged-in musician is not the band owner
+		if (!band.getOwner().equals(musicianLoggedIn)) {
+			model.addAttribute("musician", musicianLoggedIn);
+			model.addAttribute("message", "Sie können nur Ihre eigenen Bands bearbeiten.");
 			return "soundmachineerror";
 		}
 
@@ -99,6 +108,13 @@ public class BandController {
 		} catch (Throwable t) {
 			// if musician or band could not be read from DB
 			model.addAttribute("message", t.getMessage());
+			return "soundmachineerror";
+		}
+		
+		// if the logged-in musician is not the band owner
+		if (!bandFromDB.getOwner().equals(musicianLoggedIn)) {
+			model.addAttribute("musician", musicianLoggedIn);
+			model.addAttribute("message", "Sie können nur Ihre eigenen Bands bearbeiten.");
 			return "soundmachineerror";
 		}
 
@@ -260,13 +276,22 @@ public class BandController {
 			Principal principal,
 			@PathVariable(name = "id") Long bandId) {
 
+		Band bandFromDB = null;
 		Musician musicianLoggedIn = null;
 
 		try {
+			bandFromDB = createOrRetrieveBand(bandId, musicianLoggedIn);
 			musicianLoggedIn = getMusicianLoggedInFromDB(principal);	
 		} catch (Throwable t) {
-			// if musician could not be read from DB
+			// if musician or band could not be read from DB
 			model.addAttribute("message", t.getMessage());
+			return "soundmachineerror";
+		}
+		
+		// if the logged-in musician is not the band owner
+		if (!bandFromDB.getOwner().equals(musicianLoggedIn)) {
+			model.addAttribute("musician", musicianLoggedIn);
+			model.addAttribute("message", "Sie können nur Ihre eigenen Bands bearbeiten.");
 			return "soundmachineerror";
 		}
 
@@ -283,14 +308,30 @@ public class BandController {
 			@PathVariable(name = "id") Long bandId, 
 			@RequestParam("imagefile") MultipartFile file) {
 
+		
+		Band bandFromDB = null;
+		Musician musicianLoggedIn = null;
+		
 		try {
-			getMusicianLoggedInFromDB(principal);	
+			bandFromDB = createOrRetrieveBand(bandId, musicianLoggedIn);
+			musicianLoggedIn = getMusicianLoggedInFromDB(principal);	
 		} catch (Throwable t) {
 			// if musician could not be read from DB
 			model.addAttribute("message", t.getMessage());
 			return "soundmachineerror";
 		}
-
+		
+		// if the logged-in musician is not the band owner
+		if (!bandFromDB.getOwner().equals(musicianLoggedIn)) {
+			model.addAttribute("musician", musicianLoggedIn);
+			model.addAttribute("message", "Sie können nur Ihre eigenen Bands bearbeiten.");
+			return "soundmachineerror";
+		}
+		
+		// save the image only, if one has been uploaded
+		if (!file.isEmpty()) {
+			imageService.saveImageFileBand(bandId, file);
+		}
 		imageService.saveImageFileBand(bandId, file);
 		return "redirect:/band/" + bandId + "/view";
 	}
