@@ -22,15 +22,26 @@
 	<main role="main" class="flex-shrink-0">
 		<div class="container">
 			<h3 th:text="${band.id} ? 'Band pflegen' : 'Band anlegen'">Band</h3>
-			<form method="post" th:action="${band.id} ? @{'/band/' + ${band.id} + '/edit'} : @{'/band/new'}" th:object="${band}">
+			<form method="post" th:action="${band.id} ? @{'/band/' + ${band.id} + '/edit'} : @{'/band/new'}" th:object="${band}" enctype="multipart/form-data">
 				<input name="id" th:field="*{id}" type="hidden" />
 				<input name="owner" th:field="*{owner}" type="hidden" />
 				<div class="cardcontainer">
 					<div class="card imagecard-band">
-						<a th:if="${band.id}" href="#" th:href="@{'/band/' + ${band.id} + '/uploadimage'}" role="button">
-							<img class="card-img-top" th:unless="${band.image}" src="https://via.placeholder.com/728x200.png">
-							<img class="card-img-top" th:if="${band.image}" th:src="@{'/band/' + ${band.id} + '/bandimage'}">
-						</a>
+
+						<!-- 	<img class="card-img-top" th:unless="${band.image}" src="https://via.placeholder.com/728x200.png"> -->
+						<img class="card-img-top" th:if="${band.image}" th:src="@{/band/image}">
+
+						<label for="file-upload">Image:</label>
+						<input type="file" accept="image/*" onchange="loadFile(event)">
+						<img id="output" />
+						<script>
+							var loadFile = function(event) {
+								var output = document.getElementById('output');
+								output.src = URL
+										.createObjectURL(event.target.files[0]);
+							};
+						</script>
+					<!-- <input class="form-control-file" type="file" th:field="*{image}">  -->	
 						<div class="card-body">
 							<label th:for="*{name}">Name:</label>
 							<input class="form-control" type="text" placeholder="Bandname" required th:field="*{name}" />

@@ -7,11 +7,13 @@ import java.security.Principal;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.wildcodeschool.sea.bonn.whereismyband.entity.Address;
 import com.wildcodeschool.sea.bonn.whereismyband.entity.Band;
 import com.wildcodeschool.sea.bonn.whereismyband.entity.Bandposition;
+import com.wildcodeschool.sea.bonn.whereismyband.entity.EditForm;
 import com.wildcodeschool.sea.bonn.whereismyband.entity.Instrument;
 import com.wildcodeschool.sea.bonn.whereismyband.entity.Musician;
 import com.wildcodeschool.sea.bonn.whereismyband.entity.PositionState;
@@ -114,8 +117,11 @@ public class BandController {
 		// save band attributes in DB
 		bandRepository.save(band);
 
+		
 		model.addAttribute(band);
 		model.addAttribute("musician", musicianLoggedIn);
+		
+		
 
 		return "redirect:/band/" + band.getId() + "/view";
 	}
@@ -258,46 +264,48 @@ public class BandController {
 
 		return "Band/banddetails";
 	}
+// Die untenstehenden Routen hatten keine Auswirkungen während den Tests
+	
+//	@GetMapping("{id}/uploadimage")
+//	public String uploadImageGet(
+//			Model model, 
+//			Principal principal,
+//			@PathVariable Long id) {
+//
+//		Musician musicianLoggedIn = null;
+//
+//		try {
+//			musicianLoggedIn = assertValidUser(principal);	
+//		} catch (Throwable t) {
+//			model.addAttribute("message", t.getMessage());
+//			return "soundmachineerror";
+//		}
+//
+//		model.addAttribute("bandid", id.toString());
+//		model.addAttribute("musician", musicianLoggedIn);
+//
+//		return "Band/bandupsert";
+//	}
 
-	@GetMapping("{id}/uploadimage")
-	public String uploadImageGet(
-			Model model, 
-			Principal principal,
-			@PathVariable Long id) {
+//	@PostMapping("{id}/uploadimage")
+//	public String uploadImagePost(
+//			Model model,
+//			Principal principal,
+//			@PathVariable Long id, 
+//			@RequestParam("imagefile") MultipartFile file) {
+//
+//		try {
+//			assertValidUser(principal);	
+//		} catch (Throwable t) {
+//			model.addAttribute("message", t.getMessage());
+//			return "soundmachineerror";
+//		}
+//
+//		imageService.saveImageFileBand(id, file);
+//		return "redirect:/band/" + id + "/view";
+//	}
 
-		Musician musicianLoggedIn = null;
-
-		try {
-			musicianLoggedIn = assertValidUser(principal);	
-		} catch (Throwable t) {
-			model.addAttribute("message", t.getMessage());
-			return "soundmachineerror";
-		}
-
-		model.addAttribute("bandid", id.toString());
-		model.addAttribute("musician", musicianLoggedIn);
-
-		return "imageuploadform";
-	}
-
-	@PostMapping("{id}/uploadimage")
-	public String uploadImagePost(
-			Model model,
-			Principal principal,
-			@PathVariable Long id, 
-			@RequestParam("imagefile") MultipartFile file) {
-
-		try {
-			assertValidUser(principal);	
-		} catch (Throwable t) {
-			model.addAttribute("message", t.getMessage());
-			return "soundmachineerror";
-		}
-
-		imageService.saveImageFileBand(id, file);
-		return "redirect:/band/" + id + "/view";
-	}
-
+	
 	// Via this route, the image can be retrieved for display via an HTML image
 	// element <img ...>
 	@GetMapping("{id}/bandimage")
@@ -371,5 +379,4 @@ public class BandController {
 		model.addAttribute("allInstruments", instrumentRepository.findAll());
 		model.addAttribute("musician", musicianLoggedIn);
 	}
-
 }
