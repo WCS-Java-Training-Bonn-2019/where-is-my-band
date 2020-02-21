@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.wildcodeschool.sea.bonn.whereismyband.entity.Address;
 import com.wildcodeschool.sea.bonn.whereismyband.entity.Band;
+import com.wildcodeschool.sea.bonn.whereismyband.entity.Bandposition;
 import com.wildcodeschool.sea.bonn.whereismyband.entity.Musician;
 import com.wildcodeschool.sea.bonn.whereismyband.entity.PositionState;
 import com.wildcodeschool.sea.bonn.whereismyband.repository.BandRepository;
@@ -72,7 +73,7 @@ public class SearchController {
 		if 	( ((postCode != null && postCode.length() > 0) || (city != null &&  city.length() > 0))
 				&& "".equals(instrument)
 				&& "".equals(genre)) {
-			searchResult = searchBandsByPostcodeOrCityViaExample(postCode, city);
+			searchResult = searchBandsByPostcodeOrCityViaExample(positionState, postCode, city);
 		} else {
 
 			if (!"".equals(postCode)) {
@@ -134,8 +135,8 @@ public class SearchController {
 						if (!"".equals(genre)) {
 							searchResult = bandRepository.findDistinctByBandPositionsStateAndFavoriteGenresName(positionState, genre);
 						} else {
-							//kein Suchkriterium angegeben, also leere Liste ins Model
-							searchResult = bandRepository.findAll();
+							// nur Positionsstatus wurde als Suchkriterium angegeben
+							searchResult = bandRepository.findDistinctByBandPositionsState(positionState);
 						}	
 					}
 				}
@@ -179,7 +180,7 @@ public class SearchController {
 		return "Band/bandsearch";
 	}
 
-	private List<Band> searchBandsByPostcodeOrCityViaExample(String postCode, String city) {
+	private List<Band> searchBandsByPostcodeOrCityViaExample(PositionState positionState, String postCode, String city) {
 
 		Band exampleBand = new Band();
 
@@ -203,7 +204,21 @@ public class SearchController {
 
 		searchResult = 
 				bandRepository.findAll(Example.of(exampleBand, exampleMatcher));
-
+		
+		// Check, if positionState fits at least for one Bandposition
+		boolean onePositionStateFits = false;
+		for (Band band : searchResult) {
+			for (Bandposition position : band.getBandPositions()) {
+				if (position.getState() == positionState) {
+					onePositionStateFits = true;
+				}
+			}
+		}
+		
+		if (!onePositionStateFits) {
+			return null;			
+		}
+		
 		return searchResult;
 	}
 

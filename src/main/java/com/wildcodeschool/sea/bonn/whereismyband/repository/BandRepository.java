@@ -4,6 +4,7 @@ package com.wildcodeschool.sea.bonn.whereismyband.repository;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Example;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -27,9 +28,6 @@ public interface BandRepository extends JpaRepository<Band, Long>{
 	public List<Band> findDistinctByBandPositionsStateAndAddressCityAndFavoriteGenresName(PositionState state, String city, String genre);
 	public List<Band> findDistinctByBandPositionsStateAndBandPositionsInstrumentNameAndFavoriteGenresName(PositionState state, String instrument, String genre);
 	public List<Band> findDistinctByBandPositionsStateAndBandPositionsInstrumentName(PositionState state, String instrument);
-	public List<Band> findDistinctByBandPositionsStateAndFavoriteGenresName(PositionState state, String genre);
-	
-	
-
-	
+	public List<Band> findDistinctByBandPositionsStateAndFavoriteGenresName(PositionState state, String genre);	
+		
 }
