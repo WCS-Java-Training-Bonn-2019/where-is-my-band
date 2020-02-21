@@ -3,7 +3,7 @@
 <head>
 <title>Soundmachine</title>
 <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"
-	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+	integrity="sha384-4bTenJziBfRum8FDNUospyhSSix1d2YpYdU/mMpDqEoa79df7KP2ptTsYrz6XMWR"
 	crossorigin="anonymous">
 
 <link
@@ -11,18 +11,17 @@
 	rel="stylesheet">
 
 <script th:src="@{/js/jquery-3.4.1.slim.min.js}"
-	integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+	integrity="sha384-pkoRnrXNgdq2HZ+4rl5xWYyNF60aFp2DgiMpMlWoa+NyC4XXJEhjXEVKM2gTkBW6"
 	crossorigin="anonymous"></script>
 <script th:src="@{/js/popper.min.js}"
-	integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+	integrity="sha384-LsC345MdEcKqeNkjUm1MZY2zfeALf4Iqn+DbI/5gdhCoWMoTVQvkd/0n+yOSie0F"
 	crossorigin="anonymous"></script>
 
 <script th:src="@{/js/bootstrap.min.js}"
-	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+	integrity="sha384-GQt+azJYTXdZSGjGyhmO+xX875BtpqCQkaEYDeJwkpi2L7UqEky8qS08BUVla9dc"
 	crossorigin="anonymous"></script>
 
 <link rel="stylesheet" th:href="@{/css/style.css}">
-
 </head>
 <body class="container d-flex flex-column h-100">
 
@@ -34,8 +33,8 @@
 			<div class="cardcontainer">
 				<div class="card imagecard-musician">
 					<img class="card-img-top" th:unless="${musician.image}"
-						src="https://via.placeholder.com/728x300.png">
-					<img class="card-img-top" th:if="${musician.image}"
+						src="https://via.placeholder.com/728x300.png"> <img
+						class="card-img-top" th:if="${musician.image}"
 						src="../static/images/acdc_schriftzug.jpeg"
 						th:src="@{'/musician/image'}" height="300">
 					<div class="card-body">
@@ -48,58 +47,54 @@
 					</div>
 				</div>
 			</div>
-	<div class="cardcontainer">
-		<div class="card descriptioncard">
-			<h4>Persönliche Daten</h4>
-			<table class="tableincard">
-				<tr>
-					<td>Alter:</td>
-					<td th:text="${musician.age}">47</td>
-				</tr>
-				<tr>
-					<td>Standort:</td>
-					<td
-						th:text="${musician.address.postCode} + ' ' + ${musician.address.city}">10000
-						Entenhausen</td>
-				</tr>
-				<tr>
-					<td>Telefon:</td>
-					<td th:text="${musician.phone}">0228/181-0</td>
-				</tr>
-				<tr>
-					<td>E-Mail / Benutzername:</td>
-					<td th:text="${musician.username}">m@m.de</td>
-				</tr>
-			</table>
-		</div>
-		<div class="card descriptioncard">
-			<h4>Musikrichtungen</h4>
-			<ul>
-				<li th:each="genre : ${musician.favoriteGenres}"
-					th:text="${genre.name}">Pop
-				</li>
-			</ul>
-		</div>
-		<div class="card descriptioncard">
-			<h4>Instrumente</h4>
-			<ul>
-				<li th:each="instrument : ${musician.instruments}"
-					th:text="${instrument.name}">Piano
-				</li>
-			</ul>
-		</div>
-		<div class="card descriptioncard">
-			<h4>Meine Bands</h4>
-			<ul>
-				<li th:each="band : ${musician.bands}">
-					<a th:href="@{'/band/' + ${band.id} + '/view'}">
-						<span
-							th:text="${band.name}">Trio</span>
-					</a>
-				</li>
-			</ul>
-		</div>
-	</div>
+			<div class="cardcontainer">
+				<div class="card descriptioncard">
+					<h4>Persönliche Daten</h4>
+					<table class="tableincard">
+						<tr>
+							<td>Alter:</td>
+							<td th:text="${musician.age}">47</td>
+						</tr>
+						<tr>
+							<td>Standort:</td>
+							<td
+								th:text="${musician.address.postCode} + ' ' + ${musician.address.city}">10000
+								Entenhausen</td>
+						</tr>
+						<tr>
+							<td>Telefon:</td>
+							<td th:text="${musician.phone}">0228/181-0</td>
+						</tr>
+						<tr>
+							<td>E-Mail / Benutzername:</td>
+							<td th:text="${musician.username}">m@m.de</td>
+						</tr>
+					</table>
+				</div>
+				<div class="card descriptioncard">
+					<h4>Musikrichtungen</h4>
+					<ul>
+						<li th:each="genre : ${musician.favoriteGenres}"
+							th:text="${genre.name}">Pop</li>
+					</ul>
+				</div>
+				<div class="card descriptioncard">
+					<h4>Instrumente</h4>
+					<ul>
+						<li th:each="instrument : ${musician.instruments}"
+							th:text="${instrument.name}">Piano</li>
+					</ul>
+				</div>
+				<div class="card descriptioncard">
+					<h4>Meine Bands</h4>
+					<ul>
+						<li th:each="band : ${musician.bands}"><a
+							th:href="@{'/band/' + ${band.id} + '/view'}"> <span
+								th:text="${band.name}">Trio</span>
+						</a></li>
+					</ul>
+				</div>
+			</div>
 			<form method="get" th:action="@{'/musician/edit'}">
 				<input class="btn btn-primary btnedit" type="submit"
 					value="Bearbeiten">
