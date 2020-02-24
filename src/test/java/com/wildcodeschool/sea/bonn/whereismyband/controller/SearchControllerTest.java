@@ -57,7 +57,6 @@ class SearchControllerTest {
 
 		//Given | Arrange
 
-
 		//When | Act
 		MvcResult result = mock.perform(MockMvcRequestBuilders.get("/search").with(user("elke@e-gitarre").password("elke"))).andReturn();
 		//Then | Assert
@@ -78,8 +77,12 @@ class SearchControllerTest {
 		//When
 		MvcResult result = mock.perform(MockMvcRequestBuilders.post("/search")
 				.with(user("elke@e-gitarre").password("elke"))
-//				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
-				.flashAttr("positionState", "OFFEN"))
+				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
+				.param("positionState", "OFFEN")
+				.param("zipcode", "")
+				.param("city", "")
+				.param("instrument", "")
+				.param("genre", ""))
 				.andReturn();
 		//Then
 		assertThat(result.getResponse().getStatus()).isEqualTo(200);
@@ -89,7 +92,75 @@ class SearchControllerTest {
 
 		assertThat(bands).hasSize(numberOfBandsToBeFound);
 	}
+	
+	@Test
+	void shouldFindDeTampentrekker() throws Exception {
+		//Given | Arrange
 
+		//When
+		MvcResult result = mock.perform(MockMvcRequestBuilders.post("/search")
+				.with(user("elke@e-gitarre").password("elke"))
+				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
+				.param("positionState", "OFFEN")
+				.param("zipcode", "21")
+				.param("city", "hamburg")
+				.param("instrument", "")
+				.param("genre", "Schlager"))
+				.andReturn();
+		//Then
+		assertThat(result.getResponse().getStatus()).isEqualTo(200);
+
+		ModelMap attributeMap = result.getModelAndView().getModelMap();
+		List<Band> bands = (List<Band>) attributeMap.get("bands");
+
+		assertThat(bands.get(0).getName()).isEqualToIgnoringCase("De Tampentrekker");
+	}
+
+	@Test
+	void shouldFindPaveier() throws Exception {
+		//Given | Arrange
+
+		//When
+		MvcResult result = mock.perform(MockMvcRequestBuilders.post("/search")
+				.with(user("elke@e-gitarre").password("elke"))
+				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
+				.param("positionState", "BESETZT")
+				.param("zipcode", "51429")
+				.param("city", "")
+				.param("instrument", "Schlagzeug")
+				.param("genre", ""))
+				.andReturn();
+		//Then
+		assertThat(result.getResponse().getStatus()).isEqualTo(200);
+
+		ModelMap attributeMap = result.getModelAndView().getModelMap();
+		List<Band> bands = (List<Band>) attributeMap.get("bands");
+
+		assertThat(bands.get(0).getName()).isEqualToIgnoringCase("Paveier");
+	}
+	
+	@Test
+	void shouldFindNothing() throws Exception {
+		//Given | Arrange
+
+		//When
+		MvcResult result = mock.perform(MockMvcRequestBuilders.post("/search")
+				.with(user("elke@e-gitarre").password("elke"))
+				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
+				.param("positionState", "OFFEN")
+				.param("zipcode", "11111")
+				.param("city", "")
+				.param("instrument", "")
+				.param("genre", ""))
+				.andReturn();
+		//Then
+		assertThat(result.getResponse().getStatus()).isEqualTo(200);
+
+		ModelMap attributeMap = result.getModelAndView().getModelMap();
+		List<Band> bands = (List<Band>) attributeMap.get("bands");
+
+		assertThat(bands).isNull();
+	}
 
 
 }
