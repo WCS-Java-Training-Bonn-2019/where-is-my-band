@@ -100,13 +100,13 @@
 						th:text="${band.address.postCode} + ' ' + ${band.address.city}"></p>
 					<h5>Bandpositionen:</h5>
 					<div class="card-text">
-						<span th:each="position, posStat : ${band.bandPositions}"
+						<span th:each="position, posStat : ${band.bandPositionsSortedByInstrument}"
 							th:text="${posStat.last} ? ${position.instrument.name} + ' (' + ${position.state} + ')' : ${position.instrument.name} + ' (' + ${position.state} + '), '">
 							Genre</span>
 					</div>
 					<h5>Genre:</h5>
 					<div class="card-text">
-						<span th:each="genre, genreStat : ${band.favoriteGenres}">
+						<span th:each="genre, genreStat : ${band.favoriteGenresSortedByName}">
 							<span
 							th:text="${genreStat.last} ? ${genre.name} : ${genre.name} + ', '">Folklore</span>
 						</span>
