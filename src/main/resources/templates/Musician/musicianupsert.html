@@ -43,42 +43,43 @@
 					<div class="form-check form-check-inline"
 						th:each="gender : ${allGenders}">
 						<input class="form-check-input" type="radio"
-							th:value="${gender.id}" th:field="*{gender}" required /> <label
-							class="form-check-label" th:for="${#ids.prev('gender')}"
-							th:text="${gender.name}">Divers</label> <small class="form-text"
-							th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}">Geschlecht
-							Fehler</small>
+							th:value="${gender.id}" th:field="*{gender}" required />
+						<label class="form-check-label" th:for="${#ids.prev('gender')}"
+							th:text="${gender.name}">Divers</label>
+						<small class="form-text" th:if="${#fields.hasErrors('gender')}"
+							th:errors="*{gender}">Geschlecht Fehler</small>
 					</div>
 				</div>
 				<div class="row">
 					<div class="form-group col">
-						<label>Vorname:</label> <input
-							class="form-control width-50percent" type="text"
-							placeholder="Vorname" th:field="*{firstName}" /> <small
-							class="form-text " th:if="${#fields.hasErrors('firstName')}"
+						<label>Vorname:</label>
+						<input class="form-control width-50percent" type="text"
+							placeholder="Vorname" th:field="*{firstName}" />
+						<small class="form-text "
+							th:if="${#fields.hasErrors('firstName')}"
 							th:errors="*{firstName}">Vorname Fehler</small>
 					</div>
 					<div class="form-group col">
-						<label>Nachname:</label> <input
-							class="form-control width-50percent" type="text"
-							placeholder="Nachname" required th:field="*{lastName}" /> <small
-							class="form-text" th:if="${#fields.hasErrors('lastName')}"
+						<label>Nachname:</label>
+						<input class="form-control width-50percent" type="text"
+							placeholder="Nachname" required th:field="*{lastName}" />
+						<small class="form-text" th:if="${#fields.hasErrors('lastName')}"
 							th:errors="*{lastName}">Nachname Fehler</small>
 					</div>
 				</div>
 				<div class="row">
 					<div class="form-group col">
-						<label>Geburtsdatum:</label> <input
-							class="form-control width-50percent" type="date" required
-							th:field="*{birthday}" /> <small class="form-text"
-							th:if="${#fields.hasErrors('birthday')}" th:errors="*{birthday}">Geburtstag
-							Fehler</small>
+						<label>Geburtsdatum:</label>
+						<input class="form-control width-50percent" type="date" required
+							th:field="*{birthday}" />
+						<small class="form-text" th:if="${#fields.hasErrors('birthday')}"
+							th:errors="*{birthday}">Geburtstag Fehler</small>
 					</div>
 					<div class="form-group col">
-						<label>Telefon:</label> <input
-							class="form-control width-50percent" type="text"
-							placeholder="Phone" th:field="*{phone}" /> <small
-							class="form-text" th:if="${#fields.hasErrors('phone')}"
+						<label>Telefon:</label>
+						<input class="form-control width-50percent" type="text"
+							placeholder="Phone" th:field="*{phone}" />
+						<small class="form-text" th:if="${#fields.hasErrors('phone')}"
 							th:errors="*{phone}">Telefon Fehler</small>
 					</div>
 				</div>
@@ -91,70 +92,94 @@
 				</div>
 				<div class="row">
 					<div class="form-group col">
-						<label>PLZ:</label> <input class="form-control width-50percent"
-							type="text" placeholder="Postleitzahl" required
-							th:field="*{postCode}" /> <small class="form-text"
-							th:if="${#fields.hasErrors('postCode')}" th:errors="*{postCode}">PLZ
-							Fehler</small>
+						<label>PLZ:</label>
+						<input class="form-control width-50percent" type="text"
+							placeholder="Postleitzahl" required th:field="*{postCode}" />
+						<small class="form-text" th:if="${#fields.hasErrors('postCode')}"
+							th:errors="*{postCode}">PLZ Fehler</small>
 					</div>
 					<div class="form-group col">
-						<label>Stadt:</label> <input class="form-control width-50percent"
-							type="text" placeholder="Stadt" required th:field="*{city}" /> <small
-							class="form-text" th:if="${#fields.hasErrors('city')}"
+						<label>Stadt:</label>
+						<input class="form-control width-50percent" type="text"
+							placeholder="Stadt" required th:field="*{city}" />
+						<small class="form-text" th:if="${#fields.hasErrors('city')}"
 							th:errors="*{city}">Stadt Fehler</small>
 					</div>
 				</div>
-				<div class="row">
+				<div class="row align-items-top">
+					<div class="form-group col">
+						<label>Aktuelles Bild:</label>
+					</div>
 					<div class="form-group col">
 						<img th:unless="${isMusicianRegister}"
-							th:src="@{'/musician/image'}" height="300"> <label>Wähle
-							Bilddatei</label> <input class="form-control-file" type="file"
-							th:field="*{image}"
-							th:required="${isMusicianRegister} ? 'required' : null" /> <small
-							class="form-text" th:if="${#fields.hasErrors('image')}"
+							th:src="@{'/musician/image'}" height="300">
+					</div>
+
+					<div class="form-group col">					
+						<span>Neues Bild:</span>
+					</div>
+					<div class="form-group col">
+						<!-- Bild-Vorschau nach Dateiauswahl -->
+						<img id="new-image" />
+						<script>
+							var loadFile = function(event) {
+								var newImage = document.getElementById('new-image');
+								newImage.src = URL
+										.createObjectURL(event.target.files[0]);
+							};
+						</script>
+						<input class="form-control-file" type="file" th:field="*{image}"
+							th:required="${isMusicianRegister} ? 'required' : null"
+							onchange="loadFile(event)" />
+	
+						<small class="form-text" th:if="${#fields.hasErrors('image')}"
 							th:errors="*{image}">Bild Fehler</small>
+
+
 					</div>
 				</div>
 				<div class="row">
 					<div class="form-group col">
-						<label>E-Mail/Benutzername:</label> <input
-							class="form-control width-50percent" type="email"
+						<label>E-Mail/Benutzername:</label>
+						<input class="form-control width-50percent" type="email"
 							placeholder="E-Mail" required
 							th:readonly="${isMusicianRegister} ? null : 'readonly'"
-							th:field="*{username}" /> <small class="form-text"
-							th:unless="${isMusicianRegister}">Der Benutzername kann
-							leider nicht geändert werden</small> <small class="form-text"
-							th:if="${#fields.hasErrors('username')}" th:errors="*{username}">E-Mail
-							Fehler</small>
+							th:field="*{username}" />
+						<small class="form-text" th:unless="${isMusicianRegister}">Der
+							Benutzername kann leider nicht geändert werden</small>
+						<small class="form-text" th:if="${#fields.hasErrors('username')}"
+							th:errors="*{username}">E-Mail Fehler</small>
 					</div>
 					<div class="form-group col">
-						<label>E-Mail/Benutzername (wiederholt):</label> <input
-							class="form-control width-50percent" type="email"
+						<label>E-Mail/Benutzername (wiederholt):</label>
+						<input class="form-control width-50percent" type="email"
 							placeholder="E-Mail wiederholt" required
 							th:readonly="${isMusicianRegister} ? null : 'readonly'"
-							th:field="*{usernameRepeated}" /> <small class="form-text"
-							th:unless="${isMusicianRegister}">Der Benutzername kann
-							leider nicht geändert werden</small> <small class="form-text"
+							th:field="*{usernameRepeated}" />
+						<small class="form-text" th:unless="${isMusicianRegister}">Der
+							Benutzername kann leider nicht geändert werden</small>
+						<small class="form-text"
 							th:if="${#fields.hasErrors('usernameRepeated')}"
 							th:errors="*{usernameRepeated}">E-Mail Fehler</small>
 					</div>
 				</div>
 				<div class="row">
 					<div class="form-group col">
-						<label>Passwort:</label> <input
-							class="form-control width-50percent" type="password"
+						<label>Passwort:</label>
+						<input class="form-control width-50percent" type="password"
 							placeholder="Passwort"
 							th:required="${isMusicianRegister} ? 'required' : null"
-							th:field="*{password}" /> <small class="form-text"
-							th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Passwort
-							Fehler</small>
+							th:field="*{password}" />
+						<small class="form-text" th:if="${#fields.hasErrors('password')}"
+							th:errors="*{password}">Passwort Fehler</small>
 					</div>
 					<div class="form-group col">
-						<label>Passwort (wiederholt):</label> <input
-							class="form-control width-50percent" type="password"
+						<label>Passwort (wiederholt):</label>
+						<input class="form-control width-50percent" type="password"
 							placeholder="Passwort wiederholt"
 							th:required="${isMusicianRegister} ? 'required' : null"
-							th:field="*{passwordRepeated}" /> <small class="form-text"
+							th:field="*{passwordRepeated}" />
+						<small class="form-text"
 							th:if="${#fields.hasErrors('passwordRepeated')}"
 							th:errors="*{passwordRepeated}">Passwort Fehler</small>
 					</div>
@@ -165,8 +190,8 @@
 						<h4>Genres</h4>
 						<div class="form-check" th:each="genre : ${allGenres}">
 							<input class="form-check-input" type="checkbox"
-								th:value="${genre.id}" th:field="*{genres}" /> <label
-								class="form-check-label" th:for="${#ids.prev('genres')}"
+								th:value="${genre.id}" th:field="*{genres}" />
+							<label class="form-check-label" th:for="${#ids.prev('genres')}"
 								th:text="${genre.name}">Kuschelrock</label>
 						</div>
 					</div>
@@ -174,10 +199,12 @@
 						<h4>Instrumente</h4>
 						<div class="form-check" th:each="instrument : ${allInstruments}">
 							<input class="form-check-input" type="checkbox"
-								th:value="${instrument.id}" th:field="*{instruments}" /> <label
-								class="form-check-label" th:for="${#ids.prev('instruments')}"
-								th:text="${instrument.name}">Schlagzeug</label> <small
-								class="form-text" th:if="${#fields.hasErrors('instruments')}"
+								th:value="${instrument.id}" th:field="*{instruments}" />
+							<label class="form-check-label"
+								th:for="${#ids.prev('instruments')}"
+								th:text="${instrument.name}">Schlagzeug</label>
+							<small class="form-text"
+								th:if="${#fields.hasErrors('instruments')}"
 								th:errors="*{instruments}">Instrumentenfehler</small>
 						</div>
 					</div>
