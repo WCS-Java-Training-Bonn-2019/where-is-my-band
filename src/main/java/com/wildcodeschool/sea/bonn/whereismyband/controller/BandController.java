@@ -25,7 +25,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.wildcodeschool.sea.bonn.whereismyband.entity.Address;
 import com.wildcodeschool.sea.bonn.whereismyband.entity.Band;
-import com.wildcodeschool.sea.bonn.whereismyband.entity.BandForm;
 import com.wildcodeschool.sea.bonn.whereismyband.entity.Bandposition;
 import com.wildcodeschool.sea.bonn.whereismyband.entity.Instrument;
 import com.wildcodeschool.sea.bonn.whereismyband.entity.Musician;
@@ -143,10 +142,6 @@ public class BandController {
 		addressRepository.save(band.getAddress());
 		bandPositionsRepository.saveAll(band.getBandPositions());
 		bandRepository.save(band);
-
-
-		//addBandAndMusicianToViewModel(model, band, musicianLoggedIn);
-
 
 		return "redirect:/band/" + band.getId() + "/view";
 	}
@@ -441,27 +436,4 @@ public class BandController {
 		model.addAttribute("musician", musicianLoggedIn);
 	}
 	
-	private void updateBandFromBandForm(BandForm bandForm, Band band) {
-		
-		band.setName(bandForm.getName());
-		
-		if(bandForm.getDescription() != null) {
-			band.setDescription(bandForm.getDescription());
-		}
-		
-		band.setEmail(bandForm.getEmail());
-		
-		Address address = new Address();
-		address.setCity(bandForm.getCity());
-		address.setPostCode(bandForm.getPostCode());
-		band.setAddress(address);
-		
-		band.setBandPositions(bandForm.getBandPositions());
-		band.setPhone(bandForm.getPhone());
-		
-		if(bandForm.getImage().length != 0) {
-			band.setImage(bandForm.getImage());
-		}
-		
-	}
 }
