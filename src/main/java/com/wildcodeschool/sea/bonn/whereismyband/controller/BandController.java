@@ -7,11 +7,13 @@ import java.security.Principal;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.wildcodeschool.sea.bonn.whereismyband.entity.Address;
 import com.wildcodeschool.sea.bonn.whereismyband.entity.Band;
+import com.wildcodeschool.sea.bonn.whereismyband.entity.BandForm;
 import com.wildcodeschool.sea.bonn.whereismyband.entity.Bandposition;
 import com.wildcodeschool.sea.bonn.whereismyband.entity.Instrument;
 import com.wildcodeschool.sea.bonn.whereismyband.entity.Musician;
@@ -96,15 +99,16 @@ public class BandController {
 	public String editBandPost(
 			Model model,
 			Principal principal,
-			@ModelAttribute Band band, 
+			@Valid @ModelAttribute("bandForm") BandForm bandForm, 
+			BindingResult bindingResult,
 			@PathVariable(name="id") Long bandId) {
 
 		Musician musicianLoggedIn = null;
-		Band bandFromDB =null;
+		Band band =null;
 
 		try {
 			musicianLoggedIn = getMusicianLoggedInFromDB(principal);
-			bandFromDB = createOrRetrieveBand(bandId, musicianLoggedIn);
+			band = createOrRetrieveBand(bandId, musicianLoggedIn);
 		} catch (Throwable t) {
 			// if musician or band could not be read from DB
 			model.addAttribute("message", t.getMessage());
@@ -112,25 +116,35 @@ public class BandController {
 		}
 		
 		// if the logged-in musician is not the band owner
-		if (!bandFromDB.getOwner().equals(musicianLoggedIn)) {
+		if (!band.getOwner().equals(musicianLoggedIn)) {
 			model.addAttribute("musician", musicianLoggedIn);
 			model.addAttribute("message", "Sie können nur Ihre eigenen Bands bearbeiten.");
 			return "soundmachineerror";
 		}
-
-		// if DB contains an image for band posted already
-		if (bandFromDB.getImage() != null) {
-			// set image of band to the one stored in the DB
-			band.setImage(bandFromDB.getImage());
+		
+		if(bindingResult.hasErrors()) {
+			model.addAttribute("allBandPositions", bandPositionsRepository.findAll());
+			model.addAttribute("band", band);
+			model.addAttribute("bandForm", bandForm);
+			return "Band/bandupsert";
 		}
+		
+		
+//		// if DB contains an image for band posted already
+//		if (bandFromDB.getImage() != null) {
+//			// set image of band to the one stored in the DB
+//			band.setImage(bandFromDB.getImage());
+//		}
 
+		updateBandFromBandForm(bandForm, band);
+		
 		// save all entities in DB
 		addressRepository.save(band.getAddress());
 		bandPositionsRepository.saveAll(band.getBandPositions());
 		bandRepository.save(band);
 
 
-		addBandAndMusicianToViewModel(model, band, musicianLoggedIn);
+		//addBandAndMusicianToViewModel(model, band, musicianLoggedIn);
 
 
 		return "redirect:/band/" + band.getId() + "/view";
@@ -424,5 +438,29 @@ public class BandController {
 		model.addAttribute("positionStates", PositionState.values());
 		model.addAttribute("allInstruments", instrumentRepository.findAll());
 		model.addAttribute("musician", musicianLoggedIn);
+	}
+	
+	private void updateBandFromBandForm(BandForm bandForm, Band band) {
+		
+		band.setName(bandForm.getName());
+		
+		if(bandForm.getDescription() != null) {
+			band.setDescription(bandForm.getDescription());
+		}
+		
+		band.setEmail(bandForm.getEmail());
+		
+		Address address = new Address();
+		address.setCity(bandForm.getCity());
+		address.setPostCode(bandForm.getPostCode());
+		band.setAddress(address);
+		
+		band.setBandPositions(bandForm.getBandPositions());
+		band.setPhone(bandForm.getPhone());
+		
+		if(bandForm.getImage().length != 0) {
+			band.setImage(bandForm.getImage());
+		}
+		
 	}
 }

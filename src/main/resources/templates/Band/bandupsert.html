@@ -32,7 +32,7 @@
 		<div class="container">
 			<h3 th:text="${band.id} ? 'Band pflegen' : 'Band anlegen'">Band</h3>
 			
-			<form method="post"
+			<form method="post" th:object="${bandForm}"
 				th:action="${band.id} ? @{'/band/' + ${band.id} + '/edit'} : @{'/band/new'}">
 				<div class="form-group">
 					<input class="form-control-file" th:field="*{band.image}" id="imagefile" name="imagefile"
@@ -41,7 +41,7 @@
 						<button type="submit" class="btn btn-primary btnupload">Upload</button>
 					</div>
 				</div>
-			</form>
+			</form> 
 			
 			<form method="post" th:action="${band.id} ? @{'/band/' + ${band.id} + '/edit'} : @{'/band/new'}" th:object="${band}" enctype="multipart/form-data">
 
@@ -58,6 +58,15 @@
 								src="https://via.placeholder.com/728x200.png">
 							<img class="card-img-top" th:if="${band.image}"
 								th:src="@{'/band/' + ${band.id} + '/bandimage'}">
+								
+						<img
+							th:src="@{'/band/image'}" height="300"> <label>Wähle
+							Bilddatei</label> <input class="form-control-file" type="file"
+							th:field="*{image}"
+							th:required="${isMusicianRegister} ? 'required' : null" /> <small
+							class="form-text" th:if="${#fields.hasErrors('image')}"
+							th:errors="*{image}">Bild Fehler</small>
+					
 								
 			<!--			<img id="output" />
 						<script>
