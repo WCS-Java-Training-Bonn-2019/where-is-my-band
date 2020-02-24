@@ -32,13 +32,13 @@ class SearchControllerTest {
 	MockMvc mock;
 
 	@Autowired
+	private BandRepository bandRepository;
+
+	@Autowired
 	private GenreRepository genreRepository;
 
 	@Autowired
 	private InstrumentRepository instrumentRepository;
-
-	@Autowired
-	private BandRepository bandRepository;
 
 	@Autowired
 	private MusicianRepository musicianRepository;

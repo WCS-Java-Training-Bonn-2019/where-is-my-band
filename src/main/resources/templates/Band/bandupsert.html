@@ -42,28 +42,27 @@
 				<div class="cardcontainer">
 					<div class="card imagecard-band">
 
-						<label for="file-upload">Image:</label>
+						<label for="file-upload">Aktuelles Bild:</label>
 						<img class="card-img-top" th:unless="${band.image}"
 							src="https://via.placeholder.com/728x200.png">
 						<img class="card-img-top" th:if="${band.image}"
 							th:src="@{'/band/' + ${band.id} + '/bandimage'}">
-						<label>Aenderung der Bilddatei</label>
+						<label>Neues Bild:</label>
 						<input class="form-control-file" type="file" th:field="*{image}"
-							th:required="${isMusicianRegister} ? 'required' : null" />
+							th:required="${isMusicianRegister} ? 'required' : null"
+							onchange="loadFile(event)" />
 						<small class="form-text" th:if="${#fields.hasErrors('image')}"
 							th:errors="*{image}">Bild Fehler</small>
 
-
-						<!--			<img id="output" />
+						<!-- Bild-Vorschau nach Dateiauswahl -->
+						<img id="new-image" />
 						<script>
 							var loadFile = function(event) {
-								var output = document.getElementById('output');
-								output.src = URL
+								var newImage = document.getElementById('new-image');
+								newImage.src = URL
 										.createObjectURL(event.target.files[0]);
 							};
-						</script> -->
-						<!--		<input class="form-control-file" th:field="*{image}" type="file" accept="image/*" onchange="loadFile(event)">-->
-
+						</script>
 
 						<div class="card-body">
 							<label th:for="*{name}">Name:</label>
@@ -133,7 +132,7 @@
 				<h4 th:if="${band.id}">Bandpositionen</h4>
 				<div th:if="${band.id}" class="cardcontainer">
 					<div class="card descriptioncard"
-						th:each="position, positionStat : *{bandPositions}">
+						th:each="position, positionStat : *{bandPositionsSortedByInstrument}">
 						<input name="${position.id}"
 							th:field="*{bandPositions[__${positionStat.index}__].id}"
 							type="hidden" />

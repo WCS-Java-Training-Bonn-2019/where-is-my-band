@@ -75,21 +75,21 @@
 				<div class="card descriptioncard">
 					<h4>Musikrichtungen</h4>
 					<ul>
-						<li th:each="genre : ${musician.favoriteGenres}"
+						<li th:each="genre : ${musician.favoriteGenresSortedByName}"
 							th:text="${genre.name}">Pop</li>
 					</ul>
 				</div>
 				<div class="card descriptioncard">
 					<h4>Instrumente</h4>
 					<ul>
-						<li th:each="instrument : ${musician.instruments}"
+						<li th:each="instrument : ${musician.instrumentsSortedByName}"
 							th:text="${instrument.name}">Piano</li>
 					</ul>
 				</div>
 				<div class="card descriptioncard">
 					<h4>Meine Bands</h4>
 					<ul>
-						<li th:each="band : ${musician.bands}"><a
+						<li th:each="band : ${musician.bandsSortedByName}"><a
 							th:href="@{'/band/' + ${band.id} + '/view'}"> <span
 								th:text="${band.name}">Trio</span>
 						</a></li>

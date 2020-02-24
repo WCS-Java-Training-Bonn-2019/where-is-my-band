@@ -86,14 +86,14 @@
 						<div class="card descriptioncard">
 							<h4>Musikrichtungen</h4>
 							<ul>
-								<li th:each="genre : ${band.favoriteGenres}"><span
+								<li th:each="genre : ${band.favoriteGenresSortedByName}"><span
 									th:text="${genre.name}">Pop</span></li>
 							</ul>
 						</div>
 						<div class="card descriptioncard">
 							<h4>Positionen der Band</h4>
 							<ul>
-								<li th:each="position : ${band.bandPositions}"><span
+								<li th:each="position : ${band.bandPositionsSortedByInstrument}"><span
 									th:text="${position.instrument.name}+' ('+${position.state}+')'">Posaune
 										(offen)</span></li>
 							</ul>

@@ -5,6 +5,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -51,9 +52,7 @@ public class RegistrationController{
 	@GetMapping("/register")
 	public String newMusicianGet(Model model) {
 		
-		model.addAttribute("allGenders", genderRepository.findAll());
-		model.addAttribute("allInstruments", instrumentRepository.findAll());
-		model.addAttribute("allGenres", genreRepository.findAll());
+		addAllGendersInstrumentsGenresToModel(model);
 	
 		model.addAttribute("isMusicianRegister", true);
 
@@ -66,7 +65,7 @@ public class RegistrationController{
 		
 		return "Musician/musicianupsert";
 	}
-	
+
 
 	@PostMapping("/register")
 	public String newMusicianPost( 
@@ -76,10 +75,7 @@ public class RegistrationController{
 
 		// Wenn Validierungsregeln nicht erfüllt
 		if (bindingResult.hasErrors()) {
-			// Zeige das Formular mit entsprechenden Fehlermeldungen wieder an
-			model.addAttribute("allGenders", genderRepository.findAll());
-			model.addAttribute("allInstruments", instrumentRepository.findAll());
-			model.addAttribute("allGenres", genreRepository.findAll());
+			addAllGendersInstrumentsGenresToModel(model);
 			model.addAttribute("isMusicianRegister", true);
 			model.addAttribute("registrationForm", regForm);
 			return "Musician/musicianupsert";
@@ -129,6 +125,13 @@ public class RegistrationController{
 		address.setCity(regForm.getCity());
 		address.setPostCode(regForm.getPostCode());
 		return address;
+	}
+
+
+	private void addAllGendersInstrumentsGenresToModel(Model model) {
+		model.addAttribute("allGenders", genderRepository.findAll(Sort.by("name")));
+		model.addAttribute("allInstruments", instrumentRepository.findAll(Sort.by("name")));
+		model.addAttribute("allGenres", genreRepository.findAll(Sort.by("name")));
 	}
 
 }

@@ -1,12 +1,15 @@
 package com.wildcodeschool.sea.bonn.whereismyband.controller;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -50,15 +53,13 @@ public class SearchController {
 			model.addAttribute("musician", musicianOptional.get());
 		}
 
-		model.addAttribute("allInstruments", instrumentRepository.findAll());
-		model.addAttribute("allGenres", genreRepository.findAll());
-		model.addAttribute("allPositionStates", PositionState.values());
-		
+		addAllInstrumentsGenresPositionStatesToModel(model);
+
 		return "Band/bandsearch";
 
-		}
+	}
 
-	
+
 	@PostMapping("/search")
 	public String searchBandsPost(Model model, Principal principal,
 			@RequestParam(required = true, name ="positionState") PositionState positionState,
@@ -149,10 +150,15 @@ public class SearchController {
 			model.addAttribute("musician", musicianOptional.get());
 		}
 
-		model.addAttribute("bands", searchResult);
-		model.addAttribute("allInstruments", instrumentRepository.findAll());
-		model.addAttribute("allGenres", genreRepository.findAll());
-		model.addAttribute("allPositionStates", PositionState.values());
+		// sort result in alphabetical order regarding band name
+		List<Band> searchResultSorted=null; 
+		if (searchResult != null) {
+			searchResultSorted = new ArrayList<>(searchResult);
+			Collections.sort(searchResultSorted);
+		}
+
+		model.addAttribute("bands", searchResultSorted);
+		addAllInstrumentsGenresPositionStatesToModel(model);
 		model.addAttribute("selectedState", positionState);
 		model.addAttribute("enteredZipcode", postCode);
 		model.addAttribute("enteredCity", city);
@@ -162,22 +168,10 @@ public class SearchController {
 		return "Band/bandsearch";
 	}
 
-	@GetMapping("/search/list/open")
-	public String getOpen(Model model) {
-
-		model.addAttribute("bands", bandRepository.findDistinctByBandPositionsState(PositionState.OFFEN));
-		model.addAttribute("instruments", instrumentRepository.findAll());
-		model.addAttribute("genres", genreRepository.findAll());
-		return "Band/bandsearch";
-	}
-
-	@GetMapping("/search/list/all")
-	public String getAll(Model model) {
-
-		model.addAttribute("bands", bandRepository.findAll());
-		model.addAttribute("instruments", instrumentRepository.findAll());
-		model.addAttribute("genres", genreRepository.findAll());
-		return "Band/bandsearch";
+	private void addAllInstrumentsGenresPositionStatesToModel(Model model) {
+		model.addAttribute("allInstruments", instrumentRepository.findAll(Sort.by("name")));
+		model.addAttribute("allGenres", genreRepository.findAll(Sort.by("name")));
+		model.addAttribute("allPositionStates", PositionState.values());
 	}
 
 	private List<Band> searchBandsByPostcodeOrCityViaExample(PositionState positionState, String postCode, String city) {
@@ -204,7 +198,7 @@ public class SearchController {
 
 		searchResult = 
 				bandRepository.findAll(Example.of(exampleBand, exampleMatcher));
-		
+
 		// Check, if positionState fits at least for one Bandposition
 		boolean onePositionStateFits = false;
 		for (Band band : searchResult) {
@@ -214,11 +208,11 @@ public class SearchController {
 				}
 			}
 		}
-		
+
 		if (!onePositionStateFits) {
 			return null;			
 		}
-		
+
 		return searchResult;
 	}
 

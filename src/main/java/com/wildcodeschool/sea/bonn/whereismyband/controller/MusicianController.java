@@ -11,6 +11,7 @@ import javax.validation.Valid;
 
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -81,9 +82,7 @@ public class MusicianController {
 		boolean isMusicianRegister = false;
 		Musician musician = getMusicianLoggedInFromDB(principal);
 
-		model.addAttribute("allGenders", genderRepository.findAll());
-		model.addAttribute("allInstruments", instrumentRepository.findAll());
-		model.addAttribute("allGenres", genreRepository.findAll());
+		addAllGendersInstrumentsGenresToModel(model);
 
 		model.addAttribute("musician", musician);
 		model.addAttribute("isMusicianRegister", isMusicianRegister);
@@ -132,9 +131,7 @@ public class MusicianController {
 		// Die Form wird automatisch über die form backing bean gefüllt
 		// https://www.baeldung.com/spring-mvc-form-tutorial
 		if (bindingResult.hasErrors()) {
-			model.addAttribute("allGenders", genderRepository.findAll());
-			model.addAttribute("allInstruments", instrumentRepository.findAll());
-			model.addAttribute("allGenres", genreRepository.findAll());
+			addAllGendersInstrumentsGenresToModel(model);
 			model.addAttribute("isMusicianRegister", isMusicianRegister);
 			model.addAttribute("musician", musician);
 			model.addAttribute("registrationForm", editForm);
@@ -239,5 +236,11 @@ public class MusicianController {
 		if (editForm.getImage().length != 0) {
 			musician.setImage(editForm.getImage());
 		}
+	}
+
+	private void addAllGendersInstrumentsGenresToModel(Model model) {
+		model.addAttribute("allGenders", genderRepository.findAll(Sort.by("name")));
+		model.addAttribute("allInstruments", instrumentRepository.findAll(Sort.by("name")));
+		model.addAttribute("allGenres", genreRepository.findAll(Sort.by("name")));
 	}
 }
