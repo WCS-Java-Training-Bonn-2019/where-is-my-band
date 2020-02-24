@@ -53,7 +53,7 @@ class SearchControllerTest {
 	}
 
 	@Test
-	void shouldRetrieveSearchForm() throws Exception {
+	void shouldRetrieveSearchFormWithAllIntruments() throws Exception {
 
 		//Given | Arrange
 
