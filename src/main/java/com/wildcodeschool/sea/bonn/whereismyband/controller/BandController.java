@@ -99,16 +99,14 @@ public class BandController {
 	public String editBandPost(
 			Model model,
 			Principal principal,
-			@Valid @ModelAttribute("bandForm") BandForm bandForm, 
+			@Valid @ModelAttribute Band band, 
 			BindingResult bindingResult,
 			@PathVariable(name="id") Long bandId) {
 
 		Musician musicianLoggedIn = null;
-		Band band =null;
 
 		try {
 			musicianLoggedIn = getMusicianLoggedInFromDB(principal);
-			band = createOrRetrieveBand(bandId, musicianLoggedIn);
 		} catch (Throwable t) {
 			// if musician or band could not be read from DB
 			model.addAttribute("message", t.getMessage());
@@ -125,18 +123,22 @@ public class BandController {
 		if(bindingResult.hasErrors()) {
 			model.addAttribute("allBandPositions", bandPositionsRepository.findAll());
 			model.addAttribute("band", band);
-			model.addAttribute("bandForm", bandForm);
 			return "Band/bandupsert";
 		}
 		
-		
-//		// if DB contains an image for band posted already
-//		if (bandFromDB.getImage() != null) {
-//			// set image of band to the one stored in the DB
-//			band.setImage(bandFromDB.getImage());
-//		}
-
-		updateBandFromBandForm(bandForm, band);
+		// if image wasn't updated via Form
+		if (band.getImage().length == 0) {
+			// set image of band to the one stored in the DB
+			Band bandFromDB = bandRepository.getOne(band.getId());
+			if (bandFromDB == null) {
+				model.addAttribute("musician", musicianLoggedIn);
+				model.addAttribute("message", "Die Band mit der ID" + band.getId() + " existiert nicht in der Datenbank!");
+				return "soundmachineerror";
+			}
+			
+			band.setImage(bandFromDB.getImage());
+			
+		}
 		
 		// save all entities in DB
 		addressRepository.save(band.getAddress());

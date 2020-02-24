@@ -31,44 +31,30 @@
 	<main role="main" class="flex-shrink-0">
 		<div class="container">
 			<h3 th:text="${band.id} ? 'Band pflegen' : 'Band anlegen'">Band</h3>
-			
-			<form method="post" th:object="${bandForm}"
-				th:action="${band.id} ? @{'/band/' + ${band.id} + '/edit'} : @{'/band/new'}">
-				<div class="form-group">
-					<input class="form-control-file" th:field="*{band.image}" id="imagefile" name="imagefile"
-						type="file" required />
-					<div>
-						<button type="submit" class="btn btn-primary btnupload">Upload</button>
-					</div>
-				</div>
-			</form> 
-			
-			<form method="post" th:action="${band.id} ? @{'/band/' + ${band.id} + '/edit'} : @{'/band/new'}" th:object="${band}" enctype="multipart/form-data">
 
-				<input name="id" th:field="*{id}" type="hidden" />
-				<input name="owner" th:field="*{owner}" type="hidden" />
+			<form method="post"
+				th:action="${band.id} ? @{'/band/' + ${band.id} + '/edit'} : @{'/band/new'}"
+				th:object="${band}" enctype="multipart/form-data">
+
+				<input th:field="*{id}" type="hidden" />
+				<input th:field="*{owner}" type="hidden" />
 
 				<div class="cardcontainer">
 					<div class="card imagecard-band">
 
-
 						<label for="file-upload">Image:</label>
-
-							<img class="card-img-top" th:unless="${band.image}"
-								src="https://via.placeholder.com/728x200.png">
-							<img class="card-img-top" th:if="${band.image}"
-								th:src="@{'/band/' + ${band.id} + '/bandimage'}">
-								
-						<img
-							th:src="@{'/band/image'}" height="300"> <label>Wähle
-							Bilddatei</label> <input class="form-control-file" type="file"
-							th:field="*{image}"
-							th:required="${isMusicianRegister} ? 'required' : null" /> <small
-							class="form-text" th:if="${#fields.hasErrors('image')}"
+						<img class="card-img-top" th:unless="${band.image}"
+							src="https://via.placeholder.com/728x200.png">
+						<img class="card-img-top" th:if="${band.image}"
+							th:src="@{'/band/' + ${band.id} + '/bandimage'}">
+						<label>Aenderung der Bilddatei</label>
+						<input class="form-control-file" type="file" th:field="*{image}"
+							th:required="${isMusicianRegister} ? 'required' : null" />
+						<small class="form-text" th:if="${#fields.hasErrors('image')}"
 							th:errors="*{image}">Bild Fehler</small>
-					
-								
-			<!--			<img id="output" />
+
+
+						<!--			<img id="output" />
 						<script>
 							var loadFile = function(event) {
 								var output = document.getElementById('output');
@@ -76,12 +62,13 @@
 										.createObjectURL(event.target.files[0]);
 							};
 						</script> -->
-				<!--		<input class="form-control-file" th:field="*{image}" type="file" accept="image/*" onchange="loadFile(event)">-->
-						
+						<!--		<input class="form-control-file" th:field="*{image}" type="file" accept="image/*" onchange="loadFile(event)">-->
+
 
 						<div class="card-body">
-							<label th:for="*{name}">Name:</label> <input class="form-control"
-								type="text" placeholder="Bandname" required th:field="*{name}" />
+							<label th:for="*{name}">Name:</label>
+							<input class="form-control" type="text" placeholder="Bandname"
+								required th:field="*{name}" />
 							<small class="invalid-feedback"
 								th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Bandnamensfehler</small>
 						</div>
@@ -99,23 +86,27 @@
 				<div class="cardcontainer">
 					<div class="card descriptioncard">
 						<div class="form-group">
-							<label th:for="*{email}">Email:</label> <input
-								class="form-control" type="email" placeholder="Email" required
-								th:field="*{email}" /> <small class="invalid-feedback"
+							<label th:for="*{email}">Email:</label>
+							<input class="form-control" type="email" placeholder="Email"
+								required th:field="*{email}" />
+							<small class="invalid-feedback"
 								th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Emailfehler</small>
-							<label th:for="*{phone}">Phone:</label> <input
-								class="form-control" type="text" placeholder="Phone" required
-								th:field="*{phone}" /> <small class="invalid-feedback"
+							<label th:for="*{phone}">Phone:</label>
+							<input class="form-control" type="text" placeholder="Phone"
+								required th:field="*{phone}" />
+							<small class="invalid-feedback"
 								th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">Telefonfehler</small>
-							<label th:for="*{address.postCode}">PLZ:</label> <input
-								class="form-control" type="text" placeholder="Postleitzahl"
-								required th:field="*{address.postCode}" /> <small
-								class="invalid-feedback"
+							<label th:for="*{address.postCode}">PLZ:</label>
+							<input class="form-control" type="text"
+								placeholder="Postleitzahl" required
+								th:field="*{address.postCode}" />
+							<small class="invalid-feedback"
 								th:if="${#fields.hasErrors('address.postCode')}"
-								th:errors="*{address.postCode}">Telefonfehler</small> <label
-								th:for="*{address.city}">Stadt:</label> <input
-								class="form-control" type="text" placeholder="Stadt" required
-								th:field="*{address.city}" /> <small class="invalid-feedback"
+								th:errors="*{address.postCode}">Telefonfehler</small>
+							<label th:for="*{address.city}">Stadt:</label>
+							<input class="form-control" type="text" placeholder="Stadt"
+								required th:field="*{address.city}" />
+							<small class="invalid-feedback"
 								th:if="${#fields.hasErrors('address.city')}"
 								th:errors="*{address.city}">Stadtfehler</small>
 						</div>
@@ -126,10 +117,14 @@
 							<h4>Genres</h4>
 							<table>
 								<tr th:each="genre : ${allGenres}">
-									<td><input type="checkbox" th:value="${genre.id}"
-										th:field="*{favoriteGenres}" /></td>
-									<td><label th:for="${#ids.prev('favoriteGenres')}"
-										th:text="${genre.name}">Kuschelrock</label></td>
+									<td>
+										<input type="checkbox" th:value="${genre.id}"
+											th:field="*{favoriteGenres}" />
+									</td>
+									<td>
+										<label th:for="${#ids.prev('favoriteGenres')}"
+											th:text="${genre.name}">Kuschelrock</label>
+									</td>
 								</tr>
 							</table>
 						</div>
@@ -141,9 +136,11 @@
 						th:each="position, positionStat : *{bandPositions}">
 						<input name="${position.id}"
 							th:field="*{bandPositions[__${positionStat.index}__].id}"
-							type="hidden" /> <input name="${position.band.id}"
+							type="hidden" />
+						<input name="${position.band.id}"
 							th:field="*{bandPositions[__${positionStat.index}__].band.id}"
-							type="hidden" /> <input name="${position.instrument.id}"
+							type="hidden" />
+						<input name="${position.instrument.id}"
 							th:field="*{bandPositions[__${positionStat.index}__].instrument.id}"
 							type="hidden" />
 
@@ -156,7 +153,8 @@
 							th:field="*{bandPositions[__${positionStat.index}__].state}">
 							<option th:each="state : ${positionStates}" th:value="${state}"
 								th:text="${state}">Besetzungstatus</option>
-						</select> <a class="btn deletebtn btn-secondary btndelete"
+						</select>
+						<a class="btn deletebtn btn-secondary btndelete"
 							th:href="'/band/' + ${band.id} + '/deletebandposition/' + ${position.id}">Löschen</a>
 					</div>
 				</div>
