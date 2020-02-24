@@ -1,12 +1,15 @@
 package com.wildcodeschool.sea.bonn.whereismyband.controller;
 
 import java.security.Principal;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -50,8 +53,8 @@ public class SearchController {
 			model.addAttribute("musician", musicianOptional.get());
 		}
 
-		model.addAttribute("allInstruments", instrumentRepository.findAll());
-		model.addAttribute("allGenres", genreRepository.findAll());
+		model.addAttribute("allInstruments", instrumentRepository.findAll(Sort.by("name")));
+		model.addAttribute("allGenres", genreRepository.findAll(Sort.by("name")));
 		model.addAttribute("allPositionStates", PositionState.values());
 		
 		return "Band/bandsearch";
@@ -149,9 +152,17 @@ public class SearchController {
 			model.addAttribute("musician", musicianOptional.get());
 		}
 
+		// sort result in alphabetical order regarding band name
+		Collections.sort(searchResult, new Comparator<Band>() {
+		    @Override
+		    public int compare(Band first, Band second) {
+		        return first.getName().compareTo(second.getName());
+		    }
+		});
+		
 		model.addAttribute("bands", searchResult);
-		model.addAttribute("allInstruments", instrumentRepository.findAll());
-		model.addAttribute("allGenres", genreRepository.findAll());
+		model.addAttribute("allInstruments", instrumentRepository.findAll(Sort.by("name")));
+		model.addAttribute("allGenres", genreRepository.findAll(Sort.by("name")));
 		model.addAttribute("allPositionStates", PositionState.values());
 		model.addAttribute("selectedState", positionState);
 		model.addAttribute("enteredZipcode", postCode);
@@ -159,24 +170,6 @@ public class SearchController {
 		model.addAttribute("selectedInstrument", instrument);
 		model.addAttribute("selectedGenre", genre);
 
-		return "Band/bandsearch";
-	}
-
-	@GetMapping("/search/list/open")
-	public String getOpen(Model model) {
-
-		model.addAttribute("bands", bandRepository.findDistinctByBandPositionsState(PositionState.OFFEN));
-		model.addAttribute("instruments", instrumentRepository.findAll());
-		model.addAttribute("genres", genreRepository.findAll());
-		return "Band/bandsearch";
-	}
-
-	@GetMapping("/search/list/all")
-	public String getAll(Model model) {
-
-		model.addAttribute("bands", bandRepository.findAll());
-		model.addAttribute("instruments", instrumentRepository.findAll());
-		model.addAttribute("genres", genreRepository.findAll());
 		return "Band/bandsearch";
 	}
 

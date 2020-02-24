@@ -18,5 +18,4 @@ import com.wildcodeschool.sea.bonn.whereismyband.entity.Genre;
 public interface GenreRepository extends JpaRepository<Genre, Long> {
 
 	Optional<Genre> findByName(String name);
-
 }

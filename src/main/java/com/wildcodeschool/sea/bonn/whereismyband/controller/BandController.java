@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -61,8 +62,6 @@ public class BandController {
 		this.instrumentRepository = instrumentRepository;
 	}
 
-	
-	
 	@GetMapping("{id}/edit")
 	public String editBandGet(
 			Model model, 
@@ -416,9 +415,9 @@ public class BandController {
 
 	private void addBandAndMusicianToViewModel(Model model, Band band, Musician musicianLoggedIn) {
 		model.addAttribute("band", band);
-		model.addAttribute("allGenres", genreRepository.findAll());
+		model.addAttribute("allGenres", genreRepository.findAll(Sort.by("name")));
 		model.addAttribute("positionStates", PositionState.values());
-		model.addAttribute("allInstruments", instrumentRepository.findAll());
+		model.addAttribute("allInstruments", instrumentRepository.findAll(Sort.by("name")));
 		model.addAttribute("musician", musicianLoggedIn);
 	}
 
