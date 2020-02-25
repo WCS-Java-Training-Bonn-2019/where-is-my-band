@@ -417,7 +417,7 @@ public class BandController {
 	 * @return Musician object retrieved from DB, "null" if not found
 	 */
 	private Musician getMusicianLoggedInFromDB(Principal principal) {
-		Optional<Musician> userOptional = musicianRepository.findByUsername(principal.getName());
+		Optional<Musician> userOptional = musicianRepository.findByUsernameIgnoreCase(principal.getName());
 
 		// musician matching the principal was found in DB
 		if (!userOptional.isPresent()) {

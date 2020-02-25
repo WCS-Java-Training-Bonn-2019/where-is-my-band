@@ -29,7 +29,7 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 	
 	
 	private UserDetails loadMusicianByName(String username) {
-		Optional<Musician> optionalMusician = musicianRepository.findByUsername(username);
+		Optional<Musician> optionalMusician = musicianRepository.findByUsernameIgnoreCase(username.toLowerCase());
 		if (optionalMusician.isPresent()) {
 			return optionalMusician.get();
 		}

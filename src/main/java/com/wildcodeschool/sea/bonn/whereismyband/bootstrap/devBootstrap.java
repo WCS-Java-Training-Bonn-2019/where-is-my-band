@@ -96,7 +96,7 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 		createInstrumentIfNotExisting("Posaune");
 
 
-		boolean elkeExistedBefore = (! musicianRepository.findByFirstNameAndLastNameAndBirthday("Elke", "E-Gitarre", LocalDate.of(1994, 10, 03)).isEmpty());
+		boolean elkeExistedBefore = (! musicianRepository.findByFirstNameIgnoreCaseAndLastNameIgnoreCaseAndBirthday("Elke", "E-Gitarre", LocalDate.of(1994, 10, 03)).isEmpty());
 		Musician elke;
 
 		// if Elke does not exist
@@ -148,11 +148,11 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 			// Creation of musician Elke finished
 			// **********************************
 		} else {
-			elke = musicianRepository.findByFirstNameAndLastNameAndBirthday("Elke", "E-Gitarre", LocalDate.of(1994, 10, 03)).get(0);
+			elke = musicianRepository.findByFirstNameIgnoreCaseAndLastNameIgnoreCaseAndBirthday("Elke", "E-Gitarre", LocalDate.of(1994, 10, 03)).get(0);
 		}
 
 		// if Stefan does not exist
-		if (musicianRepository.findByFirstNameAndLastNameAndBirthday("Stefan", "Schlagzeuger", LocalDate.of(1992, 01, 01)).isEmpty()) {
+		if (musicianRepository.findByFirstNameIgnoreCaseAndLastNameIgnoreCaseAndBirthday("Stefan", "Schlagzeuger", LocalDate.of(1992, 01, 01)).isEmpty()) {
 
 			// Create musician Stefan
 			// **********************
@@ -425,7 +425,7 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 
 
 		// Search for Musician based on parameters
-		List<Musician> searchList = musicianRepository.findByFirstNameAndLastNameAndBirthday(
+		List<Musician> searchList = musicianRepository.findByFirstNameIgnoreCaseAndLastNameIgnoreCaseAndBirthday(
 				firstName, lastName, birthday);
 
 		// if no such musician exists
@@ -436,7 +436,7 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 			musician.setLastName(lastName);
 			musician.setBirthday(birthday);
 			musician.setGender(gender);
-			musician.setUsername(firstName + "@" + lastName + ".de");
+			musician.setUsername((firstName + "@" + lastName + ".de").toLowerCase());
 			musician.setPhone("02281810");
 			musician.setPassword(passwordEncoder.encode(firstName.toLowerCase()));
 			musicianRepository.save(musician);

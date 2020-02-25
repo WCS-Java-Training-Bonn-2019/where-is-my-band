@@ -83,7 +83,7 @@ public class RegistrationController{
 		}
 
 		// Prüfe, ob der Benutzername bereits existiert
-		Optional<Musician> musicianOptionalFromDB = musicianRepository.findByUsername(regForm.getUsername());
+		Optional<Musician> musicianOptionalFromDB = musicianRepository.findByUsernameIgnoreCase(regForm.getUsername().toLowerCase());
 		if (musicianOptionalFromDB.isPresent()) {
 			model.addAttribute("message", "Der Benutzername \'"+ regForm.getUsername() + "\' existiert bereits in der Datenbank!");
 			return "soundmachineerror";
@@ -108,7 +108,7 @@ public class RegistrationController{
 			musician.setDescription(regForm.getDescription());
 		}
 	
-		musician.setUsername(regForm.getUsername());
+		musician.setUsername(regForm.getUsername().toLowerCase());
 		musician.setPassword(passwordEncoder.encode(regForm.getPassword()));
 		musician.setPhone(regForm.getPhone());
 		musician.setBirthday(regForm.getBirthday());

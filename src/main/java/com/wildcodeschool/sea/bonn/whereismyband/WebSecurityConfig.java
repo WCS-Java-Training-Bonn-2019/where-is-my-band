@@ -14,34 +14,36 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 
 	private final UserDetailsServiceImpl userDetailsServiceImpl;
 	private final PasswordEncoder passwordEncoder;
-	
+
 	public WebSecurityConfig(UserDetailsServiceImpl userDetailsServiceImpl, PasswordEncoder passwordEncoder) {
 		this.userDetailsServiceImpl = userDetailsServiceImpl;
 		this.passwordEncoder = passwordEncoder;
 	}
-	
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
-			.authorizeRequests()
-				.antMatchers("/", "/images/**", "/css/**", "/js/**", "/register", "/logout").permitAll()
-				.antMatchers("/musician/**", "/band/**", "/search/**").hasAnyRole("ADMIN", "MUSICIAN")
-				.anyRequest().hasAnyRole("ADMIN")
-				.and()
-			.formLogin()
-				.loginPage("/login")
-				.permitAll()
-				.and()
-			.logout()
-				.logoutRequestMatcher(
-						new AntPathRequestMatcher("/logout"))
-				.logoutSuccessUrl("/")
-				.permitAll()
-				.and()
-			.httpBasic();
-			
+		.authorizeRequests()
+		.antMatchers("/", "/h2-console/**", "/images/**", "/css/**", "/js/**", "/register", "/logout").permitAll()
+		.antMatchers("/musician/**", "/band/**", "/search/**").hasAnyRole("ADMIN", "MUSICIAN")
+		.anyRequest().hasAnyRole("ADMIN")
+		.and()
+		.formLogin()
+		.loginPage("/login")
+		.permitAll()
+        .and().csrf().ignoringAntMatchers("/h2-console/**") //don't apply CSRF protection to /h2-console
+        .and().headers().frameOptions().sameOrigin() //allow use of frame to same origin urls
+		.and()
+		.logout()
+		.logoutRequestMatcher(
+				new AntPathRequestMatcher("/logout"))
+		.logoutSuccessUrl("/")
+		.permitAll()
+		.and()
+		.httpBasic();
+
 	}
-	
+
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userDetailsServiceImpl).passwordEncoder(passwordEncoder);
