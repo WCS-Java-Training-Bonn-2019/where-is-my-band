@@ -111,7 +111,6 @@ class MusicianControllerTest {
 		@SuppressWarnings("unchecked")
 		Musician musician = (Musician) attributeMap.get("musician");
 		assertThat(musician.getFirstName()).isEqualTo("Elke");
-
 	}
 
 	@Test
@@ -153,7 +152,6 @@ class MusicianControllerTest {
 		Musician welke = listContainingWelke.get(0);
 
 		assertThat(welke.getAddress().getCity()).isEqualTo(newCity);
-
 	}
 
 }
