@@ -217,7 +217,7 @@ public class MusicianController {
 		}
 	
 	
-		if (!editForm.getPassword().isEmpty()) {
+		if (editForm.getPassword() != null && !editForm.getPassword().isEmpty()) {
 			musician.setPassword(passwordEncoder.encode(editForm.getPassword()));
 		}
 		
@@ -233,7 +233,7 @@ public class MusicianController {
 		musician.setFavoriteGenres(editForm.getGenres());
 		musician.setInstruments(editForm.getInstruments());
 		
-		if (editForm.getImage().length != 0) {
+		if (editForm.getImage() != null && editForm.getImage().length > 0) {
 			musician.setImage(editForm.getImage());
 		}
 	}
