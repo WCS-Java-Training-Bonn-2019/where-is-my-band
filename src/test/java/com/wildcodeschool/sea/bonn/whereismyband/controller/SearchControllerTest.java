@@ -61,6 +61,7 @@ class SearchControllerTest {
 		assertThat(result.getResponse().getStatus()).isEqualTo(200);
 
 		ModelMap attributeMap = result.getModelAndView().getModelMap();
+		@SuppressWarnings("unchecked")
 		List<Instrument> instruments = (List<Instrument>) attributeMap.get("allInstruments");
 		assertThat(instruments).hasSize(instrumentRepository.findAll().size());
 
@@ -85,6 +86,7 @@ class SearchControllerTest {
 		assertThat(result.getResponse().getStatus()).isEqualTo(200);
 
 		ModelMap attributeMap = result.getModelAndView().getModelMap();
+		@SuppressWarnings("unchecked")
 		List<Band> bands = (List<Band>) attributeMap.get("bands");
 
 		assertThat(bands).hasSize(numberOfBandsToBeFound);
@@ -108,6 +110,7 @@ class SearchControllerTest {
 		assertThat(result.getResponse().getStatus()).isEqualTo(200);
 
 		ModelMap attributeMap = result.getModelAndView().getModelMap();
+		@SuppressWarnings("unchecked")
 		List<Band> bands = (List<Band>) attributeMap.get("bands");
 
 		assertThat(bands.get(0).getName()).isEqualToIgnoringCase("De Tampentrekker");
@@ -131,6 +134,7 @@ class SearchControllerTest {
 		assertThat(result.getResponse().getStatus()).isEqualTo(200);
 
 		ModelMap attributeMap = result.getModelAndView().getModelMap();
+		@SuppressWarnings("unchecked")
 		List<Band> bands = (List<Band>) attributeMap.get("bands");
 
 		assertThat(bands.get(0).getName()).isEqualToIgnoringCase("Paveier");
@@ -154,6 +158,7 @@ class SearchControllerTest {
 		assertThat(result.getResponse().getStatus()).isEqualTo(200);
 
 		ModelMap attributeMap = result.getModelAndView().getModelMap();
+		@SuppressWarnings("unchecked")
 		List<Band> bands = (List<Band>) attributeMap.get("bands");
 
 		assertThat(bands).isNull();
