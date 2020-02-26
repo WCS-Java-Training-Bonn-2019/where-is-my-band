@@ -26,6 +26,17 @@ public class Address {
 	
 	@OneToOne(mappedBy = "address")
 	private Band band;
+
+	public Address() {
+		super();
+	}
 			
+	public Address(@Pattern(regexp = "^[0-9]{5}$", message = "Ungültige Postleitzahl!!!") String postCode,
+			String city) {
+		super();
+		this.postCode = postCode;
+		this.city = city;
+	}
+
 }
 

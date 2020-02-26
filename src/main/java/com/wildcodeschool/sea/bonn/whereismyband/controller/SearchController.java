@@ -59,7 +59,6 @@ public class SearchController {
 
 	}
 
-
 	@PostMapping("/search")
 	public String searchBandsPost(Model model, Principal principal,
 			@RequestParam(required = true, name ="positionState") PositionState positionState,

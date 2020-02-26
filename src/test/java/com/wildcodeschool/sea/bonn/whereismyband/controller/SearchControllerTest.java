@@ -1,7 +1,6 @@
 package com.wildcodeschool.sea.bonn.whereismyband.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 
 import java.util.List;
 
@@ -26,9 +25,7 @@ import com.wildcodeschool.sea.bonn.whereismyband.entity.Band;
 import com.wildcodeschool.sea.bonn.whereismyband.entity.Instrument;
 import com.wildcodeschool.sea.bonn.whereismyband.entity.PositionState;
 import com.wildcodeschool.sea.bonn.whereismyband.repository.BandRepository;
-import com.wildcodeschool.sea.bonn.whereismyband.repository.GenreRepository;
 import com.wildcodeschool.sea.bonn.whereismyband.repository.InstrumentRepository;
-import com.wildcodeschool.sea.bonn.whereismyband.repository.MusicianRepository;
 
 @SpringBootTest
 @Transactional
@@ -46,17 +43,10 @@ class SearchControllerTest {
 	private BandRepository bandRepository;
 
 	@Autowired
-	private GenreRepository genreRepository;
-
-	@Autowired
 	private InstrumentRepository instrumentRepository;
-
-	@Autowired
-	private MusicianRepository musicianRepository;
 
 	@BeforeEach
 	void setup() {
-		SearchController underTest = new SearchController(genreRepository, instrumentRepository, bandRepository, musicianRepository);
 		mock = MockMvcBuilders
 				.webAppContextSetup(context)
 				.apply(SecurityMockMvcConfigurers.springSecurity())
@@ -81,7 +71,6 @@ class SearchControllerTest {
 		@SuppressWarnings("unchecked")
 		List<Instrument> instruments = (List<Instrument>) attributeMap.get("allInstruments");
 		assertThat(instruments).hasSize(instrumentRepository.findAll().size());
-
 	}
 
 	@Test

@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers;
@@ -22,12 +21,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.wildcodeschool.sea.bonn.whereismyband.entity.Address;
 import com.wildcodeschool.sea.bonn.whereismyband.entity.EditForm;
 import com.wildcodeschool.sea.bonn.whereismyband.entity.Musician;
-import com.wildcodeschool.sea.bonn.whereismyband.repository.AddressRepository;
-import com.wildcodeschool.sea.bonn.whereismyband.repository.GenderRepository;
-import com.wildcodeschool.sea.bonn.whereismyband.repository.GenreRepository;
-import com.wildcodeschool.sea.bonn.whereismyband.repository.InstrumentRepository;
 import com.wildcodeschool.sea.bonn.whereismyband.repository.MusicianRepository;
 
 @SpringBootTest
@@ -43,32 +39,10 @@ class MusicianControllerTest {
 	private WebApplicationContext context;
 
 	@Autowired
-	private GenderRepository genderRepository;
-
-	@Autowired
 	private MusicianRepository musicianRepository;
-
-	@Autowired
-	private InstrumentRepository instrumentRepository;
-
-	@Autowired
-	private GenreRepository genreRepository;
-
-	@Autowired
-	private AddressRepository addressRepository;
-
-	@Autowired
-	private PasswordEncoder passwordEncoder;
 
 	@BeforeEach
 	void setup() {
-		MusicianController underTest = new MusicianController(
-				genderRepository, 
-				musicianRepository, 
-				instrumentRepository, 
-				genreRepository, 
-				addressRepository, 
-				passwordEncoder);
 
 		mock = MockMvcBuilders
 				.webAppContextSetup(context)
@@ -89,7 +63,6 @@ class MusicianControllerTest {
 		assertThat(result.getResponse().getStatus()).isEqualTo(200);
 
 		ModelMap attributeMap = result.getModelAndView().getModelMap();
-		@SuppressWarnings("unchecked")
 		Musician musician = (Musician) attributeMap.get("musician");
 		assertThat(musician.getFirstName()).isEqualTo("Elke");
 
@@ -108,7 +81,6 @@ class MusicianControllerTest {
 		assertThat(result.getResponse().getStatus()).isEqualTo(200);
 
 		ModelMap attributeMap = result.getModelAndView().getModelMap();
-		@SuppressWarnings("unchecked")
 		Musician musician = (Musician) attributeMap.get("musician");
 		assertThat(musician.getFirstName()).isEqualTo("Elke");
 	}
@@ -116,24 +88,11 @@ class MusicianControllerTest {
 	@Test
 	void shouldBeAbleToUpdateElkesProfile() throws Exception {
 		//Given | Arrange
-		List<Musician> listContainingElke = musicianRepository.findByFirstNameIgnoreCaseAndLastNameIgnoreCase("Elke", "e-gitarre");
-		Musician elke = listContainingElke.get(0);
-		String newCity = elke.getAddress().getCity() + "-Zentrum";
 
-		EditForm editForm = new EditForm();
-		editForm.setFirstName("Welke");
-		editForm.setLastName(elke.getLastName());
-		editForm.setDescription(elke.getDescription());
-		editForm.setUsername(elke.getUsername());
-		editForm.setUsernameRepeated(elke.getUsername());
-		editForm.setPhone(elke.getPhone());
-		editForm.setBirthday(elke.getBirthday());
-		editForm.setGender(elke.getGender());
-		editForm.setPostCode(elke.getAddress().getPostCode());
-		editForm.setCity(newCity);
-		editForm.setGenres(elke.getFavoriteGenres());
-		editForm.setInstruments(elke.getInstruments());	
-		editForm.setImage(elke.getImage());
+		String newFirstName = "Welke";
+		Address newAddress = new Address("53757", "Sankt Augustin");
+
+		EditForm editForm = createEditFormWithChangedDataForElke(newFirstName, newAddress);
 
 		//When
 		MvcResult result = mock
@@ -151,7 +110,28 @@ class MusicianControllerTest {
 				.findByFirstNameIgnoreCaseAndLastNameIgnoreCase("Welke", "e-gitarre");
 		Musician welke = listContainingWelke.get(0);
 
-		assertThat(welke.getAddress().getCity()).isEqualTo(newCity);
+		assertThat(welke.getAddress().getCity()).isEqualTo(newAddress.getCity());
+	}
+
+	private EditForm createEditFormWithChangedDataForElke(String newFirstName, Address newAddress) {
+		List<Musician> listContainingElke = musicianRepository.findByFirstNameIgnoreCaseAndLastNameIgnoreCase("Elke", "e-gitarre");
+		Musician elke = listContainingElke.get(0);
+
+		EditForm editForm = new EditForm();
+		editForm.setFirstName(newFirstName);
+		editForm.setLastName(elke.getLastName());
+		editForm.setDescription(elke.getDescription());
+		editForm.setUsername(elke.getUsername());
+		editForm.setUsernameRepeated(elke.getUsername());
+		editForm.setPhone(elke.getPhone());
+		editForm.setBirthday(elke.getBirthday());
+		editForm.setGender(elke.getGender());
+		editForm.setPostCode(newAddress.getPostCode());
+		editForm.setCity(newAddress.getCity());
+		editForm.setGenres(elke.getFavoriteGenres());
+		editForm.setInstruments(elke.getInstruments());	
+		editForm.setImage(elke.getImage());
+		return editForm;
 	}
 
 }
