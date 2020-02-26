@@ -10,7 +10,7 @@ import lombok.Setter;
 @FieldMatch.List({
     @FieldMatch(first = "password", second = "passwordRepeated", message = "Die Passwortfelder sind nicht identisch. Bitte überprüfen!!!"),
 })
-public class EditForm extends MusicianForm{
+public class EditForm extends MusicianForm {
 
 	public EditForm() {
 		super();

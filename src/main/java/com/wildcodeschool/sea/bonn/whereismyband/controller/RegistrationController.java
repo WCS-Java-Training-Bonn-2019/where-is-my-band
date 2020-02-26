@@ -5,11 +5,13 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.wildcodeschool.sea.bonn.whereismyband.entity.Address;
@@ -50,9 +52,7 @@ public class RegistrationController{
 	@GetMapping("/register")
 	public String newMusicianGet(Model model) {
 		
-		model.addAttribute("allGenders", genderRepository.findAll());
-		model.addAttribute("allInstruments", instrumentRepository.findAll());
-		model.addAttribute("allGenres", genreRepository.findAll());
+		addAllGendersInstrumentsGenresToModel(model);
 	
 		model.addAttribute("isMusicianRegister", true);
 
@@ -61,31 +61,29 @@ public class RegistrationController{
 		RegistrationForm regForm= new RegistrationForm();
 		
 		// add (empty) RegForm object to the view model
-		model.addAttribute("registrationForm", regForm);
+		model.addAttribute("musicianForm", regForm);
 		
-		return "musicianupsert";
+		return "Musician/musicianupsert";
 	}
-	
+
 
 	@PostMapping("/register")
 	public String newMusicianPost( 
-			@Valid RegistrationForm regForm, 
+			@Valid @ModelAttribute("musicianForm") RegistrationForm regForm, 
 			BindingResult bindingResult, 
 			Model model) {
 
 		// Wenn Validierungsregeln nicht erfüllt
 		if (bindingResult.hasErrors()) {
-			// Zeige das Formular mit entsprechenden Fehlermeldungen wieder an
-			model.addAttribute("allGenders", genderRepository.findAll());
-			model.addAttribute("allInstruments", instrumentRepository.findAll());
-			model.addAttribute("allGenres", genreRepository.findAll());
+			addAllGendersInstrumentsGenresToModel(model);
 			model.addAttribute("isMusicianRegister", true);
 			model.addAttribute("registrationForm", regForm);
-			return "musicianupsert";
+			return "Musician/musicianupsert";
+
 		}
 
 		// Prüfe, ob der Benutzername bereits existiert
-		Optional<Musician> musicianOptionalFromDB = musicianRepository.findByUsername(regForm.getUsername());
+		Optional<Musician> musicianOptionalFromDB = musicianRepository.findByUsernameIgnoreCase(regForm.getUsername().toLowerCase());
 		if (musicianOptionalFromDB.isPresent()) {
 			model.addAttribute("message", "Der Benutzername \'"+ regForm.getUsername() + "\' existiert bereits in der Datenbank!");
 			return "soundmachineerror";
@@ -110,7 +108,7 @@ public class RegistrationController{
 			musician.setDescription(regForm.getDescription());
 		}
 	
-		musician.setUsername(regForm.getUsername());
+		musician.setUsername(regForm.getUsername().toLowerCase());
 		musician.setPassword(passwordEncoder.encode(regForm.getPassword()));
 		musician.setPhone(regForm.getPhone());
 		musician.setBirthday(regForm.getBirthday());
@@ -127,6 +125,13 @@ public class RegistrationController{
 		address.setCity(regForm.getCity());
 		address.setPostCode(regForm.getPostCode());
 		return address;
+	}
+
+
+	private void addAllGendersInstrumentsGenresToModel(Model model) {
+		model.addAttribute("allGenders", genderRepository.findAll(Sort.by("name")));
+		model.addAttribute("allInstruments", instrumentRepository.findAll(Sort.by("name")));
+		model.addAttribute("allGenres", genreRepository.findAll(Sort.by("name")));
 	}
 
 }

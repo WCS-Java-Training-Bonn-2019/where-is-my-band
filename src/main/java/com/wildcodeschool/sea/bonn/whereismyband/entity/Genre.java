@@ -19,7 +19,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class Genre {
+public class Genre implements Comparable<Genre>{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,5 +31,10 @@ public class Genre {
 	
 	@ManyToMany(mappedBy = "favoriteGenres")
 	private List<Musician> musicians = new ArrayList<>();
+
+	@Override
+	public int compareTo(Genre other) {
+		return this.getName().compareTo(other.getName());
+	}
 		
 }

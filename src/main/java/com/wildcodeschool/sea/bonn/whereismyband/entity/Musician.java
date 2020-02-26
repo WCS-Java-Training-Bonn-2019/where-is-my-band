@@ -2,9 +2,11 @@ package com.wildcodeschool.sea.bonn.whereismyband.entity;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -90,6 +92,25 @@ public class Musician implements UserDetails {
 
 	@Lob
 	private byte[] image;
+	
+	public List<Genre> getFavoriteGenresSortedByName() {
+		List<Genre> favoriteGenresSorted = new ArrayList<>(this.getFavoriteGenres());
+		Collections.sort(favoriteGenresSorted);
+		return favoriteGenresSorted;
+	}
+
+	public List<Instrument> getInstrumentsSortedByName() {
+		List<Instrument> instrumentsSorted = new ArrayList<>(this.getInstruments());
+		Collections.sort(instrumentsSorted);
+		return instrumentsSorted;
+	}
+	
+	public List<Band> getBandsSortedByName() {
+		List<Band> bandsSorted = new ArrayList<>(this.getBands());
+		Collections.sort(bandsSorted);
+		return bandsSorted;
+	}
+
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

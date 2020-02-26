@@ -11,12 +11,13 @@ import javax.validation.Valid;
 
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -24,12 +25,10 @@ import com.wildcodeschool.sea.bonn.whereismyband.entity.Address;
 import com.wildcodeschool.sea.bonn.whereismyband.entity.EditForm;
 import com.wildcodeschool.sea.bonn.whereismyband.entity.Musician;
 import com.wildcodeschool.sea.bonn.whereismyband.repository.AddressRepository;
-import com.wildcodeschool.sea.bonn.whereismyband.repository.BandRepository;
 import com.wildcodeschool.sea.bonn.whereismyband.repository.GenderRepository;
 import com.wildcodeschool.sea.bonn.whereismyband.repository.GenreRepository;
 import com.wildcodeschool.sea.bonn.whereismyband.repository.InstrumentRepository;
 import com.wildcodeschool.sea.bonn.whereismyband.repository.MusicianRepository;
-import com.wildcodeschool.sea.bonn.whereismyband.services.ImageService;
 
 @Controller
 @RequestMapping(value = { "/musician/", "/" })
@@ -40,25 +39,19 @@ public class MusicianController {
 	private final InstrumentRepository instrumentRepository;
 	private final GenreRepository genreRepository;
 	private final AddressRepository addressRepository;
-	private final ImageService imageService;
 	private final PasswordEncoder passwordEncoder;
-	private final BandRepository bandRepository;
-
 
 	@Autowired
 	public MusicianController(GenderRepository genderRepository, MusicianRepository musicianRepository,
 			InstrumentRepository instrumentRepository, GenreRepository genreRepository,
-			AddressRepository addressRepository, ImageService imageService, PasswordEncoder passwordEncoder,
-			BandRepository bandRepository) {
+			AddressRepository addressRepository, PasswordEncoder passwordEncoder) {
 		super();
 		this.genderRepository = genderRepository;
 		this.musicianRepository = musicianRepository;
 		this.instrumentRepository = instrumentRepository;
 		this.genreRepository = genreRepository;
 		this.addressRepository = addressRepository;
-		this.imageService = imageService;
 		this.passwordEncoder = passwordEncoder;
-		this.bandRepository = bandRepository;
 	}
 
 	/**
@@ -77,14 +70,6 @@ public class MusicianController {
 		return "index";
 	}
 
-	@GetMapping("list")
-	public String getAll(Model model) {
-
-		model.addAttribute("musicians", musicianRepository.findAll());
-
-		return "musicians";
-	}
-
 	/**
 	 * Controller which returns the editing form for a musician
 	 * @param model includes the musician and all of his attributes to prefill the form
@@ -97,9 +82,7 @@ public class MusicianController {
 		boolean isMusicianRegister = false;
 		Musician musician = getMusicianLoggedInFromDB(principal);
 
-		model.addAttribute("allGenders", genderRepository.findAll());
-		model.addAttribute("allInstruments", instrumentRepository.findAll());
-		model.addAttribute("allGenres", genreRepository.findAll());
+		addAllGendersInstrumentsGenresToModel(model);
 
 		model.addAttribute("musician", musician);
 		model.addAttribute("isMusicianRegister", isMusicianRegister);
@@ -110,7 +93,6 @@ public class MusicianController {
 		editForm.setFirstName(musician.getFirstName());
 		editForm.setLastName(musician.getLastName());
 		editForm.setDescription(musician.getDescription());
-		//editForm.setImage(musician.getImage());
 		editForm.setUsername(musician.getUsername());
 		editForm.setUsernameRepeated(musician.getUsername());
 		editForm.setPhone(musician.getPhone());
@@ -120,14 +102,13 @@ public class MusicianController {
 		editForm.setCity(musician.getAddress().getCity());
 		editForm.setGenres(musician.getFavoriteGenres());
 		editForm.setInstruments(musician.getInstruments());
-		model.addAttribute("registrationForm", editForm);
+		model.addAttribute("musicianForm", editForm);
 
-		return "musicianupsert";
+		return "Musician/musicianupsert";
 	}
 
 	/**
 	 * Controller which processes the editing form for a musician
-	 * ToDo: Route checken, darf der Benutzername geändert werden, Passwort (alt) eingeben
 	 * @param editForm
 	 * @param bindingResult
 	 * @param principal
@@ -135,52 +116,29 @@ public class MusicianController {
 	 * @return the musician detail page, if all went fine, otherwise the editing form again
 	 */
 	@PostMapping("/edit")
+	// Dem "form backing bean" muss hier explizit mit "@ModelAttribute" ein Namen gegeben werden, da der th:object-Tag im Template nicht auf den Klassennamen referenziert (hier "EditForm")
+	// http://forum.thymeleaf.org/Fields-object-functions-Spring-td3302513.html
 	public String editMusicianPost(
-
-			@Valid EditForm editForm, BindingResult bindingResult, Principal principal, Model model) {
+			@Valid @ModelAttribute("musicianForm") EditForm editForm, 
+			BindingResult bindingResult, 
+			Principal principal, 
+			Model model) {
 
 		boolean isMusicianRegister = false;
 		Musician musician = getMusicianLoggedInFromDB(principal);
 
-		// Wenn Validierungsregeln nicht erf<<<<<<< HEADüllt
+		// Wenn Validierungsregeln nicht erfüllt, zeige das Formular mit entsprechenden Fehlermeldungen wieder an.
+		// Die Form wird automatisch über die form backing bean gefüllt
+		// https://www.baeldung.com/spring-mvc-form-tutorial
 		if (bindingResult.hasErrors()) {
-			// Zeige das Formular mit entsprechenden Fehlermeldungen wieder an
-			model.addAttribute("allGenders", genderRepository.findAll());
-			model.addAttribute("allInstruments", instrumentRepository.findAll());
-			model.addAttribute("allGenres", genreRepository.findAll());
+			addAllGendersInstrumentsGenresToModel(model);
 			model.addAttribute("isMusicianRegister", isMusicianRegister);
 			model.addAttribute("musician", musician);
 			model.addAttribute("registrationForm", editForm);
-			return "musicianupsert";
+			return "Musician/musicianupsert";
 		}
 
-		musician.setFirstName(editForm.getFirstName());
-		musician.setLastName(editForm.getLastName());
-
-		if (editForm.getDescription() != null) {
-			musician.setDescription(editForm.getDescription());
-		}
-
-
-		if (!editForm.getPassword().isEmpty()) {
-			musician.setPassword(passwordEncoder.encode(editForm.getPassword()));
-		}
-		
-		musician.setPhone(editForm.getPhone());
-		musician.setBirthday(editForm.getBirthday());
-		musician.setGender(editForm.getGender());
-
-		Address address = new Address();
-		address.setCity(editForm.getCity());
-		address.setPostCode(editForm.getPostCode());
-		musician.setAddress(address);
-
-		musician.setFavoriteGenres(editForm.getGenres());
-		musician.setInstruments(editForm.getInstruments());
-		
-		if (editForm.getImage().length != 0) {
-			musician.setImage(editForm.getImage());
-		}
+		updateMusicianFromEditForm(editForm, musician);
 		
 		addressRepository.save(musician.getAddress());
 		musicianRepository.save(musician);
@@ -188,9 +146,7 @@ public class MusicianController {
 		return "redirect:view";
 	}
 
-
 	/**
-	 * Returns the Userdetail-Page
 	 * @param model
 	 * @param principal
 	 * @return the Userdetail-Page
@@ -199,7 +155,7 @@ public class MusicianController {
 	public String viewMusician(Model model, Principal principal) {
 		model.addAttribute("musician", getMusicianLoggedInFromDB(principal));
 
-		return "musiciandetails";
+		return "Musician/musiciandetails";
 	}
 
 	
@@ -213,7 +169,7 @@ public class MusicianController {
 	public void renderImageFromDB(Principal principal, HttpServletResponse response) throws IOException {
 
 		// retrieve musician
-		Optional<Musician> musicianOptional = musicianRepository.findByUsername(principal.getName());
+		Optional<Musician> musicianOptional = musicianRepository.findByUsernameIgnoreCase(principal.getName());
 
 		// if musician was found and image exists
 		if (musicianOptional.isPresent() && musicianOptional.get().getImage() != null) {
@@ -230,14 +186,6 @@ public class MusicianController {
 		}
 	}
 	
-
-	@GetMapping("delete")
-	public String deleteMusician(@PathVariable Long id) {
-
-		musicianRepository.deleteById(id);
-
-		return "redirect:list";
-	}
 	
 	/**
 	 * Returns the musician object found by the username of the loggedin user
@@ -245,7 +193,7 @@ public class MusicianController {
 	 * @return The musician found in DB by userName
 	 */
 	private Musician getMusicianLoggedInFromDB(Principal principal) {
-		Optional<Musician> musicianOptional = musicianRepository.findByUsername(principal.getName());
+		Optional<Musician> musicianOptional = musicianRepository.findByUsernameIgnoreCase(principal.getName());
 
 		if (!musicianOptional.isPresent()) {
 			throw new IllegalArgumentException("Angemeldeter Benutzer wurde nicht in der Datenbank gefunden.");
@@ -253,5 +201,46 @@ public class MusicianController {
 
 		Musician musicianLoggedIn = musicianOptional.get();
 		return musicianLoggedIn;
+	}
+	
+
+	/**
+	 * @param editForm The form backing bean with updated musician's data
+	 * @param musician The musician with changed musician data
+	 */
+	private void updateMusicianFromEditForm(EditForm editForm, Musician musician) {
+		musician.setFirstName(editForm.getFirstName());
+		musician.setLastName(editForm.getLastName());
+	
+		if (editForm.getDescription() != null) {
+			musician.setDescription(editForm.getDescription());
+		}
+	
+	
+		if (editForm.getPassword() != null && !editForm.getPassword().isEmpty()) {
+			musician.setPassword(passwordEncoder.encode(editForm.getPassword()));
+		}
+		
+		musician.setPhone(editForm.getPhone());
+		musician.setBirthday(editForm.getBirthday());
+		musician.setGender(editForm.getGender());
+	
+		Address address = new Address();
+		address.setCity(editForm.getCity());
+		address.setPostCode(editForm.getPostCode());
+		musician.setAddress(address);
+	
+		musician.setFavoriteGenres(editForm.getGenres());
+		musician.setInstruments(editForm.getInstruments());
+		
+		if (editForm.getImage() != null && editForm.getImage().length > 0) {
+			musician.setImage(editForm.getImage());
+		}
+	}
+
+	private void addAllGendersInstrumentsGenresToModel(Model model) {
+		model.addAttribute("allGenders", genderRepository.findAll(Sort.by("name")));
+		model.addAttribute("allInstruments", instrumentRepository.findAll(Sort.by("name")));
+		model.addAttribute("allGenres", genreRepository.findAll(Sort.by("name")));
 	}
 }
