@@ -106,11 +106,15 @@ class MusicianControllerTest {
 		//Then
 		assertThat(result.getResponse().getStatus()).isEqualTo(302);
 
-		List<Musician> listContainingWelke = musicianRepository
-				.findByFirstNameIgnoreCaseAndLastNameIgnoreCase("Welke", "e-gitarre");
-		Musician welke = listContainingWelke.get(0);
+		List<Musician> repositorySearchResult = musicianRepository
+				.findByFirstNameIgnoreCaseAndLastNameIgnoreCase("elke", "e-gitarre");
+		assertThat(repositorySearchResult).isEmpty();
 
-		assertThat(welke.getAddress().getCity()).isEqualTo(newAddress.getCity());
+		repositorySearchResult = musicianRepository
+				.findByFirstNameIgnoreCaseAndLastNameIgnoreCase("Welke", "e-gitarre");
+		Musician musicianFromDB = repositorySearchResult.get(0);
+		assertThat(musicianFromDB.getAddress().getCity()).isEqualTo(newAddress.getCity());
+
 	}
 
 	private EditForm createEditFormWithChangedDataForElke(String newFirstName, Address newAddress) {
