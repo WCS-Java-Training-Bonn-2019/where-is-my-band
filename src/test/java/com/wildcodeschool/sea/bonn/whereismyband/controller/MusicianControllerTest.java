@@ -90,7 +90,7 @@ class MusicianControllerTest {
 		//Given | Arrange
 
 		String newFirstName = "Welke";
-		Address newAddress = new Address("53757", "Sankt Augustin");
+		Address newAddress = new Address();
 
 		EditForm editForm = createEditFormWithChangedDataForElke(newFirstName, newAddress);
 

@@ -104,7 +104,6 @@
 				<form method="get" th:action="@{'/band/' + ${band.id} + '/edit'}"
 					th:object="${band}">
 					<div th:if="${band.owner.id == musician.id}">
-						<input name="ownerid" th:field="*{owner.id}" type="hidden">
 						<input class="btn btn-primary btnedit" type="submit"
 							value="Bearbeiten">
 					</div>
