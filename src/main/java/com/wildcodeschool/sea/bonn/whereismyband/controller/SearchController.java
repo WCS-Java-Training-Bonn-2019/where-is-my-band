@@ -35,8 +35,9 @@ public class SearchController {
 	private final MusicianRepository musicianRepository;
 
 	@Autowired
-	public SearchController(GenreRepository genreRepository, InstrumentRepository instrumentRepository,
-			BandRepository bandRepository, MusicianRepository musicianRepository) {
+	public SearchController(GenreRepository genreRepository,
+			InstrumentRepository instrumentRepository, BandRepository bandRepository,
+			MusicianRepository musicianRepository) {
 		super();
 		this.genreRepository = genreRepository;
 		this.instrumentRepository = instrumentRepository;
@@ -48,7 +49,8 @@ public class SearchController {
 	public String searchBandsGet(Model model, Principal principal) {
 
 		if (principal != null) {
-			Optional<Musician> musicianOptional = musicianRepository.findByUsernameIgnoreCase(principal.getName());
+			Optional<Musician> musicianOptional = musicianRepository
+					.findByUsernameIgnoreCase(principal.getName());
 
 			model.addAttribute("musician", musicianOptional.get());
 		}
@@ -61,7 +63,7 @@ public class SearchController {
 
 	@PostMapping("/search")
 	public String searchBandsPost(Model model, Principal principal,
-			@RequestParam(required = true, name ="positionState") PositionState positionState,
+			@RequestParam(required = true, name = "positionState") PositionState positionState,
 			@RequestParam(required = false, name = "zipcode") String postCode,
 			@RequestParam(required = false, name = "city") String city,
 			@RequestParam(required = false, name = "instrument") String instrument,
@@ -70,9 +72,8 @@ public class SearchController {
 		List<Band> searchResult = null;
 
 		// if only postCode or citySet are set
-		if 	( ((postCode != null && postCode.length() > 0) || (city != null &&  city.length() > 0))
-				&& "".equals(instrument)
-				&& "".equals(genre)) {
+		if (((postCode != null && postCode.length() > 0) || (city != null && city.length() > 0))
+				&& "".equals(instrument) && "".equals(genre)) {
 			searchResult = searchBandsByPostcodeOrCityViaExample(positionState, postCode, city);
 		} else {
 
@@ -81,30 +82,46 @@ public class SearchController {
 					if (!"".equals(instrument)) {
 
 						if (!"".equals(genre)) {
-							searchResult = bandRepository.findDistinctByBandPositionsStateAndAddressPostCodeStartingWithAndAddressCityIgnoreCaseAndBandPositionsInstrumentNameAndFavoriteGenresName(positionState, postCode, city, instrument, genre);
+							searchResult = bandRepository
+									.findDistinctByBandPositionsStateAndAddressPostCodeStartingWithAndAddressCityIgnoreCaseAndBandPositionsInstrumentNameAndFavoriteGenresName(
+											positionState, postCode, city, instrument, genre);
 						} else {
-							searchResult = bandRepository.findDistinctByBandPositionsStateAndAddressPostCodeStartingWithAndAddressCityIgnoreCaseAndBandPositionsInstrumentName(positionState, postCode, city, instrument);
-						}					
+							searchResult = bandRepository
+									.findDistinctByBandPositionsStateAndAddressPostCodeStartingWithAndAddressCityIgnoreCaseAndBandPositionsInstrumentName(
+											positionState, postCode, city, instrument);
+						}
 					} else {
 						if (!"".equals(genre)) {
-							searchResult = bandRepository.findDistinctByBandPositionsStateAndAddressPostCodeStartingWithAndAddressCityIgnoreCaseAndFavoriteGenresName(positionState, postCode, city, genre);
+							searchResult = bandRepository
+									.findDistinctByBandPositionsStateAndAddressPostCodeStartingWithAndAddressCityIgnoreCaseAndFavoriteGenresName(
+											positionState, postCode, city, genre);
 						} else {
-							// postCode and city are set / instrument and genre are not set => covered by searchBandsByPostcodeOrCityViaExample()
-						}	
+							// postCode and city are set / instrument and genre
+							// are not set => covered by
+							// searchBandsByPostcodeOrCityViaExample()
+						}
 					}
 				} else {
 					// postcode is set, city is not set
 					if (!"".equals(instrument)) {
 						if (!"".equals(genre)) {
-							searchResult = bandRepository.findDistinctByBandPositionsStateAndAddressPostCodeStartingWithAndBandPositionsInstrumentNameAndFavoriteGenresName(positionState, postCode, instrument, genre);
+							searchResult = bandRepository
+									.findDistinctByBandPositionsStateAndAddressPostCodeStartingWithAndBandPositionsInstrumentNameAndFavoriteGenresName(
+											positionState, postCode, instrument, genre);
 						} else {
-							searchResult = bandRepository.findDistinctByBandPositionsStateAndAddressPostCodeStartingWithAndBandPositionsInstrumentName(positionState, postCode, instrument);
-						}					
+							searchResult = bandRepository
+									.findDistinctByBandPositionsStateAndAddressPostCodeStartingWithAndBandPositionsInstrumentName(
+											positionState, postCode, instrument);
+						}
 					} else {
 						if (!"".equals(genre)) {
-							searchResult = bandRepository.findDistinctByBandPositionsStateAndAddressPostCodeStartingWithAndFavoriteGenresName(positionState, postCode, genre);
+							searchResult = bandRepository
+									.findDistinctByBandPositionsStateAndAddressPostCodeStartingWithAndFavoriteGenresName(
+											positionState, postCode, genre);
 						} else {
-							// postCode is set / city, instrument and genre are not set => covered by searchBandsByPostcodeOrCityViaExample()						}	
+							// postCode is set / city, instrument and genre are
+							// not set => covered by
+							// searchBandsByPostcodeOrCityViaExample() }
 						}
 					}
 				}
@@ -113,44 +130,61 @@ public class SearchController {
 				if (!"".equals(city)) {
 					if (!"".equals(instrument)) {
 						if (!"".equals(genre)) {
-							searchResult = bandRepository.findDistinctByBandPositionsStateAndAddressCityIgnoreCaseAndBandPositionsInstrumentNameAndFavoriteGenresName(positionState, city, instrument, genre);
+							searchResult = bandRepository
+									.findDistinctByBandPositionsStateAndAddressCityIgnoreCaseAndBandPositionsInstrumentNameAndFavoriteGenresName(
+											positionState, city, instrument, genre);
 						} else {
-							searchResult = bandRepository.findDistinctByBandPositionsStateAndAddressCityIgnoreCaseAndBandPositionsInstrumentName(positionState, city, instrument);
-						}					
+							searchResult = bandRepository
+									.findDistinctByBandPositionsStateAndAddressCityIgnoreCaseAndBandPositionsInstrumentName(
+											positionState, city, instrument);
+						}
 					} else {
 						if (!"".equals(genre)) {
-							searchResult = bandRepository.findDistinctByBandPositionsStateAndAddressCityIgnoreCaseAndFavoriteGenresName(positionState, city, genre);
+							searchResult = bandRepository
+									.findDistinctByBandPositionsStateAndAddressCityIgnoreCaseAndFavoriteGenresName(
+											positionState, city, genre);
 						} else {
-							// city is set / postCode, instrument and genre are not set => covered by searchBandsByPostcodeOrCityViaExample()						}	
-						}	
+							// city is set / postCode, instrument and genre are
+							// not set => covered by
+							// searchBandsByPostcodeOrCityViaExample() }
+						}
 					}
 				} else {
 					if (!"".equals(instrument)) {
 						if (!"".equals(genre)) {
-							searchResult = bandRepository.findDistinctByBandPositionsStateAndBandPositionsInstrumentNameAndFavoriteGenresName(positionState, instrument, genre);
+							searchResult = bandRepository
+									.findDistinctByBandPositionsStateAndBandPositionsInstrumentNameAndFavoriteGenresName(
+											positionState, instrument, genre);
 						} else {
-							searchResult = bandRepository.findDistinctByBandPositionsStateAndBandPositionsInstrumentName(positionState, instrument);
-						}					
+							searchResult = bandRepository
+									.findDistinctByBandPositionsStateAndBandPositionsInstrumentName(
+											positionState, instrument);
+						}
 					} else {
 						if (!"".equals(genre)) {
-							searchResult = bandRepository.findDistinctByBandPositionsStateAndFavoriteGenresName(positionState, genre);
+							searchResult = bandRepository
+									.findDistinctByBandPositionsStateAndFavoriteGenresName(
+											positionState, genre);
 						} else {
-							// nur Positionsstatus wurde als Suchkriterium angegeben
-							searchResult = bandRepository.findDistinctByBandPositionsState(positionState);
-						}	
+							// nur Positionsstatus wurde als Suchkriterium
+							// angegeben
+							searchResult = bandRepository
+									.findDistinctByBandPositionsState(positionState);
+						}
 					}
 				}
 			}
 		}
 
 		if (principal != null) {
-			Optional<Musician> musicianOptional = musicianRepository.findByUsernameIgnoreCase(principal.getName());
+			Optional<Musician> musicianOptional = musicianRepository
+					.findByUsernameIgnoreCase(principal.getName());
 
 			model.addAttribute("musician", musicianOptional.get());
 		}
 
 		// sort result in alphabetical order regarding band name
-		List<Band> searchResultSorted=null; 
+		List<Band> searchResultSorted = null;
 		if (searchResult != null) {
 			searchResultSorted = new ArrayList<>(searchResult);
 			Collections.sort(searchResultSorted);
@@ -173,7 +207,8 @@ public class SearchController {
 		model.addAttribute("allPositionStates", PositionState.values());
 	}
 
-	private List<Band> searchBandsByPostcodeOrCityViaExample(PositionState positionState, String postCode, String city) {
+	private List<Band> searchBandsByPostcodeOrCityViaExample(PositionState positionState,
+			String postCode, String city) {
 
 		Band exampleBand = new Band();
 
@@ -182,21 +217,21 @@ public class SearchController {
 		boolean cityIsSet = (city != null && city.length() > 0);
 
 		List<Band> searchResult;
-		Address exampleAddress = new Address();		
+		Address exampleAddress = new Address();
 		// set search address in example band
 		if (postCodeIsSet)
 			exampleAddress.setPostCode(postCode);
-		if (cityIsSet) 
+		if (cityIsSet)
 			exampleAddress.setCity(city);
-		exampleBand.setAddress(exampleAddress);		
+		exampleBand.setAddress(exampleAddress);
 
-		ExampleMatcher exampleMatcher = ExampleMatcher
-				.matchingAll()
-				.withMatcher("address.postCode", ExampleMatcher.GenericPropertyMatchers.startsWith())
-				.withMatcher("address.city", ExampleMatcher.GenericPropertyMatchers.startsWith().ignoreCase());
+		ExampleMatcher exampleMatcher = ExampleMatcher.matchingAll()
+				.withMatcher("address.postCode",
+						ExampleMatcher.GenericPropertyMatchers.startsWith())
+				.withMatcher("address.city",
+						ExampleMatcher.GenericPropertyMatchers.startsWith().ignoreCase());
 
-		searchResult = 
-				bandRepository.findAll(Example.of(exampleBand, exampleMatcher));
+		searchResult = bandRepository.findAll(Example.of(exampleBand, exampleMatcher));
 
 		// Check, if positionState fits at least for one Bandposition
 		boolean onePositionStateFits = false;
@@ -209,7 +244,7 @@ public class SearchController {
 		}
 
 		if (!onePositionStateFits) {
-			return null;			
+			return null;
 		}
 
 		return searchResult;
