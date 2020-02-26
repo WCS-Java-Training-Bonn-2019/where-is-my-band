@@ -10,12 +10,17 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithUserDetails;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
+import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.context.WebApplicationContext;
 
 import com.wildcodeschool.sea.bonn.whereismyband.entity.Band;
 import com.wildcodeschool.sea.bonn.whereismyband.entity.Instrument;
@@ -27,9 +32,15 @@ import com.wildcodeschool.sea.bonn.whereismyband.repository.MusicianRepository;
 
 @SpringBootTest
 @Transactional
+@WithUserDetails("elke@e-gitarre.de")
+//set property file to be used here (to be saved in /src/test/resources)
+@TestPropertySource("classpath:/h2-application.properties")
 class SearchControllerTest {
 
 	MockMvc mock;
+
+	@Autowired
+	private WebApplicationContext context;
 
 	@Autowired
 	private BandRepository bandRepository;
@@ -46,7 +57,10 @@ class SearchControllerTest {
 	@BeforeEach
 	void setup() {
 		SearchController underTest = new SearchController(genreRepository, instrumentRepository, bandRepository, musicianRepository);
-		mock = MockMvcBuilders.standaloneSetup(underTest).build();
+		mock = MockMvcBuilders
+				.webAppContextSetup(context)
+				.apply(SecurityMockMvcConfigurers.springSecurity())
+				.build();
 	}
 
 	@Test
@@ -55,7 +69,10 @@ class SearchControllerTest {
 		//Given | Arrange
 
 		//When | Act
-		MvcResult result = mock.perform(MockMvcRequestBuilders.get("/search").with(user("elke@e-gitarre").password("elke"))).andReturn();
+		MvcResult result = mock
+				.perform(MockMvcRequestBuilders
+						.get("/search"))
+				.andReturn();
 		//Then | Assert
 
 		assertThat(result.getResponse().getStatus()).isEqualTo(200);
@@ -74,7 +91,7 @@ class SearchControllerTest {
 
 		//When
 		MvcResult result = mock.perform(MockMvcRequestBuilders.post("/search")
-				.with(user("elke@e-gitarre").password("elke"))
+				.with(SecurityMockMvcRequestPostProcessors.csrf()) 
 				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
 				.param("positionState", "OFFEN")
 				.param("zipcode", "")
@@ -98,7 +115,7 @@ class SearchControllerTest {
 
 		//When
 		MvcResult result = mock.perform(MockMvcRequestBuilders.post("/search")
-				.with(user("elke@e-gitarre").password("elke"))
+				.with(SecurityMockMvcRequestPostProcessors.csrf()) 
 				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
 				.param("positionState", "OFFEN")
 				.param("zipcode", "21")
@@ -122,7 +139,7 @@ class SearchControllerTest {
 
 		//When
 		MvcResult result = mock.perform(MockMvcRequestBuilders.post("/search")
-				.with(user("elke@e-gitarre").password("elke"))
+				.with(SecurityMockMvcRequestPostProcessors.csrf()) 
 				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
 				.param("positionState", "BESETZT")
 				.param("zipcode", "51429")
@@ -146,7 +163,7 @@ class SearchControllerTest {
 
 		//When
 		MvcResult result = mock.perform(MockMvcRequestBuilders.post("/search")
-				.with(user("elke@e-gitarre").password("elke"))
+				.with(SecurityMockMvcRequestPostProcessors.csrf()) 
 				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
 				.param("positionState", "OFFEN")
 				.param("zipcode", "11111")

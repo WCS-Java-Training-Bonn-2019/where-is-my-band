@@ -12,9 +12,9 @@ import com.wildcodeschool.sea.bonn.whereismyband.entity.Musician;
 @Repository
 public interface MusicianRepository extends JpaRepository<Musician, Long> {
 	
-	public List<Musician> findByFirstNameAndLastNameAndBirthday(String firstName, String lastName, LocalDate birthday);
-	public List<Musician> findByFirstNameAndLastName(String firstName, String lastName);
-	public Optional<Musician> findByUsername(String username);
+	public List<Musician> findByFirstNameIgnoreCaseAndLastNameIgnoreCaseAndBirthday(String firstName, String lastName, LocalDate birthday);
+	public List<Musician> findByFirstNameIgnoreCaseAndLastNameIgnoreCase(String firstName, String lastName);
+	public Optional<Musician> findByUsernameIgnoreCase(String username);
 	
 
 }

@@ -48,7 +48,7 @@ public class SearchController {
 	public String searchBandsGet(Model model, Principal principal) {
 
 		if (principal != null) {
-			Optional<Musician> musicianOptional = musicianRepository.findByUsername(principal.getName());
+			Optional<Musician> musicianOptional = musicianRepository.findByUsernameIgnoreCase(principal.getName());
 
 			model.addAttribute("musician", musicianOptional.get());
 		}
@@ -82,13 +82,13 @@ public class SearchController {
 					if (!"".equals(instrument)) {
 
 						if (!"".equals(genre)) {
-							searchResult = bandRepository.findDistinctByBandPositionsStateAndAddressPostCodeStartingWithAndAddressCityAndBandPositionsInstrumentNameAndFavoriteGenresName(positionState, postCode, city, instrument, genre);
+							searchResult = bandRepository.findDistinctByBandPositionsStateAndAddressPostCodeStartingWithAndAddressCityIgnoreCaseAndBandPositionsInstrumentNameAndFavoriteGenresName(positionState, postCode, city, instrument, genre);
 						} else {
-							searchResult = bandRepository.findDistinctByBandPositionsStateAndAddressPostCodeStartingWithAndAddressCityAndBandPositionsInstrumentName(positionState, postCode, city, instrument);
+							searchResult = bandRepository.findDistinctByBandPositionsStateAndAddressPostCodeStartingWithAndAddressCityIgnoreCaseAndBandPositionsInstrumentName(positionState, postCode, city, instrument);
 						}					
 					} else {
 						if (!"".equals(genre)) {
-							searchResult = bandRepository.findDistinctByBandPositionsStateAndAddressPostCodeStartingWithAndAddressCityAndFavoriteGenresName(positionState, postCode, city, genre);
+							searchResult = bandRepository.findDistinctByBandPositionsStateAndAddressPostCodeStartingWithAndAddressCityIgnoreCaseAndFavoriteGenresName(positionState, postCode, city, genre);
 						} else {
 							// postCode and city are set / instrument and genre are not set => covered by searchBandsByPostcodeOrCityViaExample()
 						}	
@@ -114,13 +114,13 @@ public class SearchController {
 				if (!"".equals(city)) {
 					if (!"".equals(instrument)) {
 						if (!"".equals(genre)) {
-							searchResult = bandRepository.findDistinctByBandPositionsStateAndAddressCityAndBandPositionsInstrumentNameAndFavoriteGenresName(positionState, city, instrument, genre);
+							searchResult = bandRepository.findDistinctByBandPositionsStateAndAddressCityIgnoreCaseAndBandPositionsInstrumentNameAndFavoriteGenresName(positionState, city, instrument, genre);
 						} else {
-							searchResult = bandRepository.findDistinctByBandPositionsStateAndAddressCityAndBandPositionsInstrumentName(positionState, city, instrument);
+							searchResult = bandRepository.findDistinctByBandPositionsStateAndAddressCityIgnoreCaseAndBandPositionsInstrumentName(positionState, city, instrument);
 						}					
 					} else {
 						if (!"".equals(genre)) {
-							searchResult = bandRepository.findDistinctByBandPositionsStateAndAddressCityAndFavoriteGenresName(positionState, city, genre);
+							searchResult = bandRepository.findDistinctByBandPositionsStateAndAddressCityIgnoreCaseAndFavoriteGenresName(positionState, city, genre);
 						} else {
 							// city is set / postCode, instrument and genre are not set => covered by searchBandsByPostcodeOrCityViaExample()						}	
 						}	
@@ -145,7 +145,7 @@ public class SearchController {
 		}
 
 		if (principal != null) {
-			Optional<Musician> musicianOptional = musicianRepository.findByUsername(principal.getName());
+			Optional<Musician> musicianOptional = musicianRepository.findByUsernameIgnoreCase(principal.getName());
 
 			model.addAttribute("musician", musicianOptional.get());
 		}

@@ -169,7 +169,7 @@ public class MusicianController {
 	public void renderImageFromDB(Principal principal, HttpServletResponse response) throws IOException {
 
 		// retrieve musician
-		Optional<Musician> musicianOptional = musicianRepository.findByUsername(principal.getName());
+		Optional<Musician> musicianOptional = musicianRepository.findByUsernameIgnoreCase(principal.getName());
 
 		// if musician was found and image exists
 		if (musicianOptional.isPresent() && musicianOptional.get().getImage() != null) {
@@ -193,7 +193,7 @@ public class MusicianController {
 	 * @return The musician found in DB by userName
 	 */
 	private Musician getMusicianLoggedInFromDB(Principal principal) {
-		Optional<Musician> musicianOptional = musicianRepository.findByUsername(principal.getName());
+		Optional<Musician> musicianOptional = musicianRepository.findByUsernameIgnoreCase(principal.getName());
 
 		if (!musicianOptional.isPresent()) {
 			throw new IllegalArgumentException("Angemeldeter Benutzer wurde nicht in der Datenbank gefunden.");
@@ -217,7 +217,7 @@ public class MusicianController {
 		}
 	
 	
-		if (!editForm.getPassword().isEmpty()) {
+		if (editForm.getPassword() != null && !editForm.getPassword().isEmpty()) {
 			musician.setPassword(passwordEncoder.encode(editForm.getPassword()));
 		}
 		
@@ -233,7 +233,7 @@ public class MusicianController {
 		musician.setFavoriteGenres(editForm.getGenres());
 		musician.setInstruments(editForm.getInstruments());
 		
-		if (editForm.getImage().length != 0) {
+		if (editForm.getImage() != null && editForm.getImage().length > 0) {
 			musician.setImage(editForm.getImage());
 		}
 	}
