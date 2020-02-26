@@ -85,6 +85,6 @@ class BandControllerTest {
 		Optional<Band> bandO = bandRepository.findByName("BCDC");
 		assertThat(bandO.isPresent()).isTrue();
 		bandO = bandRepository.findByName("ACDC");
-		assertThat(bandO.isEmpty()).isTrue();
+		assertThat(bandO.isPresent()).isFalse();
 	}
 }
