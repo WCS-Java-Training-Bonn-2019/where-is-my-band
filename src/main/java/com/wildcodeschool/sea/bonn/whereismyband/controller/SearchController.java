@@ -229,7 +229,7 @@ public class SearchController {
 				.withMatcher("address.postCode",
 						ExampleMatcher.GenericPropertyMatchers.startsWith())
 				.withMatcher("address.city",
-						ExampleMatcher.GenericPropertyMatchers.startsWith().ignoreCase());
+						ExampleMatcher.GenericPropertyMatchers.exact().ignoreCase());
 
 		searchResult = bandRepository.findAll(Example.of(exampleBand, exampleMatcher));
 
