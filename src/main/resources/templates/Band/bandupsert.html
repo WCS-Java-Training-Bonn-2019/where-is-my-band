@@ -66,18 +66,17 @@
 
 						<div class="card-body">
 							<label th:for="*{name}">Name:</label>
-							<input class="form-control" type="text" placeholder="Bandname"
-								required th:field="*{name}" />
-							<small class="invalid-feedback"
-								th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Bandnamensfehler</small>
+							<input class="form-control" type="text" placeholder="Bandname" required
+								th:field="*{name}" />
+							<small class="invalid-feedback" th:if="${#fields.hasErrors('name')}"
+								th:errors="*{name}">Bandnamensfehler</small>
 						</div>
 						<div class="card-body">
 							<label th:for="*{description}">Beschreibung:</label>
 							<textarea class="form-control" rows="5" cols="50"
 								th:field="*{description}">Eine Beschreibung der Band!</textarea>
 							<small class="invalid-feedback"
-								th:if="${#fields.hasErrors('description')}"
-								th:errors="*{description}">Beschreibungsfehler</small>
+								th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Beschreibungsfehler</small>
 						</div>
 
 					</div>
@@ -86,28 +85,27 @@
 					<div class="card descriptioncard">
 						<div class="form-group">
 							<label th:for="*{email}">Email:</label>
-							<input class="form-control" type="email" placeholder="Email"
-								required th:field="*{email}" />
-							<small class="invalid-feedback"
-								th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Emailfehler</small>
+							<input class="form-control" type="email" placeholder="Email" required
+								th:field="*{email}" />
+							<small class="form-text" th:if="${#fields.hasErrors('email')}"
+								th:errors="*{email}">Emailfehler</small>
 							<label th:for="*{phone}">Phone:</label>
-							<input class="form-control" type="text" placeholder="Phone"
-								required th:field="*{phone}" />
-							<small class="invalid-feedback"
-								th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">Telefonfehler</small>
+							<input class="form-control" type="text" placeholder="Telefon" required
+								th:field="*{phone}" />
+							<small class="form-text" th:if="${#fields.hasErrors('phone')}"
+								th:errors="*{phone}">Telefonfehler</small>
 							<label th:for="*{address.postCode}">PLZ:</label>
-							<input class="form-control" type="text"
-								placeholder="Postleitzahl" required
-								th:field="*{address.postCode}" />
-							<small class="invalid-feedback"
+							<input class="form-control" type="text" placeholder="Postleitzahl"
+								pattern="^[0-9]{5}$" title="Bitte eine fünfstellige PLZ eingeben"
+								required th:field="*{address.postCode}" />
+							<small class="form-text"
 								th:if="${#fields.hasErrors('address.postCode')}"
 								th:errors="*{address.postCode}">Telefonfehler</small>
 							<label th:for="*{address.city}">Stadt:</label>
-							<input class="form-control" type="text" placeholder="Stadt"
-								required th:field="*{address.city}" />
-							<small class="invalid-feedback"
-								th:if="${#fields.hasErrors('address.city')}"
-								th:errors="*{address.city}">Stadtfehler</small>
+							<input class="form-control" type="text" placeholder="Stadt" required
+								th:field="*{address.city}" />
+							<small class="form-text"
+								th:if="${#fields.hasErrors('address.city')}" th:errors="*{address.city}">Stadtfehler</small>
 						</div>
 					</div>
 
@@ -121,8 +119,7 @@
 											th:field="*{favoriteGenres}" />
 									</td>
 									<td>
-										<label th:for="${#ids.prev('favoriteGenres')}"
-											th:text="${genre.name}">Kuschelrock</label>
+										<label th:for="${#ids.prev('favoriteGenres')}" th:text="${genre.name}">Kuschelrock</label>
 									</td>
 								</tr>
 							</table>
@@ -137,9 +134,12 @@
 							type="hidden" />
 						<input th:field="*{bandPositions[__${positionStat.index}__].band.id}"
 							type="hidden" />
-						<input th:field="*{bandPositions[__${positionStat.index}__].instrument.id}"
+						<input
+							th:field="*{bandPositions[__${positionStat.index}__].instrument.id}"
 							type="hidden" />
-
+						<input
+							th:field="*{bandPositions[__${positionStat.index}__].instrument.name}"
+							type="hidden" />
 						<h5 class="card-header" th:text="${position.instrument.name}">Posaune</h5>
 						<select class="custom-select"
 							th:field="*{bandPositions[__${positionStat.index}__].state}">
@@ -162,12 +162,12 @@
 					th:object="${Position}">
 					<div class="input-group">
 						<div class="input-group-prepend">
-							<input type="submit" class="selectbtn btn btn-primary"
-								value="Hinzufügen"></input>
+							<input type="submit" class="selectbtn btn btn-primary" value="Hinzufügen"></input>
 						</div>
 						<div class="width-25percent">
-							<select class="custom-select" th:name="instrID" th:id="instrID">
-								<option selected>Bitte Instrument wählen...</option>
+							<select class="custom-select" th:name="instrID" th:id="instrID" required>
+								<option value="" disabled selected>Bitte Instrument
+									auswählen...</option>
 								<option th:each="instrument : ${allInstruments}"
 									th:value="${instrument.id}" th:text="${instrument.name}">
 									Geige</option>
@@ -176,8 +176,7 @@
 					</div>
 				</form>
 			</div>
-			<a class="btn btn-secondary btnback" href="#"
-				onclick="history.go(-1)">Zurück</a>
+			<a class="btn btn-secondary btnback" href="#" onclick="history.go(-1)">Zurück</a>
 		</div>
 	</main>
 	<footer th:replace="index :: footer"></footer>
