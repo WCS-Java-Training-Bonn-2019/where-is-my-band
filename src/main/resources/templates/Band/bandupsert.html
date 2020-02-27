@@ -132,7 +132,8 @@
 				<h4 th:if="${band.id}">Bandpositionen</h4>
 				<div th:if="${band.id}" class="cardcontainer">
 					<div class="card descriptioncard"
-						th:each="position, positionStat : *{bandPositionsSortedByInstrument}">
+						th:each="position, positionStat : *{bandPositions}">
+						<p th:text="${position.id}"></p>
 						<input name="${position.id}"
 							th:field="*{bandPositions[__${positionStat.index}__].id}"
 							type="hidden" />
