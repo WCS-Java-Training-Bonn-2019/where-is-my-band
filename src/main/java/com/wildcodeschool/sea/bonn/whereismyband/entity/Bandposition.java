@@ -25,8 +25,6 @@ public class Bandposition {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private Integer ageFrom;
-	private Integer ageTo;
 
 	@ManyToOne
 	@JoinColumn(name = "band_id")

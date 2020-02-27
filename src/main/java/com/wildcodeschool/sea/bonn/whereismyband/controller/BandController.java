@@ -232,8 +232,6 @@ public class BandController {
 		bandPosition.setInstrument(instrument);
 		bandPosition.setBand(band);
 		bandPosition.setState(PositionState.OFFEN);
-		bandPosition.setAgeFrom(20);
-		bandPosition.setAgeTo(70);
 		bandPositionsRepository.save(bandPosition);
 
 		return "redirect:/band/" + bandID + "/edit";

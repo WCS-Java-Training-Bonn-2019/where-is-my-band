@@ -133,21 +133,14 @@
 				<div th:if="${band.id}" class="cardcontainer">
 					<div class="card descriptioncard"
 						th:each="position, positionStat : *{bandPositions}">
-						<input name="${position.id}"
-							th:field="*{bandPositions[__${positionStat.index}__].id}"
+						<input th:field="*{bandPositions[__${positionStat.index}__].id}"
 							type="hidden" />
-						<input name="${position.band.id}"
-							th:field="*{bandPositions[__${positionStat.index}__].band.id}"
+						<input th:field="*{bandPositions[__${positionStat.index}__].band.id}"
 							type="hidden" />
-						<input name="${position.instrument.id}"
-							th:field="*{bandPositions[__${positionStat.index}__].instrument.id}"
+						<input th:field="*{bandPositions[__${positionStat.index}__].instrument.id}"
 							type="hidden" />
 
 						<h5 class="card-header" th:text="${position.instrument.name}">Posaune</h5>
-						<input class="form-control bandpositioncontrol" type="number"
-							th:field="*{bandPositions[__${positionStat.index}__].ageFrom}" />
-						<input class="form-control bandpositioncontrol" type="number"
-							th:field="*{bandPositions[__${positionStat.index}__].ageTo}" />
 						<select class="custom-select"
 							th:field="*{bandPositions[__${positionStat.index}__].state}">
 							<option th:each="state : ${positionStates}" th:value="${state}"
