@@ -19,6 +19,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.wildcodeschool.sea.bonn.whereismyband.constraints.PhoneNumberConstraint;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -35,6 +37,7 @@ public class Band implements Comparable<Band> {
 	private String name;
 	private String description;
 	private String email;
+	@PhoneNumberConstraint
 	private String phone;
 
 	@ManyToMany

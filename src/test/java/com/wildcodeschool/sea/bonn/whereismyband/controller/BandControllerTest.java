@@ -23,6 +23,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.wildcodeschool.sea.bonn.whereismyband.entity.Band;
+import com.wildcodeschool.sea.bonn.whereismyband.entity.Bandposition;
+import com.wildcodeschool.sea.bonn.whereismyband.entity.PositionState;
 import com.wildcodeschool.sea.bonn.whereismyband.repository.BandRepository;
 
 @SpringBootTest
@@ -64,7 +66,7 @@ class BandControllerTest {
 	}
 
 	@Test
-	void shouldEditBandProfile() throws Exception {
+	void shouldChangeBandName() throws Exception {
 		
 		//Given | Arrange
 		Band band = bandRepository.findByName("ACDC").get();
@@ -86,5 +88,31 @@ class BandControllerTest {
 		assertThat(bandO.isPresent()).isTrue();
 		bandO = bandRepository.findByName("ACDC");
 		assertThat(bandO.isPresent()).isFalse();
+	}
+	
+	@Test
+	void shouldChangeFirstBandPosition() throws Exception {
+		
+		//Given | Arrange
+		Band band = bandRepository.findByName("ACDC").get();		
+		PositionState pStateOld = band.getBandPositions().get(0).getState();
+		PositionState pStateNew = (pStateOld == PositionState.BESETZT) ? PositionState.OFFEN : PositionState.BESETZT;
+		band.getBandPositions().get(0).setState(pStateNew);		
+		
+		//When | Act
+		MvcResult result = mock
+				.perform(MockMvcRequestBuilders
+						.post("/band/" + band.getId() + "/edit")
+				.with(SecurityMockMvcRequestPostProcessors.csrf()) 
+				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
+				.flashAttr("band", band)).andReturn();
+				
+		//Then | Assert
+		assertThat(result.getResponse().getStatus()).isEqualTo(302);
+		
+		Optional<Band> bandO = bandRepository.findByName("ACDC");
+		assertThat(bandO.isPresent()).isTrue();
+		band = bandO.get();
+		assertThat(band.getBandPositions().get(0).getState()).isEqualTo(pStateNew);
 	}
 }

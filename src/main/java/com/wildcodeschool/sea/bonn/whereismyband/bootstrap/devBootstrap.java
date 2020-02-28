@@ -235,8 +235,6 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 			Bandposition bandpos1 = new Bandposition();
 			bandpos1.setInstrument(schlagzeug);
 			bandpos1.setBand(acdc);
-			bandpos1.setAgeFrom(20);
-			bandpos1.setAgeTo(30);
 			bandpos1.setState(PositionState.BESETZT);
 			bandpositionRepository.save(bandpos1);
 
@@ -244,8 +242,6 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 			Bandposition bandpos2 = new Bandposition();
 			bandpos2.setInstrument(keyboard);
 			bandpos2.setBand(acdc);
-			bandpos2.setAgeFrom(25);
-			bandpos2.setAgeTo(45);
 			bandpos2.setState(PositionState.OFFEN);
 			bandpositionRepository.save(bandpos2);		
 
@@ -253,8 +249,6 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 			Bandposition bandpos3 = new Bandposition();
 			bandpos3.setInstrument(egitarre);
 			bandpos3.setBand(acdc);
-			bandpos3.setAgeFrom(30);
-			bandpos3.setAgeTo(50);
 			bandpos3.setState(PositionState.OFFEN);
 			bandpositionRepository.save(bandpos3);
 
@@ -262,8 +256,6 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 			Bandposition bandpos4 = new Bandposition();
 			bandpos4.setInstrument(gesang);
 			bandpos4.setBand(acdc);
-			bandpos4.setAgeFrom(30);
-			bandpos4.setAgeTo(50);
 			bandpos4.setState(PositionState.OFFEN);
 			bandpositionRepository.save(bandpos4);
 
@@ -303,8 +295,6 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 			Bandposition bandpos1 = new Bandposition();
 			bandpos1.setInstrument(schlagzeug);
 			bandpos1.setBand(kkmusiker);
-			bandpos1.setAgeFrom(20);
-			bandpos1.setAgeTo(30);
 			bandpos1.setState(PositionState.BESETZT);
 			bandpositionRepository.save(bandpos1);
 
@@ -312,8 +302,6 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 			Bandposition bandpos2 = new Bandposition();
 			bandpos2.setInstrument(keyboard);
 			bandpos2.setBand(kkmusiker);
-			bandpos2.setAgeFrom(25);
-			bandpos2.setAgeTo(45);
 			bandpos2.setState(PositionState.OFFEN);
 			bandpositionRepository.save(bandpos2);		
 
@@ -321,8 +309,6 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 			Bandposition bandpos3 = new Bandposition();
 			bandpos3.setInstrument(gesang);
 			bandpos3.setBand(kkmusiker);
-			bandpos3.setAgeFrom(30);
-			bandpos3.setAgeTo(50);
 			bandpos3.setState(PositionState.OFFEN);
 			bandpositionRepository.save(bandpos3);
 
@@ -358,8 +344,6 @@ public class devBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 			Bandposition bandpos3 = new Bandposition();
 			bandpos3.setInstrument(gesang);
 			bandpos3.setBand(dtt);
-			bandpos3.setAgeFrom(30);
-			bandpos3.setAgeTo(50);
 			bandpos3.setState(PositionState.OFFEN);
 			bandpositionRepository.save(bandpos3);
 
