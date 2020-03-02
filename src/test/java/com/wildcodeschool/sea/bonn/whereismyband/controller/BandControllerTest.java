@@ -23,7 +23,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.wildcodeschool.sea.bonn.whereismyband.entity.Band;
-import com.wildcodeschool.sea.bonn.whereismyband.entity.Bandposition;
 import com.wildcodeschool.sea.bonn.whereismyband.entity.PositionState;
 import com.wildcodeschool.sea.bonn.whereismyband.repository.BandRepository;
 
